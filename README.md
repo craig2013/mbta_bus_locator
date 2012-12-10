@@ -3,3 +3,8 @@
  
  Version 1.0
  - Plots all bus stops for routes on the map.
+ 
+ Version 1.1
+  - Plots all bus stops for routes on the map.
+  - Plots all buses currently on route.
+  - Updates bus location every 10 seconds when it changes.
