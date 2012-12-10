@@ -8,27 +8,21 @@ if(sURL.indexOf('route')!=-1){
 }
 
 //Global variables
-var agency_tag='mbta';
-var stops=null;
-var vehicles=[];
+var agency_tag='mbta';//Agency
+var stops=null;//Stops on map
+var vehicles=[];//Vehicles on map
+var routeListSelect='';//Route list
 
 $(function(){
-      directionsService = new google.maps.DirectionsService();	
-                    
-      var mapOptions = {
-        zoom: 11,
-        center: new google.maps.LatLng(42.358056,  -71.063611),//Center map on Boston, MA if no route selected
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      }
-      var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);	  		
-      directionsDisplay = new google.maps.DirectionsRenderer();
-      directionsDisplay.setMap(map);
-              
-      
-      //Get route list
-      var routeListSelect='';   
-      
-      $.ajax({
+  //Map variables
+  var mapOptions = {
+   zoom: 11,
+   center: new google.maps.LatLng(42.358056,  -71.063611),//Center map on Boston, MA if no route selected
+   mapTypeId: google.maps.MapTypeId.ROADMAP
+ };
+ var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+ 
+  $.ajax({
           async: false,
           cache: false,			
           type: 'GET',
@@ -59,12 +53,8 @@ $(function(){
           
 
   function showRoute(routeNumber){
-    //Map variables
-    var directionsDisplay;
-    var directionsService = new google.maps.DirectionsService();
-    var map;
     
-    var centerLat = '', centerLon = '',startLon='', startLat='';	  
+    centerLat = '', centerLon = '',startLon='', startLat='';	  
     //Begin display route code    			      		
     $.ajax({
             async: false,
@@ -81,7 +71,7 @@ $(function(){
                 
                 centerRoute = new google.maps.LatLng(centerLat, centerLon);
                 
-                var mapOptions = {
+                mapOptions = {
                   zoom:14,
                   mapTypeId: google.maps.MapTypeId.ROADMAP,
                   center: centerRoute
@@ -119,7 +109,7 @@ $(function(){
     });
   }
   
-  function drawRoutes(m, r, x){
+  /*function drawRoutes(m, r, x){
       routeCordinates = [];
       
       $(x).find('path:nth-child(3)').find('point').each(function(i){
@@ -129,8 +119,7 @@ $(function(){
             routeCordinates.push(new google.maps.LatLng(lat, lon));
         }
       });
-
-      console.log(routeCordinates);
+      
     busRoute = new google.maps.Polyline({
       path: routeCordinates,
       strokeColor: "#FF0000",
@@ -139,7 +128,7 @@ $(function(){
     });
     
     busRoute.setMap(m);
-  }
+  }*/
   
   function setBusLocations(m, r, t){    
     $.ajax({
@@ -187,16 +176,14 @@ $(function(){
                         if(busId === vehicles[i].id){//Update existing bus locations based on vehicle id                            
                             vehicles[i].setPosition(new google.maps.LatLng(lat, lon));
                         }else{//Create new vehicle if id doesn't already exist
-                            /*var myLatLng = new google.maps.LatLng(lat,lon);
+                            myLatLng = new google.maps.LatLng(lat,lon);
                             
-                            var bus = new google.maps.Marker({
+                            bus = new google.maps.Marker({
                                 position: myLatLng,
                                 map: m,
                                 id: busId
                             });
-                            console.log(i + ' bus id created: ' + vehicles[i].id);
-                            vehicles.push(bus);        */
-                            //console.log(vehicles);
+                            vehicles.push(bus);  
                         }
           
                     }
