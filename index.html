@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <link  rel="stylesheet" href="css/styles.css />
+    <link  rel="stylesheet" href="css/styles.css" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?key=<your_key>&amp;sensor=false"></script>
     <script src="js/maps.js"></script>
@@ -15,9 +15,20 @@
   				<option value="0">Select a bus route</option>
   			</select>
 			<input type="button" id="getRoute_btn" name="getRoute_btn" value="Display Route"/>
-  		</form>
-  	</div>
-  	<div class="clear">&nbsp;</div>
-    <div id="map_canvas"></div>
+  		</form>  	
+		
+		<div class="clear">&nbsp;</div>
+		<div id="map_canvas"></div>
+		<div class="clear">&nbsp;</div>
+		
+		<b>Map Key:</b><br/>
+		<img src="images/red_stop.png" alt="Bus Stop Icon"/> = Bus stop.  Mouse over icon for bus stop name.<br/>
+		<img src="images/marker_icon.png" alt="Bus Icon"/> = Buses currently on route.
+		<div class="clear">&nbsp;</div>
+		<b>About this service:</b><br/>
+		This service relies on data from the <a href="http://www.nextbus.com" target="_blank">Nextbus</a> <a href="http://www.mbta.com/" target="_blank">MBTA</a> XML feeds.
+		The bus icon markers being displayed on the map update every 10 seconds due to MBTA policy on accessing the data.
+		The accuracy of the data cannot be guranteed.
+	</div>	
   </body>
 </html>
