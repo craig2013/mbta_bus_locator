@@ -104,19 +104,18 @@ $(function(){
                 setInterval(function(){//Refresh marker locations every 10 seconds
                      updateBusLocations(map, routeNumber, routeTitle);
                  }, 10000);        
-                
             }
     });
   }
   
-  /*function drawRoutes(m, r, x){
+  function drawRoutes(m, r, x){
       routeCordinates = [];
-      
-      $(x).find('path:nth-child(3)').find('point').each(function(i){
+      masterArray = new Array();
+      $(x).find('path:gt(7), path:gt(12)').find('point').each(function(i){
         if($(this).attr('lat') != null && $(this).attr('lon') != null){
             lat = $(this).attr('lat');
             lon = $(this).attr('lon');
-            routeCordinates.push(new google.maps.LatLng(lat, lon));
+              routeCordinates.push(new google.maps.LatLng(lat, lon));
         }
       });
       
@@ -128,7 +127,7 @@ $(function(){
     });
     
     busRoute.setMap(m);
-  }*/
+  }
   
   function setBusLocations(m, r, t){    
     $.ajax({
@@ -164,7 +163,7 @@ $(function(){
             async: false,
             cache: false,			
             type: 'GET',
-            url: 'http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a='+agency_tag+'&r='+r+'&t=',
+            url: 'feed_reader.php?transit_system='+agency_tag+'&root_number='+r, 
             dataType: 'xml',
             success: function(xml){
                 $(xml).find('vehicle').each(function(i){
