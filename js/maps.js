@@ -8,10 +8,10 @@ if(sURL.indexOf('route')!=-1){
 }
 
 //Global variables
-var agency_tag='mbta';//Agency
-var stops=null;//Stops on map
-var vehicles=[];//Vehicles on map
-var routeListSelect='';//Route list
+agency_tag='mbta';//Agency
+stops=null;//Stops on map
+vehicles=[];//Vehicles on map
+routeListSelect='';//Route list
 
 $(function(){
   //Map variables
@@ -20,7 +20,8 @@ $(function(){
    center: new google.maps.LatLng(42.358056,  -71.063611),//Center map on Boston, MA if no route selected
    mapTypeId: google.maps.MapTypeId.ROADMAP
  };
- var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+ 
+ map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
  
   $.ajax({
           async: false,
