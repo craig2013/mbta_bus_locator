@@ -1,75 +1,74 @@
-
-var sURL = location.href;
-var intRegex = /^\d+$/;
-if(sURL.indexOf('route')!=-1){
-  if(intRegex.test(sURL.substr(sURL.indexOf('=')+1))){
-          var routeSelected = eval(sURL.substr(sURL.indexOf('=')+1));
-  }
-}
-
-//Global variables
-agency_tag='mbta';//Agency
-stops=null;//Stops on map
-vehicles=new Array();//Vehicles on map
-routeListSelect='';//Route list
-lastTime='1370395223249'//Specifies time for last vehicle update
-
-$(function(){
-  //Map variables
-  var mapOptions = {
-   zoom: 11,
-   center: new google.maps.LatLng(42.358056,  -71.063611),//Center map on Boston, MA if no route selected
-   mapTypeId: google.maps.MapTypeId.ROADMAP
- };
- 
- map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
- 
-  $.ajax({
-          async: false,
-          cache: false,			
-          type: 'GET',
-          url: 'http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a=mbta',
-          dataType: 'xml',
-          success: function(xml) {
-            $(xml).find('route').each(function(){				
-              routeListSelect += '<option value="'+ $(this).attr('tag') + '" ';
-              if(intRegex.test(routeSelected) && ($(this).attr('tag') == routeSelected))
-                routeListSelect += 'selected="selected"';
-                routeListSelect += '">'+ $(this).attr('title') +'</option>';
-            });
-          }					
-      });	  	
-
-      $('#route_select').append(routeListSelect);	
+var busLocator = {
+  settings: {
+    vehicles: '',
+    agencyTag: '',
+    lastTime: '',
+    map: '',
+    mapOptions: '',
+    route: '',
+    routeNumber: '',
+    routeTitle: '',
+    stops: ''
+  },
+  
+  init: function (){
+      var objBusLocator = this;
+      objBusLocator.settings.vehicles=new Array();
+      objBusLocator.settings.agency_tag='mbta';
+      
+      objBusLocator.settings.mapOptions = {
+        zoom: 11,
+        center: new google.maps.LatLng(42.358056,  -71.063611),//Center map on Boston, MA if no route selected
+        mapTypeId: google.maps.MapTypeId.ROADMAP        
+      };
+            
+      objBusLocator.settings.map = new google.maps.Map(document.getElementById("map_canvas"), objBusLocator.settings.mapOptions);
+      
+      objBusLocator.setRouteList();
       
       $('#getRoute_btn').click(function(){
-              var route_number = $('#route_select').val();
-              
-              if(route_number>=1){
-                      showRoute(route_number);
-              }else{
-                alert("Please select a route to continue.")
-              }
-      });      
-});		    
-          
-
-  function showRoute(routeNumber){
-    
-    centerLat = '', centerLon = '',startLon='', startLat='';	  
-    //Begin display route code    			      		
+        objBusLocator.settings.routeNumber = $('#route_select').val();
+        if(objBusLocator.settings.routeNumber>=1){
+                objBusLocator.showRoute(objBusLocator.settings.routeNumber);
+        }else{
+          alert("Please select a route to continue.")
+        }       
+      });
+  },
+  
+  setRouteList: function(){
+    var routeListSelect = '';
     $.ajax({
             async: false,
             cache: false,			
             type: 'GET',
-            url: 'http://webservices.nextbus.com/service/publicXMLFeed?command=routeConfig&a=mbta&r='+routeNumber,
+            url: 'http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a=mbta',
+            dataType: 'xml',
+            success: function(xml) {
+              $(xml).find('route').each(function(){				
+                routeListSelect += '<option value="'+ $(this).attr('tag') + '" ';
+                routeListSelect += '">'+ $(this).attr('title') +'</option>';
+              });
+            }  
+    });          
+  
+    $('#route_select').append(routeListSelect);	    
+  },
+  
+  showRoute: function(){
+    var  centerLat = '', centerLon = '',startLon='', startLat='', objBusLocator = this;
+    $.ajax({
+            async: false,
+            cache: false,			
+            type: 'GET',
+            url: 'http://webservices.nextbus.com/service/publicXMLFeed?command=routeConfig&a=mbta&r='+objBusLocator.settings.routeNumber,
             dataType: 'xml',
             success: function(xml) {
                 //Center map on route
                 centerLat = eval($(xml).find('route').attr('latMin'));
                 centerLon = eval($(xml).find('route').attr('lonMin'));
                 
-                routeTitle = $(xml).find('route').attr('title');
+                objBusLocator.settings.routeTitle = $(xml).find('route').attr('title');
                 
                 centerRoute = new google.maps.LatLng(centerLat, centerLon);
                 
@@ -78,7 +77,7 @@ $(function(){
                   mapTypeId: google.maps.MapTypeId.ROADMAP,
                   center: centerRoute
                 }
-                map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+                objBusLocator.settings.map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
                 
                 $(xml).find('stop').each(function(i){//Place stop markers on map
                     if($(this).attr('lat') != null && $(this).attr('lon') != null){
@@ -91,87 +90,65 @@ $(function(){
                         
                         stops = new google.maps.Marker({
                             position: myLatLng,
-                            map: map,
-                            title:title,
+                            map: objBusLocator.settings.map,
+                            title: title,
                             icon: image
                         });				  
                         
                     }
                 });
                 
-                //drawRoutes(map, routeNumber, xml);
 
-                setBusLocations(map, routeNumber, routeTitle);//Set initial bus positions
+               objBusLocator.setBusLocations();//Set initial bus positions
                 
-                setInterval(function(){//Refresh marker locations every 10 seconds
-                     updateBusLocations(map, routeNumber, routeTitle);
-                 }, 20000);  
-               /* setTimeout(function(){
-                  updateBusLocations(map, routeNumber, routeTitle);
-                },1000);*/
+                setInterval(function(){//Refresh marker locations every 20 seconds
+                     objBusLocator.updateBusLocations();
+                 }, 20000);
             }
-    });
-  }
-  
-  function drawRoutes(m, r, x){
-      routeCordinates = [];
-      masterArray = new Array();
-      $(x).find('path:gt(7), path:gt(12)').find('point').each(function(i){
-        if($(this).attr('lat') != null && $(this).attr('lon') != null){
-            lat = $(this).attr('lat');
-            lon = $(this).attr('lon');
-              routeCordinates.push(new google.maps.LatLng(lat, lon));
-        }
-      });
-      
-    busRoute = new google.maps.Polyline({
-      path: routeCordinates,
-      strokeColor: "#FF0000",
-      strokeOpacity: 1.0,
-      strokeWeight: 1
-    });
+    });   
     
-    busRoute.setMap(m);
-  }
+  },
   
-  function setBusLocations(m, r, t){
-    //console.log('Set bus locations: ');
+  setBusLocations: function(){
+    var objBusLocator = this;
+      $.ajax({
+              async: false,
+              cache: false,			
+              type: 'GET',
+              url: 'http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a='+objBusLocator.settings.agency_tag+'&r='+objBusLocator.settings.routeNumber+'&t=',
+              dataType: 'xml',
+              success: function(xml){
+                  $(xml).find('vehicle').each(function(i){
+                      if($(this).attr('lat') != null && $(this).attr('lon') != null){
+                          var lat = $(this).attr('lat');
+                          var lon = $(this).attr('lon');
+                          var busId = $(this).attr('id');
+                                                  
+                          var myLatLng = new google.maps.LatLng(lat,lon);
+                          
+                          var bus = new google.maps.Marker({
+                              position: myLatLng,
+                              map: objBusLocator.settings.map,
+                              id: busId
+                          });
+                          
+                          objBusLocator.settings.vehicles.push(bus);
+  
+  
+                      }
+                  });
+                                
+              }
+      });    
+  },
+  
+  updateBusLocations: function(){
+    var lat = '', lon = '', busId = '', lastTime = '', objBusLocator = this;
     $.ajax({
             async: false,
             cache: false,			
             type: 'GET',
-            url: 'http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a='+agency_tag+'&r='+r+'&t=',
-            dataType: 'xml',
-            success: function(xml){
-                $(xml).find('vehicle').each(function(i){
-                    if($(this).attr('lat') != null && $(this).attr('lon') != null){
-                        var lat = $(this).attr('lat');
-                        var lon = $(this).attr('lon');
-                        var busId = $(this).attr('id');
-                                                
-                        myLatLng = new google.maps.LatLng(lat,lon);
-                        
-                        var bus = new google.maps.Marker({
-                            position: myLatLng,
-                            map: m,
-                            id: busId
-                        });
-                        
-                        vehicles.push(bus);
-
-
-                    }
-                });
-                              
-            }
-    });
-  }
-  function updateBusLocations(m, r, t){
-    $.ajax({
-            async: false,
-            cache: false,			
-            type: 'GET',
-            url: 'feed_reader.php?transit_system='+agency_tag+'&root_number='+r/*+'&last_time='+lastTime*/,
+            url: 'feed_reader.php?transit_system='+objBusLocator.settings.agency_tag+'&root_number='+objBusLocator.settings.routeNumber/*+'&last_time='+lastTime*/,
             dataType: 'xml',
             success: function(xml){
                 lastTime = '';
@@ -184,12 +161,20 @@ $(function(){
                         busId = $(this).attr('id');
                         //console.log(busId);
 
-                       if(busId === vehicles[i].id){//Update existing bus locations based on vehicle id                            
-                            vehicles[i].setPosition(new google.maps.LatLng(lat, lon));
+                       if(busId === objBusLocator.settings.vehicles[i].id){//Update existing bus locations based on vehicle id                            
+                          //console.log(objBusLocator.settings.vehicles[i]);
+                            objBusLocator.settings.vehicles[i].setPosition(new google.maps.LatLng(lat, lon));
                         }        
                     } 
                 });
             }
-    });
-                            //console.log('-------------');
+    });    
   }
+
+};
+
+
+$(function(){
+  busLocator.init();
+});
+   
