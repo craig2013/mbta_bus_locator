@@ -10,8 +10,9 @@ if(sURL.indexOf('route')!=-1){
 //Global variables
 agency_tag='mbta';//Agency
 stops=null;//Stops on map
-vehicles=[];//Vehicles on map
+vehicles=new Array();//Vehicles on map
 routeListSelect='';//Route list
+lastTime='1370395223249'//Specifies time for last vehicle update
 
 $(function(){
   //Map variables
@@ -104,7 +105,10 @@ $(function(){
                 
                 setInterval(function(){//Refresh marker locations every 10 seconds
                      updateBusLocations(map, routeNumber, routeTitle);
-                 }, 10000);        
+                 }, 20000);  
+               /* setTimeout(function(){
+                  updateBusLocations(map, routeNumber, routeTitle);
+                },1000);*/
             }
     });
   }
@@ -130,7 +134,8 @@ $(function(){
     busRoute.setMap(m);
   }
   
-  function setBusLocations(m, r, t){    
+  function setBusLocations(m, r, t){
+    //console.log('Set bus locations: ');
     $.ajax({
             async: false,
             cache: false,			
@@ -140,54 +145,51 @@ $(function(){
             success: function(xml){
                 $(xml).find('vehicle').each(function(i){
                     if($(this).attr('lat') != null && $(this).attr('lon') != null){
-                        lat = $(this).attr('lat');
-                        lon = $(this).attr('lon');
-                        busId = $(this).attr('id');
+                        var lat = $(this).attr('lat');
+                        var lon = $(this).attr('lon');
+                        var busId = $(this).attr('id');
                                                 
                         myLatLng = new google.maps.LatLng(lat,lon);
                         
-                        bus = new google.maps.Marker({
+                        var bus = new google.maps.Marker({
                             position: myLatLng,
                             map: m,
                             id: busId
                         });
                         
-                        vehicles.push(bus);                    
+                        vehicles.push(bus);
+
+
                     }
                 });
+                              
             }
     });
   }
-  
   function updateBusLocations(m, r, t){
     $.ajax({
             async: false,
             cache: false,			
             type: 'GET',
-            url: 'feed_reader.php?transit_system='+agency_tag+'&root_number='+r, 
+            url: 'feed_reader.php?transit_system='+agency_tag+'&root_number='+r/*+'&last_time='+lastTime*/,
             dataType: 'xml',
             success: function(xml){
+                lastTime = '';
+                lastTime = $(xml).find('lastTime').attr('time');
+                //console.log(lastTime);
                 $(xml).find('vehicle').each(function(i){
-                    if($(this).attr('lat') != null && $(this).attr('lon') != null){
+                    if($(this).attr('lat') != null && $(this).attr('lon') != null){                        
                         lat = $(this).attr('lat');
                         lon = $(this).attr('lon');
                         busId = $(this).attr('id');
-                        
-                        if(busId === vehicles[i].id){//Update existing bus locations based on vehicle id                            
+                        //console.log(busId);
+
+                       if(busId === vehicles[i].id){//Update existing bus locations based on vehicle id                            
                             vehicles[i].setPosition(new google.maps.LatLng(lat, lon));
-                        }else{//Create new vehicle if id doesn't already exist
-                            myLatLng = new google.maps.LatLng(lat,lon);
-                            
-                            bus = new google.maps.Marker({
-                                position: myLatLng,
-                                map: m,
-                                id: busId
-                            });
-                            vehicles.push(bus);  
-                        }
-          
-                    }
+                        }        
+                    } 
                 });
             }
-    });    
+    });
+                            //console.log('-------------');
   }
