@@ -56,7 +56,7 @@ var busLocator = {
   },
   
   showRoute: function(){
-    var  centerLat = '', centerLon = '',startLon='', startLat='', objBusLocator = this;
+    var image = 'images/red_stop.png', objBusLocator = this;
     $.ajax({
             async: false,
             cache: false,			
@@ -65,12 +65,12 @@ var busLocator = {
             dataType: 'xml',
             success: function(xml) {
                 //Center map on route
-                centerLat = eval($(xml).find('route').attr('latMin'));
-                centerLon = eval($(xml).find('route').attr('lonMin'));
+                var centerLat = eval($(xml).find('route').attr('latMin'));
+                var centerLon = eval($(xml).find('route').attr('lonMin'));
                 
                 objBusLocator.settings.routeTitle = $(xml).find('route').attr('title');
                 
-                centerRoute = new google.maps.LatLng(centerLat, centerLon);
+                var centerRoute = new google.maps.LatLng(centerLat, centerLon);
                 
                 mapOptions = {
                   zoom:14,
@@ -81,21 +81,32 @@ var busLocator = {
                 
                 $(xml).find('stop').each(function(i){//Place stop markers on map
                     if($(this).attr('lat') != null && $(this).attr('lon') != null){
-                        lat = $(this).attr('lat');
-                        lon = $(this).attr('lon');
-                        title = $(this).attr('title');
-                        
-                        myLatLng = new google.maps.LatLng(lat,lon);
-                        image = 'images/red_stop.png';
-                        
-                        stops = new google.maps.Marker({
+                        var lat = $(this).attr('lat');
+                        var lon = $(this).attr('lon');
+                        var title = $(this).attr('title');
+                        var contentString = title;
+                        var myLatLng = new google.maps.LatLng(lat,lon);
+
+                        objBusLocator.settings.stops = new google.maps.Marker({
                             position: myLatLng,
                             map: objBusLocator.settings.map,
                             title: title,
                             icon: image
-                        });				  
+                        });
+ 
+        
+                        var infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
                         
-                    }
+                        google.maps.event.addListener(objBusLocator.settings.stops, 'click', function() {
+                          infowindow.open(objBusLocator.settings.map,this);
+                        });
+                        
+                        google.maps.event.addListener(objBusLocator.settings.stops, 'blur', function() {
+                          infowindow.close(objBusLocator.settings.map,this);
+                        });                              
+                        
                 });
                 
 
@@ -159,10 +170,7 @@ var busLocator = {
                         lat = $(this).attr('lat');
                         lon = $(this).attr('lon');
                         busId = $(this).attr('id');
-                        //console.log(busId);
-
-                       if(busId === objBusLocator.settings.vehicles[i].id){//Update existing bus locations based on vehicle id                            
-                          //console.log(objBusLocator.settings.vehicles[i]);
+                        if(busId === objBusLocator.settings.vehicles[i].id){//Update existing bus locations based on vehicle id                            
                             objBusLocator.settings.vehicles[i].setPosition(new google.maps.LatLng(lat, lon));
                         }        
                     } 
