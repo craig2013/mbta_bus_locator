@@ -103,9 +103,7 @@ var busLocator = {
                           infowindow.open(objBusLocator.settings.map,this);
                         });
                         
-                        google.maps.event.addListener(objBusLocator.settings.stops, 'blur', function() {
-                          infowindow.close(objBusLocator.settings.map,this);
-                        });                              
+                    }                            
                         
                 });
                 
