@@ -3,19 +3,40 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <link  rel="stylesheet" href="css/styles.min.css" />
-
+    <style>
+      
+    </style>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCpljpAf9iuxW7gj2YZZlaS9o4e3oTBgp0&amp;sensor=false"></script>
    
   </head>
   <body>
   	<div id="container">
-  		<form id="route_list">
-  			<label for="route_select">Available Routes:</label>
+  		<form id="routes" name="routes">
+		    <div class="col">
+			<label for="route_select">Available Routes:</label>
   			<select id="route_select" name="route_select">
   				<option value="0">Select a bus route</option>
   			</select>
-			<input type="button" id="getRoute_btn" name="getRoute_btn" value="Display Route"/>
-  		</form>  	
+			<input type="button" id="getRoute_btn" name="getRoute_btn" value="Display Route"/>		      
+		    </div>
+		    <div class="col">
+			<label for="stop_select">Stops:</label>
+			<select id="stop_select" name="stop_select">
+			  <option value="0">Select a stop</option>
+			</select>
+		    </div>
+		    <div class="col">
+			<label for="direction_select">Direction:</label>
+			<select id="direction_select" name="direction_select">
+			  <option value="0">Select a direction</option>
+			</select>
+			<input type="button" id="getDirection_btn" name="getDirection_btn" value="Display Next Bus Time"/>
+		    </div>		    
+		    <div class="col" id="stop_info">
+		      <!--span id="next_bus_title">Next Bus:</span-->
+		      <span id="minutes_until"></span>
+		    </div>
+		</form>  	
 		
 		<div class="clear">&nbsp;</div>
 		<div id="map_canvas"></div>

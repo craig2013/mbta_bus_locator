@@ -51,6 +51,17 @@
       body { height: 100%; margin: 30px 0px 0px 0px; padding: 0px; font-size: 12px; font-family: arial,helvetica,sans-serif}
       b{font-weight: bold;}
       #container{ margin: 0px auto; width: 900px;}
+      #container #routes{
+	margin: 0px auto;
+	text-align: center;
+      }
+      #container #routes .col{
+	display: inline-block;
+	margin: 0px 20px 0px 0px;
+      }
+      #container #routes .col#stop_info{
+	padding: 6px 0px 0px 0px;
+      }
       #map_canvas { height: 650px; margin: 0px auto; width: 960px; }
       .clear{clear:both;}
           /* Smartphones (portrait and landscape) ----------- */

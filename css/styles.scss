@@ -1,0 +1,163 @@
+@import "includes/reset";
+@import "includes/base-styles";
+
+body{
+    font: .80em arial, helvetica, sans-serif;
+    height: 100%;
+    margin: 30px 0 0 0;
+    padding: 0;
+}
+
+#container{
+    margin: 0;
+    width: 960px;
+    #routes{
+        margin: 0 auto;
+        text-align: center;
+        .col{
+            display: inline-block;
+            margin: 0 20 0 0;
+            #stop_info{
+                padding: 6px 0 0 0;
+            }
+        }
+    }
+    #map_canvas{
+        height: 650px;
+        margin: 0 auto;
+        width: 960px;
+    }
+}
+
+
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+    #container{
+      margin: 0px auto;
+      width: 95%;
+    }
+    #map_canvas{
+      height: 650px;
+      margin: 0px auto;
+      width: 95%;
+    }
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen 
+and (min-width : 321px) {
+    #container{
+      margin: 0px auto;
+      width: 95%;
+    }
+    #map_canvas{
+      height: 650px;
+      margin: 0px auto;
+      width: 95%;
+    }
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen 
+and (max-width : 320px) {
+    #container{
+      margin: 0px auto;
+      width: 95%;
+    }
+    #map_canvas{
+      height: 650px;
+      margin: 0px auto;
+      width: 95%;
+    }
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+    #container{
+      margin: 0px auto;
+      width: 95%;
+    }
+    #map_canvas{
+      height: 650px;
+      margin: 0px auto;
+      width: 95%;
+    }
+}
+
+/* iPads (landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape) {
+    #container{
+      margin: 0px auto;
+      width: 95%;
+    }
+    #map_canvas{
+      height: 650px;
+      margin: 0px auto;
+      width: 95%;
+    }
+}
+
+/* iPads (portrait) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) {
+    #container{
+      margin: 0px auto;
+      width: 95%;
+    }
+    #map_canvas{
+      height: 650px;
+      margin: 0px auto;
+      width: 95%;
+    }
+}
+
+/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 1224px) {
+    #container{
+      margin: 0px auto;
+      width: 95%;
+    }
+    #map_canvas{
+      height: 650px;
+      margin: 0px auto;
+      width: 95%;
+    }
+}
+
+/* Large screens ----------- */
+@media only screen 
+and (min-width : 1824px) {
+    #container{
+      margin: 0px auto;
+      width: 95%;
+    }
+    #map_canvas{
+      height: 650px;
+      margin: 0px auto;
+      width: 95%;
+    }
+}
+
+/* iPhone 4 ----------- */
+@media
+only screen and (-webkit-min-device-pixel-ratio : 1.5),
+only screen and (min-device-pixel-ratio : 1.5) {
+    #container{
+      margin: 0px auto;
+      width: 95%;
+    }
+    #map_canvas{
+      height: 650px;
+      margin: 0px auto;
+      width: 95%;
+    }
+}      
