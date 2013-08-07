@@ -21,6 +21,9 @@ body{
                 padding: 6px 0 0 0;
             }
         }
+        .stops-container,.directions-container,.stop-info{
+            display: none;
+        }
     }
     #map_canvas{
         height: 650px;
