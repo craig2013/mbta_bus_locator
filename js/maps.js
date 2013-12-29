@@ -1,3 +1,53 @@
+/*(function(){
+  var busLocator = {
+    objBusLocator: '',
+    vehicles: '',
+    agencyTag: 'mbta',
+    lastTime: '',
+    map: '',
+    mapOptions: '',
+    route: '',
+    routeNumber: '',
+    routeTitle: '',
+    stops: '',
+    selectedStop: '',
+    selectedDirection: '',
+    displayNextTime: false,
+    image: 'images/red_stop.png'
+  };
+  
+  busLocator.vehicles = new Array();
+  busLocator.mapOptions = {
+        zoom: 11,
+        center: new google.maps.LatLng(42.358056,  -71.063611),//Center map on Boston, MA if no route selected
+        mapTypeId: google.maps.MapTypeId.ROADMAP       
+  };
+  
+  busLocator.map = new google.maps.Map(document.getElementById("map_canvas"), busLocator.mapOptions);
+  
+  (function setRouteList(){//Set route list
+    var routeListSelect = '';
+    $.ajax({
+            async: false,
+            cache: false,			
+            type: 'GET',
+            url: 'http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a=mbta',
+            dataType: 'xml',
+            success: function(xml) {
+              if(typeof xml === 'object'){
+                $(xml).find('route').each(function(){				
+                  routeListSelect += '<option value="'+ $(this).attr('tag') + '" ';
+                  routeListSelect += '">'+ $(this).attr('title') +'</option>';
+                });
+                $('#route_select').append(routeListSelect);	
+              }
+            }  
+    });          
+  
+    $('#route_select').append(routeListSelect);	       
+  })();
+  
+})();*/
 var objBusLocator,
 busLocator = {
   settings: {
@@ -146,7 +196,7 @@ busLocator = {
                         objBusLocator.updateNextBusTime();                     
                  }, 20000);
                 
-                $('#stop_select').append(objStops);
+                $('#stop_select').append(objStops).parent().css('display','inline-block');
             }
     });   
     
@@ -175,8 +225,6 @@ busLocator = {
                           });
                           
                           objBusLocator.settings.vehicles.push(bus);
-  
-  
                       }
                   });
                                 
@@ -222,8 +270,11 @@ busLocator = {
               $(xml).find('direction').each(function(i){
                 objDirection+='<option value="'+$(this).attr('title')+'">'+$(this).attr('title')+'</option>';
               });
-              
-              $('#direction_select').append(objDirection);
+              if(objDirection.length>=1){
+                $('#direction_select').append(objDirection).parent().css('display','inline-block').next('.stop-info').css('display','inline-block');
+              }else{
+                alert('Please select another direction.');
+              }
             }
     });     
   },
