@@ -232,28 +232,49 @@
               url: 'feed_reader.php?command=vehicleLocations&agency='+busLocator.settings.agencyTag+'&route='+busLocator.settings.routeNumber+'&t=',
               dataType: 'json',
               success: function(response){
-                if(typeof response === 'object' && typeof response.vehicle != 'undefined'){
+                if(typeof response === 'object' && typeof response.vehicle !== 'undefined'){
                   var responseObj = response.vehicle;
-                  for(var i=0; i<responseObj.length; i++){
-                    if(!isNaN(responseObj[i].attributes.lat) && !isNaN(responseObj[i].attributes.lon)){
-                      var lat = responseObj[i].attributes.lat,
-                          lon = responseObj[i].attributes.lon,
-                          busId = responseObj[i].attributes.id,
-                          myLatLon = new google.maps.LatLng(lat,lon),
-                          bus = {};
-                          
-                      bus = new google.maps.Marker({
-                          position: myLatLon,
-                          map: busLocator.settings.map,
-                          busId: busId
-                      });
-                      
-                      busLocator.settings.vehicles.push({
-                        'busId': busId,
-                        'marker': bus
-                      });
-                      
+                  if(Array.isArray(responseObj)){
+                    for(var i=0; i<responseObj.length; i++){
+                      if(!isNaN(responseObj[i].attributes.lat) && !isNaN(responseObj[i].attributes.lon)){
+                        var lat = responseObj[i].attributes.lat,
+                            lon = responseObj[i].attributes.lon,
+                            busId = responseObj[i].attributes.id,
+                            myLatLon = new google.maps.LatLng(lat,lon),
+                            bus = {};
+                            
+                        bus = new google.maps.Marker({
+                            position: myLatLon,
+                            map: busLocator.settings.map,
+                            busId: busId
+                        });
+                        
+                        busLocator.settings.vehicles.push({
+                          'busId': busId,
+                          'marker': bus
+                        });
+                        
+                      }
                     }
+                  }else{
+                      if(!isNaN(responseObj.attributes.lat) && !isNaN(responseObj.attributes.lon)){
+                        var lat = responseObj.attributes.lat,
+                            lon = responseObj.attributes.lon,
+                            busId = responseObj.attributes.id,
+                            myLatLon = new google.maps.LatLng(lat,lon),
+                            bus = {};
+                            
+                        bus = new google.maps.Marker({
+                            position: myLatLon,
+                            map: busLocator.settings.map,
+                            busId: busId
+                        });
+                        
+                        busLocator.settings.vehicles.push({
+                          'busId': busId,
+                          'marker': bus
+                        });                        
+                      }
                   }
 
                   //Call function to update bus locations and next bus time if bus locations successfully loaded
@@ -287,7 +308,6 @@
               success: function(response){
                 if(typeof response === 'object'){
                   if(Array.isArray(response.vehicle)){
-                    //console.log(response)
                     var lastTime = response.lastTime.attributes.time,
                         responseObj = response.vehicle;
                     
@@ -310,19 +330,32 @@
                       $.map(vehicleObj, function(obj,i){
                         if(obj.busId == busId){
                           obj.marker.setPosition(new google.maps.LatLng(lat, lon));
-                          //console.log('position updated')
-                          //console.log(obj.marker.position)
                         }
                       });
                       
-                      /*if(typeof busObj === 'object'){
-                        //busObj.setPosition(new google.maps.LatLng(lat, lon));
-                        console.log(busObj)
-                      }*/
-                      
                     }
                   }else{
-                    //console.log('not an array')
+                    var   responseObj = response.vehicle,
+                          lat = '',
+                          lon = '',
+                          busId = '',
+                          lastTime = '',
+                          bus = '',
+                          updatedBus = '',
+                          busObj = '',
+                          vehicleObj = busLocator.settings.vehicles;
+                    //console.log(responseObj)
+                    if(!isNaN(responseObj.attributes.lat) && !isNaN(responseObj.attributes.lon)){
+                        lat = responseObj.attributes.lat;
+                        lon = responseObj.attributes.lon;
+                        busId = responseObj.attributes.id;
+                    }
+                    
+                    $.map(vehicleObj, function(obj,i){
+                      if(obj.busId == busId){
+                        obj.marker.setPosition(new google.maps.LatLng(lat, lon));
+                      }
+                    });                    
                   }
                 }
               }
@@ -341,7 +374,6 @@
                 if(typeof response === 'object'){
                   if(Array.isArray(response.predictions)){
                     var directionObj = response.predictions;
-                    console.log(directionObj)
                     for(var i=0; i<directionObj.length; i++){
                       if(Array.isArray(directionObj[i].direction)){
                         for(var j=0; j<directionObj[i].direction.length; j++){
@@ -380,13 +412,11 @@
               success: function(response){
                 if(typeof response === 'object'){
                   if(Array.isArray(response.predictions)){
-                    console.log(response.predictions)
                     if(typeof response.predictions[0].direction === 'object'){
                       if(response.predictions[0].direction.attributes.title === busLocator.settings.selectedDirection){
                         minutes = response.predictions[0].direction.prediction.attributes.minutes;
                       }
                     }
-                    console.log('minutes:'+minutes)
                   }else{
                     if(response.predictions.direction.attributes.title === busLocator.settings.selectedDirection){
                       if(Array.isArray(response.predictions.direction.prediction)){
@@ -422,7 +452,7 @@
     resetOptions: function(){
       var newURL = window.location.protocol + "//" + window.location.host +  window.location.pathname;
       
-      $('.container .content').hide();
+      $('.container .content, .container footer').hide();
       $('.container .loading').show();
       
       busLocator.settings.mapOptions = {
