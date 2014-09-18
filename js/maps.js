@@ -39,6 +39,7 @@
         busLocator.settings.routeNumber = $('#route_select').val();
         if(busLocator.settings.routeNumber>=1){
           $('.container .content .countDown').hide();
+          $('.container .content #routes .routesAvailable .resetRoute').show();
           busLocator.emptyStops();
           busLocator.showRoute(busLocator.settings.routeNumber);
         }else{
