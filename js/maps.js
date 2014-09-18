@@ -32,12 +32,13 @@
         mapTypeId: google.maps.MapTypeId.ROADMAP        
       };
       
-      busLocator.settings.map = new google.maps.Map(document.getElementById("map_canvas"), busLocator.settings.mapOptions);
+      busLocator.settings.map = new google.maps.Map(document.getElementById('map_canvas'), busLocator.settings.mapOptions);
       busLocator.setRouteList();
       
       $('.getRouteBtn').click(function(){
         busLocator.settings.routeNumber = $('#route_select').val();
         if(busLocator.settings.routeNumber>=1){
+          $('.container .content .countDown').hide();
           busLocator.emptyStops();
           busLocator.showRoute(busLocator.settings.routeNumber);
         }else{
@@ -48,6 +49,7 @@
       $('#stop_select').change(function(){
         busLocator.settings.selectedStop = $('#stop_select').val();
         if(busLocator.settings.selectedStop>=1){
+                $('.container .content .countDown').hide();
                 busLocator.updateDirectionInfo();
         }else{
           alert('Please select a stop to continue.')
@@ -81,6 +83,8 @@
       $('.showMap').click(function(e){
         e.preventDefault();
       });
+
+
     },
     
     findPosition: function(position){
@@ -134,7 +138,7 @@
                   
                   $('#route_select').append(stopsHTML);
                   $('.container .loading').hide();
-                  $('.container .content,.container footer').show();
+                  $('.container .content #routes .routesAvailable,.container footer').show();
                 }
               }
       });
@@ -208,7 +212,7 @@
                   busLocator.setBusLocations();//Set initial bus positions
                   
                   $('#stop_select').append(objStops);
-                  $('.container ').find('.options, .resetOptions, .getLocation').show();
+                  //$('.container ').find('.options, .resetOptions, .getLocation').show();
                 }
               }
       });   
@@ -280,8 +284,6 @@
                   
                   //Show stops on route
                   $('.container .selectRoutes .routeStops').show();
-                }else{
-                  alert('No busses seem to be running.  Please select another root.');
                 }
               }
        });
@@ -362,27 +364,34 @@
               dataType: 'json',
               success: function(response){
                 if(typeof response === 'object'){
-                  if(Array.isArray(response.predictions)){
-                    var directionObj = response.predictions;
-                    for(var i=0; i<directionObj.length; i++){
-                      if(Array.isArray(directionObj[i].direction)){
-                        for(var j=0; j<directionObj[i].direction.length; j++){
-                          directionHTML += '<option value="'+directionObj[i].direction[j].attributes.title+'">'+directionObj[i].direction[j].attributes.title+'</option>';
-                        }
-                      }else{
-                        if(typeof directionObj[i].direction === 'object'){ 
-                          directionHTML += '<option value="'+directionObj[i].direction.attributes.title+'">'+directionObj[i].direction.attributes.title+'</option>';
+                  var predictionsObj = response.predictions;
+                  if(_.isArray(predictionsObj)){
+                      for(var i=0; i<predictionsObj.length; i++){
+                        if(typeof predictionsObj[i].direction === 'object'){
+                            directionHTML += '<option value="'+predictionsObj[i].direction.attributes.title+'">'+predictionsObj[i].direction.attributes.title+'</option>';
                         }
                       }
                       $('#direction_select option:gt(0)').remove();
                       $('#direction_select').append(directionHTML);
-                      $('.container .selectRoutes .routeDirection').show();                      
-                    }
+                      $('.container .selectRoutes .routeDirection').show();                             
                   }else{
-                      directionHTML += '<option value="'+response.predictions.direction.attributes.title+'">'+response.predictions.direction.attributes.title+'</option>';
+                    if(_.isArray(predictionsObj.direction)){
+                      for(var i=0; i<predictionsObj.direction.length; i++){
+                         directionHTML += '<option value="'+predictionsObj.direction[i].attributes.title+'">'+predictionsObj.direction[i].attributes.title+'</option>';
+                      }
                       $('#direction_select option:gt(0)').remove();
                       $('#direction_select').append(directionHTML);
-                      $('.container .selectRoutes .routeDirection').show();
+                      $('.container .selectRoutes .routeDirection').show();         
+                    }else{
+                      if(typeof predictionsObj.direction === 'object'){
+                        directionHTML += '<option value="'+predictionsObj.direction.attributes.title+'">'+predictionsObj.direction.attributes.title+'</option>';
+                        $('#direction_select option:gt(0)').remove();
+                        $('#direction_select').append(directionHTML);
+                        $('.container .selectRoutes .routeDirection').show();       
+                      }else if(typeof predictionsObj.attributes.dirTitleBecauseNoPredictions === 'string'){ 
+                          alert('There are currently no busses scheduled to make a stop.  Please select another stop.')
+                      }                    
+                    }        
                   }
                 }
               }
@@ -400,32 +409,54 @@
               success: function(response){
                 if(typeof response === 'object'){
                   if(_.isArray(response.predictions)){
-                    if(typeof response.predictions[0].direction === 'object'){
-                      if(response.predictions[0].direction.attributes.title === busLocator.settings.selectedDirection){
-                            minutes = (_.isArray(response.predictions[0].direction.prediction))?response.predictions[0].direction.prediction[0].attributes.minutes:response.predictions[0].direction.prediction.attributes.minutes;
+                      var predictionsArr = response.predictions;
+                      for(var i=0; i<predictionsArr.length; i++){
+                        if(typeof predictionsArr[i].direction  === 'object'){
+                          minutes = (predictionsArr[i].direction.attributes.title === busLocator.settings.selectedDirection)? predictionsArr[i].direction.prediction[0].attributes.minutes : predictionsArr[i].direction.prediction.attributes.minutes;
+                          break;
                         }
-                    }
+                      }
                   }else{
-                    if(response.predictions.direction.attributes.title === busLocator.settings.selectedDirection){
-                      minutes  = (_.isArray(response.predictions.direction.prediction))? response.predictions.direction.prediction[0].attributes.minutes : response.predictions.direction.prediction.attributes.minutes;             
+                    if(_.isArray(response.predictions.direction)){
+                      var directionsArr = response.predictions.direction;
+                      for(var i=0; i<directionsArr.length; i++){
+                        if(typeof directionsArr[i].prediction.attributes  === 'object'){
+                          minutes = (directionsArr[i].attributes.title === busLocator.settings.selectedDirection)? directionsArr[i].prediction.attributes.minutes : directionsArr[i].prediction.attributes.minutes;
+                          break;
+                        }
+                      }
+                    }else{
+                      var directionsObj = response.predictions.direction;
+                      if(_.isArray(directionsObj.prediction)){
+                        for(var i=0; i<directionsObj.prediction.length; i++){
+                            minutes = (directionsObj.attributes.title === busLocator.settings.selectedDirection)? directionsObj.prediction[i].attributes.minutes : '';
+                            break;                        
+                        }
+                      }else{
+                           minutes = (directionsObj.attributes.title === busLocator.settings.selectedDirection)? directionsObj.prediction.attributes.minutes : '';
+                      }
                     }
                   }
                 }
                 busLocator.settings.displayNextTime = true;
-                if(minutes>0){
-                    $('.container .countDown .busCountDown .busTime .minutes_until').empty().append(minutes);
-                    $('.container .countDown .busCountDown  .busArriving').hide();  
-                    $('.container .countDown,.container .countDown .busCountDown  .busTime').show();                  
-                }else{
-                    $('.container .countDown .busCountDown  .busTime').hide();
-                    $('.container .countDown .busCountDown  .busArriving').show();                  
-                }
+                if(!isNaN(minutes)){
+                     if(minutes>0){
+                        $('.container .countDown .busCountDown .busTime .minutes_until').empty().append(minutes);
+                        $('.container .countDown .busCountDown  .busArriving').hide();  
+                        $('.container .countDown,.container .countDown .busCountDown  .busTime').show();                  
+                    }else{
+                        $('.container .countDown .busCountDown  .busTime').hide();
+                        $('.container .countDown .busCountDown  .busArriving').show();                  
+                    }                 
+                  }else{
+                        $('.container .countDown .busCountDown').hide();
+                        console.log('No bus information.')
+                  }
               }
       });
     },    
     
     emptyStops: function(){
-      
       $('#stop_select option:gt(0), #direction_select option:gt(0)').remove();
       if(busLocator.settings.displayNextTime){
         $('#minutes_until').empty();

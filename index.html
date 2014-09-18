@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" ie7> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9 ie8"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
 	<meta charset="utf-8">
@@ -9,81 +9,74 @@
 	<title>MBTA Bus Locator</title>
 	<meta name="description" content="Get MBTA bus times for your stop."/>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+	<script src="/js/modernizr-2.8.3.js"></script>
 	<link rel="stylesheet" href="/css/styles.min.css"/>
     </head>
     <body>
 	<div class="container">
-	  <header>
-	    <h1>MBTA Bus Locator</h1>
-	  </header>
-	  <div class="loading">Loading...</div>
-	  <section class="content">
-	    <div class="selectRoutes">
-	      <form id="routes" name="routes">
-		  <div class="routesAvailable">
-		      <label for="route_select">Routes:</label><br/>
-		      <select id="route_select" name="route_select">
-			<option value="0" selected="selected">Select a route</option>
-		      </select>
-		      <button type="button" class="getRouteBtn">Show Route</button>
-		  </div>
-		  <div class="routeStops">
-		      <label for="stop_select">Stops:</label><br/>
-		      <select id="stop_select" name="stop_select">
-			<option value="0">Select a stop</option>
-		      </select>
-		  </div>
-		  <div class="routeDirection">
-		      <label for="direction_select">Direction:</label><br/>
-		      <select id="direction_select" name="direction_select">
-			<option value="0">Select a direction</option>
-		      </select>
-		      <button type="button" class="getDirectionBtn">Get next bus arival time</button>
-		  </div>
-	      </form>
-	      <div class="options">
-		<div class="resetOptions">
-		  <a href="#" class="resetOptionsBtn">Reset Options</a>
-		</div>
-		<div class="getLocation">
-		 <a href="#" class="getLocationBtn">Get Location</a>
-		 <p class="yourLocation">
-		    Your address is: <span class="yourAddress"></span>
-		  </p>
-		</div>		    
-	      </div>
-	    </div>
-	    <div class="countDown">
-	      <div class="busCountDown">
-		<p class="busTime">The next bus will arive in <span class="minutes_until"></span> minute(s).</p>
-		<p class="busArriving">Your bus is now arriving.</p>
-	      </div>
-	    </div>
-	    <div class="mapArea">
-	      <a  href="#" class="showMap">Show Map</a>
-	      <div id="map_canvas"></div>
-	    </div>
-	  </section>
-	  <footer>
-	      <div class="mapKey">
-		<p><b>Map Key:</b></p>
-		<p><img src="images/red_stop.png" alt="Bus Stop Icon"/> = Bus stop.  Mouse over icon for bus stop name.</p>
-		<p><img src="images/marker_icon.png" alt="Bus Icon"/> = Buses currently on route.</p>
-	      </div>
-	      <div class="about">
-		<p><b>New</b>: Bookmark your route/stop.</p>
-		<p>
-		  <b>About this service:</b><br/>
-		  This service relies on data from the <a href="http://www.nextbus.com" target="_blank">Nextbus</a> XML feeds for the <a href="http://www.mbta.com/" target="_blank">MBTA</a>.
-		  The bus icon markers being displayed on the map updates it's location every 10 seconds due to MBTA policy on accessing the data.
-		  The accuracy of the data cannot be guranteed.
-		</p>			
-	      </div>    
-	  </footer>
+		<header>
+			<h1>MBTA Bus Locator</h1>
+		</header>
+		<div class="loading">Loading...</div>
+		<section class="content">
+			<form id="routes" name="routes" class="selectRoutes">
+				<div class="routesBox routesAvailable">
+					<label for="route_select">Routes:</label>
+					<select id="route_select" name="route_select">
+						<option value="0" selected="selected">Select a route</option>
+					</select>
+					<button type="button" class="getRouteBtn">Show Route</button>
+					<div class="options resetRoute">
+						<a href="#" class="resetOptionsBtn">Reset Options</a>
+					</div>
+				</div>
+				<div class="routesBox routeStops">
+					<label for="stop_select">Stops:</label>
+					<select id="stop_select" name="stop_select">
+						<option value="0">Select a stop</option>
+					</select>
+					<div class="options getLocation">
+						<a href="#" class="getLocationBtn">Get Location</a>
+						<p class="yourLocation">Your address is: <span class="yourAddress"></span></p>
+					</div>		      
+				</div>
+				<div class="routesBox routeDirection">
+					<label for="direction_select">Direction:</label>
+					<select id="direction_select" name="direction_select">
+						<option value="0">Select a direction</option>
+					</select>
+					<button type="button" class="getDirectionBtn">Show Arival Time</button>		      
+				</div>
+			</form>
+			<div class="countDown">
+				<div class="busCountDown">
+					<p class="busTime">The next bus will arive in <span class="minutes_until"></span> minute(s).</p>
+					<p class="busArriving">Your bus is now arriving.</p>
+				</div>
+			</div>
+			<div class="mapArea">
+				<a  href="#" class="showMapBtn">Show Map</a>
+				<div id="map_canvas"></div>
+			</div>
+		</section>
+		<footer>
+			<div class="mapKey">
+				<h3>Map Key:</h3>
+				<p><img src="images/red_stop.png" alt="Bus Stop Icon"/> = Bus stop.  Mouse over icon for bus stop name.</p>
+				<p><img src="images/marker_icon.png" alt="Bus Icon"/> = Buses currently on route.</p>
+			</div>
+			<div class="about">
+				<p>
+					<h3>About this service:</h3>
+					This service relies on data from the <a href="http://www.nextbus.com" target="_blank">Nextbus</a> XML feeds for the <a href="http://www.mbta.com/" target="_blank">MBTA</a>.
+					The bus icon markers being displayed on the map updates it's location every 10 seconds due to MBTA policy on accessing the data.
+					The accuracy of the data cannot be guranteed.
+				</p>			
+			</div>    
+		</footer>
 	</div><!-- container -->
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
 	<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCpljpAf9iuxW7gj2YZZlaS9o4e3oTBgp0&amp;sensor=false"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js"></script>
 	<script src="/js/maps.js?ver=1.0004"></script>

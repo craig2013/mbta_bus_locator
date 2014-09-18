@@ -1,486 +1,120 @@
-// Core variables and mixins
-@import "bootstrap/variables";
-@import "bootstrap/mixins";
+@import "includes/reset";
+@import "includes/mixins";
+@import "includes/elements";
 
-// Reset
-@import "bootstrap/normalize";
-@import "bootstrap/print";
-
-// Core CSS
-@import "bootstrap/scaffolding";
-@import "bootstrap/type";
-@import "bootstrap/code";
-@import "bootstrap/grid";
-@import "bootstrap/tables";
-@import "bootstrap/forms";
-@import "bootstrap/buttons";
-
-// Utility classes
-@import "bootstrap/utilities";
-@import "bootstrap/responsive-utilities";
-
-/* Small devices >768px */
-body{
-    .container{
-        .loading{
-            @include make-row();
-            @include make-md-column(4);
-            @include clearfix();
+html{
+    body{
+        font-family: arial, helvetica, sans-serif;
+        font-size: 0.85em;
+        .container{    
             margin: 10px 0 0 0;
-        }        
-        .content{
-            display: none;
-            .selectRoutes{
-                margin: 0 0 15px 0;
-                #routes{
-                    @include make-row();
-                    margin: 0;
+            header {
+                margin: 0 auto 15px auto;
+                text-align: center;
+            }
+            .content {
+                .selectRoutes{
+                    margin: 0 0 15px 0; 
                     padding: 0;
-                    .routesAvailable{
-                       @include make-md-column(4);
-                        margin: 0;
-                        padding: 0;                       
+                    width: 100%;
+                    .routesBox {
+                        float: left;
+                        margin: 0 10px;
+                        width: 100%; 
+                        @include media(tablet){
+                            width: 380px;   
+                        }
+                        @include media(mediumDesktop){
+                            width: 380px; 
+                        }         
+                        @include media(largeDesktop){
+                            width: 380px;   
+                        }                         
+                        label {
+                            display: block;
+                        }
+                        @include clearfix();
                     }
-                    .routeStops{
-                        @include make-md-column(4);
+                    .routesAvailable,.routeStops, .routeDirection {
                         display: none;
-                        margin: 0;
-                        padding: 0;                        
-                    }
-                    .routeDirection{ 
-                        @include make-md-column(4);
-                        display: none;
-                        margin: 0;
-                        padding: 0;                        
-                    }
-                    .getRouteBtn,
-                    .getDirectionBtn {
-                        font-size: .75em;
-                    }
-                    .options{
-                        
-                    }
-                    @include clearfix();
-                }
-                .options{
-                    @include make-row();
+                        .options {
+                            display: none;
+                            width: 150px !important;
+                            p {
+                                margin: 0;
+                            }
+                            .getLocation {
+                                display: none !important;
+                            }
+                        }                            
+                    }                    
+                    @include clearfix();                
+                }//End selectRoutes
+                .countDown {
                     display: none;
-                    margin: 5px 0 0 0;
-                     .resetOptions{
-                        @include make-md-column(4);
-                        margin: 0;
-                        padding: 0;
+                    margin: 0 10px 15px 10px;
+                    @include clearfix();       
+                }         
+                .mapArea {
+                    margin: 0 15px 15px 15px;
+                    #map_canvas{
+                        display: none;
+                        height: 650px;
+                        margin: 0 auto;
+                        @include media(tablet){
+                            display: block;
+                            width: 100%;    
+                        }
+                        @include media(mediumDesktop){
+                            display: block;
+                            width: 100%;    
+                        }         
+                        @include media(largeDesktop){
+                            display: block;
+                            width: 100%;    
+                        }                                                   
                     }
-                    .getLocation{
-                        @include make-md-column(8);
-                        margin: 0;
-                        padding: 0;
-                        .yourLocation{
+                    .showMapBtn {
+                        display: block;
+                        @include media(tablet){
+                            display: none;    
+                        }
+                        @include media(mediumDesktop){
+                            display: none;  
+                        }         
+                        @include media(largeDesktop){
+                            display: none;   
+                        }                         
+                    }
+                     @include clearfix();   
+                }//End map area        
+            }
+            footer {
+                        .mapKey {
                             display: none;
                         }
-                    }
-                    @include clearfix();
-                }
-            }
-            .mapArea{
-                @include make-row();
-                .showMap{
-                    @include make-md-column(12);
-                }
-                .map_canvas{
-                    @include make-md-column(12);
-                    display: none;
-                }
-            }
-            .countDown{
-                display: none;
-                margin: 10px 0 15px 0;
-                @include make-row();
-                .busCountDown{
-                    .busTime{
-                        @include make-md-column(12);
-                        margin: 0;
-                        padding: 0;
-                    }
-                    .busArriving{
-                        @include make-md-column(12);
-                        display: none;
-                        margin: 0;
-                        padding: 0;                        
-                    }
-                }
-                 @include clearfix();
+                        @include media(tablet){
+                            margin: 0 15px;
+                            width: 650px;  
+                            .mapKey {
+                                display: block;
+                            }                            
+                        }
+                        @include media(mediumDesktop){
+                            margin: 0 15px;
+                            width: 750px;
+                            .mapKey {
+                                display: block;
+                            }                                
+                        }         
+                        @include media(largeDesktop){
+                            margin: 0 15px;
+                            width: 900px;
+                            .mapKey {
+                                display: block;
+                            }                                
+                        }                     
             }
         }
-        footer{
-            display: none;
-            @include make-row();
-            margin: 15px 0 0 0;
-            .mapKey{
-               @include make-row();
-               @include make-md-column(12);
-               @include clearfix();
-               display: none;
-            }
-            @include clearfix();
-        }           
     }
 }
-
-/*Small devices (tablets, 768px and up)*/
-@media (min-width: $screen-sm-min){
-    body{
-        height: 100%;
-        margin: 15px 0 0 0;
-        padding: 0;
-        .container{
-            header{
-                h1{
-                    text-align: center;
-                }
-            }
-            .loading{
-                @include make-row();
-                @include make-md-column(4);
-                @include clearfix();
-                margin: 10px 0 0 0;
-            }            
-            .content{
-                display: none;
-                .selectRoutes{
-                    margin: 0 0 15px 0;
-                    #routes{
-                        @include make-row();
-                        margin: 0;
-                        padding: 0;
-                        .routesAvailable{
-                           @include make-md-column(4);
-                            margin: 0;
-                            padding: 0;                           
-                        }
-                        .routeStops{
-                            @include make-md-column(4);
-                            display: none;
-                            margin: 0;
-                            padding: 0;                            
-                        }
-                        .routeDirection{
-                            @include make-md-column(4);
-                            display: none;
-                            margin: 0;
-                            padding: 0;                            
-                        }
-                        .getRouteBtn,
-                        .getDirectionBtn {
-                            font-size: .75em;
-                        }
-                        @include clearfix();
-                    }
-                }
-                .options{
-                    @include make-row();
-                    display: none;
-                    margin: 5px 0 0 0;
-                     .resetOptions{
-                        @include make-md-column(4);
-                        margin: 0;
-                        padding: 0;
-                    }
-                    .getLocation{
-                        @include make-md-column(8);
-                        margin: 0;
-                        padding: 0;
-                        .yourLocation{
-                            display: none;
-                        }
-                    }
-                    @include clearfix();
-                }                
-                .countDown{
-                    @include make-row();
-                    display: none;
-                    margin: 0 0 15px 0;
-                    .busCountDown{
-                        .busTime{
-                            @include make-md-column(12);
-                            margin: 0;
-                            padding: 0;                            
-                        }
-                        .busArriving{
-                            @include make-md-column(12);
-                            display: none;
-                            
-                        }
-                    }
-                     @include clearfix();
-                }
-                   
-                .mapArea{
-                    @include make-row();
-                    margin: 0 0 20px 0;
-                    .showMap{
-                        text-align: center;
-                        display: none;
-                    }
-                    #map_canvas{
-                        height: 600px;
-                        width: 100%;
-                    }
-                    @include clearfix();
-                }
-            }
-            footer{
-                display: none;
-                @include make-row();
-                margin: 15px 0 0 0;
-                .mapKey{
-                   @include make-row();
-                   @include make-md-column(12);
-                   @include clearfix();
-                   display: block;
-                }
-                @include clearfix();
-            }             
-        }//container 
-    }//body        
-}
-
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: $screen-md-min) {
-    body{
-        height: 100%;
-        margin: 15px 0 0 0;
-        padding: 0;
-        .container{
-            header{
-                h1{
-                    text-align: center;
-                }
-            }
-            .loading{
-                @include make-row();
-                @include make-md-column(4);
-                @include clearfix();
-                margin: 10px 0 0 0;
-            }            
-            .content{
-                display: none;
-                .selectRoutes{
-                    margin: 0 0 15px 0;
-                    #routes{
-                        @include make-row();
-                        margin: 0;
-                        padding: 0;
-                        .routesAvailable{
-                           @include make-md-column(4);
-                            margin: 0;
-                            padding: 0;                           
-                        }
-                        .routeStops{
-                            @include make-md-column(4);
-                            display: none;
-                            margin: 0;
-                            padding: 0;                            
-                        }
-                        .routeDirection{
-                            @include make-md-column(4);
-                            display: none;
-                            margin: 0;
-                            padding: 0;                            
-                        }
-                        .getRouteBtn,
-                        .getDirectionBtn {
-                            font-size: .75em;
-                        }
-                        @include clearfix();
-                    }
-                }
-                .options{
-                    @include make-row();
-                    display: none;
-                    margin: 5px 0 0 0;
-                     .resetOptions{
-                        @include make-md-column(4);
-                        margin:0;
-                        padding: 0;
-                    }
-                    .getLocation{ 
-                        @include make-md-column(8);
-                        margin: 0;
-                        padding: 0;
-                        .yourLocation{
-                            display: none;
-                        }
-                    }
-                    @include clearfix();
-                }                   
-                .countDown{
-                    @include make-row();
-                    display: none;
-                    margin: 0 0 15px 0;
-                    .busCountDown{
-                        .busTime{
-                            @include make-md-column(12);
-                            margin: 0;
-                            padding: 0;                            
-                        }
-                        .busArriving{
-                            @include make-md-column(12);
-                            display: none;
-                            margin: 0;
-                            padding: 0;                            
-                        }
-                    }
-                     @include clearfix();
-                }
-                   
-                .mapArea{
-                    @include make-row();
-                    margin: 0 0 20px 0;
-                    .showMap{
-                        text-align: center;
-                        display: none;
-                    }
-                    #map_canvas{
-                        height: 600px;
-                        width: 100%;
-                    }
-                    @include clearfix();
-                }
-            }
-            footer{
-                display: none;
-                @include make-row();
-                margin: 15px 0 0 0;
-                .mapKey{
-                   @include make-row();
-                   @include make-md-column(12);
-                   @include clearfix();
-                   display: block;
-                }
-                @include clearfix();
-            }           
-        }//container 
-    }//body    
-}
-
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: $screen-lg-min) { 
-    body{
-        height: 100%;
-        margin: 15px 0 0 0;
-        padding: 0;
-        .container{
-            header{
-                h1{
-                    text-align: center;
-                }
-            }
-            .loading{
-                @include make-row();
-                @include make-md-column(4);
-                @include clearfix();
-                margin: 10px 0 0 0;
-            }
-            .content{
-                display: none;
-                .selectRoutes{
-                    margin: 0 0 15px 0;
-                    #routes{
-                        @include make-row();
-                        margin: 0;
-                        padding: 0;                        
-                        .routesAvailable{
-                           @include make-md-column(4);
-                            margin: 0;
-                            padding: 0;                           
-                        }
-                        .routeStops{
-                            @include make-md-column(4);
-                            display: none;
-                            margin: 0;
-                            padding: 0;                            
-                        }
-                        .routeDirection{
-                            @include make-md-column(4);
-                            display: none;
-                            margin: 0;
-                            padding: 0;                            
-                        }
-                        .getRouteBtn,
-                        .getDirectionBtn {
-                            font-size: .75em;
-                        }              
-                        @include clearfix();
-                    }
-                }
-                .options{
-                    @include make-row();
-                    display: none;
-                    margin: 5px 0 0 0;
-                    padding: 0;
-                     .resetOptions{
-                        @include make-md-column(4);
-                        margin: 0;
-                        padding: 0;
-                    }
-                    .getLocation{
-                        @include make-md-column(8);
-                        margin: 0;
-                        padding: 0;
-                        .yourLocation{
-                            display: none;
-                        }
-                    }
-                    @include clearfix();
-                }                
-                .countDown{
-                    @include make-row();
-                    display: none;
-                    margin: 0 0 15px 0;                
-                    .busCountDown{
-                        .busTime{
-                            @include make-md-column(12);
-                            margin: 0;
-                            padding: 0;                            
-                        }
-                        .busArriving{
-                            @include make-md-column(12);
-                            display: none;
-                            margin: 0;
-                            padding: 0;                            
-                        }
-                    }
-                     @include clearfix();
-                }
-                .mapArea{
-                    @include make-row();
-                    margin: 0 0 20px 0;
-                    .showMap{
-                        text-align: center;
-                        display: none;
-                    }
-                    #map_canvas{
-                        height: 600px;
-                        width: 100%;
-                    }
-                    @include clearfix();
-                }
-            }//Content
-            footer{
-                display: none;
-                @include make-row();
-                margin: 15px 0 0 0;    
-                .mapKey{
-                   @include make-row();
-                   @include make-md-column(12);
-                   @include clearfix();
-                   display: block;
-                }
-                @include clearfix();
-            }   
-        }//container
-    }//body
-}
-
-

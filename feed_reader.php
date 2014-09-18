@@ -10,12 +10,16 @@
 class XmlToJsonConverter {
     public function ParseXML ($url) {
         $fileContents = file_get_contents($url);
+
         // Remove tabs, newline, whitespaces in the content array
         $fileContents = str_replace(array("\n", "\r", "\t"), '', $fileContents);
         $fileContents = trim(str_replace('"', "'", $fileContents));
+                
         $myXml = simplexml_load_string($fileContents);
+
         $json = json_encode($myXml);
         $json = str_replace('@attributes', 'attributes', $json);
+        
         return $json;
     }
 }
@@ -46,5 +50,6 @@ $jsonObj = new XmlToJsonConverter();
  
 //Pass the xml document to the class function
 $myjson = $jsonObj->ParseXMl($url);
+
 print_r ($myjson);
 ?>
