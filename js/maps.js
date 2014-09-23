@@ -35,35 +35,35 @@
       busLocator.settings.map = new google.maps.Map(document.getElementById('map_canvas'), busLocator.settings.mapOptions);
       busLocator.setRouteList();
       
-      $('.getRouteBtn').click(function(){
-        busLocator.settings.routeNumber = $('#route_select').val();
-        if(busLocator.settings.routeNumber>=1){
+      $('.getRouteBtn').on('click', function(e){  
+        if($('#route_select option:selected').index()){
+          busLocator.settings.routeNumber = $('#route_select').val();
           $('.container .content .countDown').hide();
           $('.container .content #routes .routesAvailable .resetRoute').show();
           busLocator.emptyStops();
           busLocator.showRoute(busLocator.settings.routeNumber);
         }else{
-          alert('Please select a route to continue.')
+          alert('Please select a route to continue.');
+        }
+      });
+    
+      $('.getDirectionBtn').on('click', function(e){  
+        if($('#stop_select option:selected').index()){
+          busLocator.settings.selectedStop = $('#stop_select').val();
+          $('.container .content .countDown').hide();
+          busLocator.updateDirectionInfo();          
+        }else{
+          alert('Please select a stop to continue.');
+        }      
+      });
+      
+      $('.showArivalTimeBtn').on('click', function(e){
+        if($('#direction_select option:selected').index()){
+          busLocator.settings.selectedDirection = $('#direction_select').val();
+          busLocator.updateNextBusTime();  
+        }else{
+          alert('Please select a stop to continue.');
         }       
-      });
-      
-      $('#stop_select').change(function(){
-        busLocator.settings.selectedStop = $('#stop_select').val();
-        if(busLocator.settings.selectedStop>=1){
-                $('.container .content .countDown').hide();
-                busLocator.updateDirectionInfo();
-        }else{
-          alert('Please select a stop to continue.')
-        }         
-      });
-      
-      $('.getDirectionBtn').click(function(){
-        busLocator.settings.selectedDirection = $('#direction_select').val();
-        if(busLocator.settings.selectedDirection!=0){
-                busLocator.updateNextBusTime();  
-        }else{
-          alert('Please select a stop to continue.')
-        }             
       });
       
       $('.resetOptionsBtn').click(function(e){
@@ -395,7 +395,7 @@
                     }        
                   }
                 }
-              }
+              }//End Success
       });     
     },
     

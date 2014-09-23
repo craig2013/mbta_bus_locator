@@ -25,7 +25,7 @@
 					<select id="route_select" name="route_select">
 						<option value="0" selected="selected">Select a route</option>
 					</select>
-					<button type="button" class="getRouteBtn">Show Route</button>
+					<button type="button" class="getRouteBtn">Show Route Stops</button>
 					<div class="options resetRoute">
 						<a href="#" class="resetOptionsBtn">Reset Options</a>
 					</div>
@@ -35,6 +35,7 @@
 					<select id="stop_select" name="stop_select">
 						<option value="0">Select a stop</option>
 					</select>
+					<button type="button" class="getDirectionBtn">Get Direction Info</button>
 					<div class="options getLocation">
 						<a href="#" class="getLocationBtn">Get Location</a>
 						<p class="yourLocation">Your address is: <span class="yourAddress"></span></p>
@@ -45,7 +46,7 @@
 					<select id="direction_select" name="direction_select">
 						<option value="0">Select a direction</option>
 					</select>
-					<button type="button" class="getDirectionBtn">Show Arival Time</button>		      
+					<button type="button" class="showArivalTimeBtn">Show Arival Time</button>		      
 				</div>
 			</form>
 			<div class="countDown">
@@ -79,6 +80,6 @@
 	<script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
 	<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCpljpAf9iuxW7gj2YZZlaS9o4e3oTBgp0&amp;sensor=false"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js"></script>
-	<script src="/js/maps.js?ver=1.0004"></script>
+	<script src="/js/maps.js?ver=1.0005"></script>
     </body>
 </html>
