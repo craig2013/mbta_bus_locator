@@ -11,6 +11,7 @@
       routeTitle: '',
       routeStops: '',
       stops: '',
+      stopMarkers: '',
       selectedStop: '',
       selectedDirection: '',
       timer: '',
@@ -41,7 +42,7 @@
           $('.container .content .countDown').hide();
           $('.container .content #routes .routesAvailable .resetRoute').show();
           busLocator.emptyStops();
-          busLocator.showRoute(busLocator.settings.routeNumber);
+          busLocator.getRouteStops();
         }else{
           alert('Please select a route to continue.');
         }
@@ -76,7 +77,7 @@
 
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(busLocator.findPosition, busLocator.errorPosition);
-        } else {
+        }else{
           error('not supported');
         }        
       })
@@ -131,95 +132,101 @@
               dataType: 'json',
               success: function(response){
                 if(typeof response.route === 'object'){
-                  var stopsHTML = '',
-                      responseObj = response.route;
-                  for(var i=0; i<responseObj.length; i++){
-                      stopsHTML += '<option value="'+responseObj[i].attributes.tag+'">'+responseObj[i].attributes.title+'</option>';
-                  }
-                  
-                  $('#route_select').append(stopsHTML);
+
+                  _.templateSettings.variable = 'routes';
+
+                  var template = _.template(
+                      $('#routes-template').html()
+                  );
+
+                  var templateData = response.route;
+
+                  $('#route_select').append(template(templateData));
+
                   $('.container .loading').hide();
                   $('.container .content #routes .routesAvailable,.container footer').show();
                 }
               }
       });
     },
-    
-    showRoute: function(){
-      var image = 'images/red_stop.png', objStops = '';
+
+    getRouteStops: function(){
       $.ajax({
               async: false,
-              cache: false,			
+              cache: false,     
               type: 'GET',
               url: 'feed_reader.php?command=routeConfig&agency='+busLocator.settings.agencyTag+'&route='+busLocator.settings.routeNumber,
               dataType: 'json',
               success: function(response) {
                 if(typeof response.route === 'object'){
                   var centerLat = response.route.attributes.latMin,
-                      centerLon = response.route.attributes.lonMin,
-                      centerRoute = new google.maps.LatLng(centerLat, centerLon),
-                      mapOptions = {},
-                      objStops = '',
-                      responseObj = response.route.stop;
-                      
+                        centerLon = response.route.attributes.lonMin,
+                        routeOptions = {
+                          'centerLat': centerLat,
+                          'centerLon': centerLon
+                        };
                   busLocator.settings.routeTitle = response.route.attributes.title;
-                      
-                  mapOptions = {
-                    zoom:14,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP,
-                    center: centerRoute
-                  };
-                  
-                  busLocator.settings.map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-                  busLocator.settings.routeStops = [];
-                  
-                  for(var i=0; i<responseObj.length; i++){
-                    if(!isNaN(responseObj[i].attributes.lat) && !isNaN(responseObj[i].attributes.lon)){
-                        var lat = responseObj[i].attributes.lat,
-                            lon = responseObj[i].attributes.lon,
-                            title = responseObj[i].attributes.title,
-                            stopID = responseObj[i].attributes.stopId,
-                            contentString = title,
-                            myLatLng = new google.maps.LatLng(lat,lon);
-                            
-                        busLocator.settings.stops = new google.maps.Marker({
-                            position: myLatLng,
-                            map: busLocator.settings.map,
-                            title: title,
-                            icon: image
-                        });
-                        
-                        busLocator.settings.routeStops.push(
-                          {
-                            "stopId": stopID,
-                            "title": title,
-                            "lat": lat,
-                            "lon": lon
-                          }
-                        );
-                        
-                        //Create routde stop select box
-                        objStops += (!isNaN(stopID))? '<option value="'+ stopID + '">'+title+'</option>' : '';                        
-                        
-                        var infowindow = new google.maps.InfoWindow({
-                            content: contentString
-                        });
-                        
-                        google.maps.event.addListener(busLocator.settings.stops, 'click', function() {
-                          infowindow.open(busLocator.settings.map,this);
-                        });                        
-                    }
-                  }
-                  busLocator.setBusLocations();//Set initial bus positions
-                  
-                  $('#stop_select').append(objStops);
-                  //$('.container ').find('.options, .resetOptions, .getLocation').show();
+                  busLocator.setRouteStopList(response.route.stop);
+                  busLocator.plotRouteStops(response.route.stop, routeOptions);
                 }
-              }
-      });   
-      
+            }
+      });  
+    },
+
+    setRouteStopList: function(stopsArr){
+        _.templateSettings.variable = 'stops';
+
+        var template = _.template(
+            $('#stops-template').html()
+        );      
+
+        var templateData = stopsArr;  
+
+        $('#stop_select').append(template(templateData));
+
+        $('.container .content #routes .routeStops').show();
     },
     
+    plotRouteStops: function(stopsArr,routeOptionsObj){
+      var image = 'images/red_stop.png',
+            centerRoute = new google.maps.LatLng(routeOptionsObj.centerLat, routeOptionsObj.centerLon),
+            mapOptions = {};
+
+      mapOptions = {
+        zoom: 13,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        center: centerRoute
+      };
+      
+      busLocator.settings.map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);      
+
+      for(var i=0; i<stopsArr.length; i++){
+        if(!isNaN(stopsArr[i].attributes.lat) && !isNaN(stopsArr[i].attributes.lon)){
+        var stopObj = {
+            'stopID': stopsArr[i].attributes.stopId,
+            'title': stopsArr[i].attributes.title,
+            'lat': stopsArr[i].attributes.lat,
+            'lon': stopsArr[i].attributes.lon
+        },
+        myLatLng = new google.maps.LatLng(stopObj.lat,stopObj.lon);
+
+         busLocator.settings.routeStops = [];
+
+         busLocator.settings.stops = new google.maps.Marker({
+            position: myLatLng,
+            map: busLocator.settings.map,
+            title: stopObj.title,
+            icon: image
+        });
+
+        busLocator.settings.routeStops.push(stopObj);
+
+        }//End isNaN     
+      }
+
+      busLocator.setBusLocations();//Set initial bus positions
+    },
+
     setBusLocations: function(){
        $.ajax({
               async: false,
@@ -280,9 +287,7 @@
                           busLocator.updateNextBusTime();                     
                        }
                    }, 20000);
-                  
 
-                  
                   //Show stops on route
                   $('.container .selectRoutes .routeStops').show();
                 }

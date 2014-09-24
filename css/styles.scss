@@ -33,6 +33,18 @@ html{
                         label {
                             display: block;
                         }
+                        button {
+                            display: block;
+                            @include media(tablet){
+                                display: inline-box;
+                            }
+                            @include media(mediumDesktop){
+                                display: inline-box;
+                            }         
+                            @include media(largeDesktop){
+                                display: inline-block;   
+                            }                                  
+                        }
                         @include clearfix();
                     }
                     .routesAvailable,.routeStops, .routeDirection {
