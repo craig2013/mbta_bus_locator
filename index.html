@@ -86,6 +86,11 @@
 			<option value="<%- stops.attributes.tag %>"><%- stops.attributes.title %></option>
 		<% }); %>
 	</script>
+	<script type="text/template" id="direction-template">
+		<% _.each(directions, function(directions){ %>
+			<option value="<%- directions.direction %>"><%- directions.direction %></option>	
+		<% }); %>
+	</script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
 	<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCpljpAf9iuxW7gj2YZZlaS9o4e3oTBgp0&amp;sensor=false"></script>

@@ -22,7 +22,9 @@
     init: function (){
       busLocator.settings.vehicles=new Array();
       busLocator.settings.agencyTag='mbta';
-      
+
+      clearTimeout(busLocator.settings.timer);
+
       if(busLocator.settings.selectedStop<1 && busLocator.settings.routeNumber<1){
         busLocator.settings.selectedStop = 0;
       }
@@ -128,7 +130,7 @@
               async: false,
               cache: false,			
               type: 'GET',
-              url: 'feed_reader.php?command=routeList&agency='+busLocator.settings.agencyTag,
+              url: '../app/?command=routeList&agency='+busLocator.settings.agencyTag,
               dataType: 'json',
               success: function(response){
                 if(typeof response.route === 'object'){
@@ -155,7 +157,7 @@
               async: false,
               cache: false,     
               type: 'GET',
-              url: 'feed_reader.php?command=routeConfig&agency='+busLocator.settings.agencyTag+'&route='+busLocator.settings.routeNumber,
+              url: '../app/?command=routeConfig&agency='+busLocator.settings.agencyTag+'&route='+busLocator.settings.routeNumber,
               dataType: 'json',
               success: function(response) {
                 if(typeof response.route === 'object'){
@@ -165,7 +167,7 @@
                           'centerLat': centerLat,
                           'centerLon': centerLon
                         };
-                  busLocator.settings.routeTitle = response.route.attributes.title;
+                  busLocator.settings.routeTitle = response.route.attributes.title; 
                   busLocator.setRouteStopList(response.route.stop);
                   busLocator.plotRouteStops(response.route.stop, routeOptions);
                 }
@@ -232,7 +234,7 @@
               async: false,
               cache: false,			
               type: 'GET',
-              url: 'feed_reader.php?command=vehicleLocations&agency='+busLocator.settings.agencyTag+'&route='+busLocator.settings.routeNumber+'&t=',
+              url: '../app/?command=vehicleLocations&agency='+busLocator.settings.agencyTag+'&route='+busLocator.settings.routeNumber+'&t=',
               dataType: 'json',
               success: function(response){
                 if(typeof response === 'object' && typeof response.vehicle !== 'undefined'){
@@ -301,7 +303,7 @@
               async: false,
               cache: false,			
               type: 'GET',
-              url: 'feed_reader.php?command=vehicleLocations&agency='+busLocator.settings.agencyTag+'&route='+busLocator.settings.routeNumber,
+              url: '../app/?command=vehicleLocations&agency='+busLocator.settings.agencyTag+'&route='+busLocator.settings.routeNumber,
               dataType: 'json',
               success: function(response){
                 if(typeof response === 'object'){
@@ -366,41 +368,28 @@
               async: false,
               cache: false,			
               type: 'GET',
-              url: 'feed_reader.php?command=predictions&agency='+busLocator.settings.agencyTag+'&stopId='+busLocator.settings.selectedStop,
+              url: '../app/?command=direction&agency='+busLocator.settings.agencyTag+'&stopId='+busLocator.settings.selectedStop,
               dataType: 'json',
               success: function(response){
                 if(typeof response === 'object'){
-                  var predictionsObj = response.predictions;
-                  if(_.isArray(predictionsObj)){
-                      for(var i=0; i<predictionsObj.length; i++){
-                        if(typeof predictionsObj[i].direction === 'object'){
-                            directionHTML += '<option value="'+predictionsObj[i].direction.attributes.title+'">'+predictionsObj[i].direction.attributes.title+'</option>';
-                        }
-                      }
-                      $('#direction_select option:gt(0)').remove();
-                      $('#direction_select').append(directionHTML);
-                      $('.container .selectRoutes .routeDirection').show();                             
-                  }else{
-                    if(_.isArray(predictionsObj.direction)){
-                      for(var i=0; i<predictionsObj.direction.length; i++){
-                         directionHTML += '<option value="'+predictionsObj.direction[i].attributes.title+'">'+predictionsObj.direction[i].attributes.title+'</option>';
-                      }
-                      $('#direction_select option:gt(0)').remove();
-                      $('#direction_select').append(directionHTML);
-                      $('.container .selectRoutes .routeDirection').show();         
-                    }else{
-                      if(typeof predictionsObj.direction === 'object'){
-                        directionHTML += '<option value="'+predictionsObj.direction.attributes.title+'">'+predictionsObj.direction.attributes.title+'</option>';
-                        $('#direction_select option:gt(0)').remove();
-                        $('#direction_select').append(directionHTML);
-                        $('.container .selectRoutes .routeDirection').show();       
-                      }else if(typeof predictionsObj.attributes.dirTitleBecauseNoPredictions === 'string'){ 
-                          alert('There are currently no busses scheduled to make a stop.  Please select another stop.')
-                      }                    
-                    }        
-                  }
-                }
-              }//End Success
+                  var predictionsArr = response.directions,
+                        template = '',
+                        templateData = '';
+
+                  $('#direction_select option:gt(0)').remove();
+
+                    _.templateSettings.variable = 'directions';
+
+                    template = _.template($('#direction-template').html());      
+
+                    templateData = predictionsArr;  
+
+                    $('#direction_select').append(template(templateData));
+
+                    $('.container .content #routes .routeDirection').show();                
+
+                }//end typeof 
+              }//end success
       });     
     },
     
@@ -410,39 +399,11 @@
               async: false,
               cache: false,			
               type: 'GET',
-              url: 'feed_reader.php?command=predictions&agency='+busLocator.settings.agencyTag+'&stopId='+busLocator.settings.selectedStop,
+              url: '../app/?command=predictions&agency='+busLocator.settings.agencyTag+'&stopId='+busLocator.settings.selectedStop+'&direction='+encodeURIComponent(busLocator.settings.selectedDirection)+'&routeTitle='+encodeURIComponent(busLocator.settings.routeTitle),
               dataType: 'json',
               success: function(response){
                 if(typeof response === 'object'){
-                  if(_.isArray(response.predictions)){
-                      var predictionsArr = response.predictions;
-                      for(var i=0; i<predictionsArr.length; i++){
-                        if(typeof predictionsArr[i].direction  === 'object'){
-                          minutes = (predictionsArr[i].direction.attributes.title === busLocator.settings.selectedDirection)? predictionsArr[i].direction.prediction[0].attributes.minutes : predictionsArr[i].direction.prediction.attributes.minutes;
-                          break;
-                        }
-                      }
-                  }else{
-                    if(_.isArray(response.predictions.direction)){
-                      var directionsArr = response.predictions.direction;
-                      for(var i=0; i<directionsArr.length; i++){
-                        if(typeof directionsArr[i].prediction.attributes  === 'object'){
-                          minutes = (directionsArr[i].attributes.title === busLocator.settings.selectedDirection)? directionsArr[i].prediction.attributes.minutes : directionsArr[i].prediction.attributes.minutes;
-                          break;
-                        }
-                      }
-                    }else{
-                      var directionsObj = response.predictions.direction;
-                      if(_.isArray(directionsObj.prediction)){
-                        for(var i=0; i<directionsObj.prediction.length; i++){
-                            minutes = (directionsObj.attributes.title === busLocator.settings.selectedDirection)? directionsObj.prediction[i].attributes.minutes : '';
-                            break;                        
-                        }
-                      }else{
-                           minutes = (directionsObj.attributes.title === busLocator.settings.selectedDirection)? directionsObj.prediction.attributes.minutes : '';
-                      }
-                    }
-                  }
+
                 }
                 busLocator.settings.displayNextTime = true;
                 if(!isNaN(minutes)){
