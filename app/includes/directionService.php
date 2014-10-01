@@ -4,9 +4,9 @@ ini_set('display_errors', 1);
 
 class directionService {
 
-	private $json;
-	private $newJSON;
-	private $directions;
+	protected $json;
+	protected $newJSON;
+	protected $directions;
 
 	public function __construct(){
 		$this->json='';
