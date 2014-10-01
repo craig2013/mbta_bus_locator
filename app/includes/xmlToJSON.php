@@ -52,8 +52,10 @@ class XmlToJsonConverter{
 
 	public function convertXMLToJSON(){
 		$jsonString = '';
-		$jsonString = json_encode($this->getMyXML());
-		$this->setJSON(str_replace('@attributes', 'attributes', $this->getJSON()));		
+		$xmlString = $this->getMyXML();
+		$jsonString = json_encode($xmlString);
+		$jsonString = str_replace('@attributes', 'attributes', $jsonString);
+		$this->setJSON($jsonString);		
 	}
 }
 ?>
