@@ -47,30 +47,46 @@ class directionService {
 
 	public function getDirections(){
 		$newJSON = $this->getNewJSON();
-		$newJSONString = '{"directions":[';
+		$newJSONString = '';
 		$i = 0;
 
 
-		foreach($newJSON as $value){
-		    if(is_array($value)){
-		        foreach ($value as $key => $value) {
-		            if($key === 'direction'){
-		                if($i>0){
-		                    $newJSONString = $newJSONString.',';
-		                }
-		                $newJSONString = $newJSONString.'{';
-		                $newJSONString = $newJSONString.'"direction":';
-		                $newJSONString = $newJSONString.'"'.$value['attributes']['title'].'"';
-		                $newJSONString = $newJSONString.'}';
-		                $i+=1;
-		            }
-		        }
-		    }
+		if(!isset($newJSON['attributes']['dirTitleBecauseNoPredictions'])){
+			$i=0;
+			$newJSONString = '{"directions":[';
+			foreach((array)$newJSON as $item){
+				if(isset($item['attributes']['title'])){
+					if($i>=1){
+						$newJSONString  = $newJSONString.',';
+					}
+					$newJSONString  = $newJSONString.'{';
+					$newJSONString  = $newJSONString.'"direction":';					
+					$newJSONString  = $newJSONString.'"'.$item['attributes']['title'].'"';
+					$newJSONString  = $newJSONString.'}';
+					$i += 1;
+				}elseif(isset($item['direction']['attributes']['title'])){
+					if($i>=1){
+						$newJSONString  = $newJSONString.',';
+					}
+					$newJSONString  = $newJSONString.'{';
+					$newJSONString  = $newJSONString.'"direction":';					
+					$newJSONString  = $newJSONString.'"'.$item['direction']['attributes']['title'].'"';
+					$newJSONString  = $newJSONString.'}';
+					$i += 1;
+				}	
+			}
+			$newJSONString  = $newJSONString.']}';
+		}else{
+			$newJSONString = '{"directions":[{';
+			$newJSONString = $newJSONString.'"error":"No predictions available for this stop."';
+			$newJSONString = $newJSONString.'}]}';
 		}
 
-		$newJSONString = $newJSONString.']}';
-
 		$this->setDirection($newJSONString);
+
+		/*echo '<pre>';
+		var_dump($newJSON);
+		echo '<pre>';*/		
 	}
 }
 ?>

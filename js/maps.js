@@ -176,13 +176,14 @@
     },
 
     setRouteStopList: function(stopsArr){
+        var template = '',
+              templateData = '';
+
         _.templateSettings.variable = 'stops';
 
-        var template = _.template(
-            $('#stops-template').html()
-        );      
+        template = _.template($('#stops-template').html());      
 
-        var templateData = stopsArr;  
+        templateData = stopsArr;  
 
         $('#stop_select').append(template(templateData));
 
@@ -368,10 +369,10 @@
               async: false,
               cache: false,			
               type: 'GET',
-              url: '../app/?command=direction&agency='+busLocator.settings.agencyTag+'&stopId='+busLocator.settings.selectedStop,
+              url: '../app/?command=direction&agency='+busLocator.settings.agencyTag+'&stopId='+busLocator.settings.selectedStop,//'../app/?command=direction&agency='+busLocator.settings.agencyTag+'&stopId='+busLocator.settings.selectedStop+'&direction='+encodeURIComponent(busLocator.settings.selectedDirection)+'&routeTitle='+encodeURIComponent(busLocator.settings.routeTitle),
               dataType: 'json',
               success: function(response){
-                if(typeof response === 'object'){
+                if(typeof response === 'object' && !response.directions.error){
                   var predictionsArr = response.directions,
                         template = '',
                         templateData = '';
@@ -388,7 +389,9 @@
 
                     $('.container .content #routes .routeDirection').show();                
 
-                }//end typeof 
+                }else{
+                  alert(response.directions.error);
+                }
               }//end success
       });     
     },
@@ -399,16 +402,17 @@
               async: false,
               cache: false,			
               type: 'GET',
-              url: '../app/?command=predictions&agency='+busLocator.settings.agencyTag+'&stopId='+busLocator.settings.selectedStop+'&direction='+encodeURIComponent(busLocator.settings.selectedDirection)+'&routeTitle='+encodeURIComponent(busLocator.settings.routeTitle),
+              url:  '../app/?command=predictions&agency='+busLocator.settings.agencyTag+'&stopId='+busLocator.settings.selectedStop+'&direction='+encodeURIComponent(busLocator.settings.selectedDirection)+'&routeTitle='+encodeURIComponent(busLocator.settings.routeTitle),//'../app/?command=predictions&agency='+busLocator.settings.agencyTag+'&stopId='+busLocator.settings.selectedStop
               dataType: 'json',
               success: function(response){
                 if(typeof response === 'object'){
-
+                  var predictionTime = (_.isArray(response))?response.shift():response;
+                  minutes =  predictionTime.attributes.minutes;
                 }
                 busLocator.settings.displayNextTime = true;
                 if(!isNaN(minutes)){
                      if(minutes>0){
-                        $('.container .countDown .busCountDown .busTime .minutes_until').empty().append(minutes);
+                        $('.container .countDown .busCountDown .busTime .minutes_until').empty().text(minutes);
                         $('.container .countDown .busCountDown  .busArriving').hide();  
                         $('.container .countDown,.container .countDown .busCountDown  .busTime').show();                  
                     }else{

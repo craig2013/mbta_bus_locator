@@ -69,16 +69,19 @@ class predictionService {
 		$direction = $this->getDirection();
 		$routeTitle = $this->getRouteTitle();
 		$newJSONString = '';
-
-		for($i=0; $i<count($newJSON); $i++){ 
-			if($newJSON[$i]['attributes']['routeTitle']===$routeTitle){
-				$newJSONString = $newJSON[$i]['direction']['prediction'];
-				/*echo '<pre>';
-				var_dump($newJSON[$i]['direction']['prediction']);
-				echo '</pre>';
-				*/				
+		
+		foreach((array)$newJSON as $item){
+			if(isset($item['prediction'])){
+				$newJSONString  = $item['prediction'];
+			}elseif(isset($item['direction']['prediction'])){
+				$newJSONString  = $item['direction']['prediction'];
 			}
-		}
+		}	
+
+		/*echo '<pre>';
+		var_dump($newJSON);
+		echo '<pre>';		
+		return 0;*/
 
 		$newJSONString = json_encode($newJSONString);
 		$this->setPredictions($newJSONString); 
