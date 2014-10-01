@@ -414,7 +414,7 @@
                      if(minutes>0){
                         $('.container .countDown .busCountDown .busTime .minutes_until').empty().text(minutes);
                         $('.container .countDown .busCountDown  .busArriving').hide();  
-                        $('.container .countDown,.container .countDown .busCountDown  .busTime').show();                  
+                        $('.container .countDown,.container .countDown .busCountDown,.container .countDown .busCountDown  .busTime').show();                  
                     }else{
                         $('.container .countDown .busCountDown  .busTime').hide();
                         $('.container .countDown .busCountDown  .busArriving').show();                  
