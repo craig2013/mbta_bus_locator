@@ -7,37 +7,37 @@ class XmlToJsonConverter{
 	protected $myXML;
 	protected $json;
 
-	public function __construct(){
+	public function __construct() {
 		$this->feedURL='';
 		$this->myXML='';
 		$this->json='';
 	}
 
-	public function getFeedURL(){
+	public function getFeedURL() {
 		return $this->feedURL;
 	}	
 
-	public function getMyXML(){
+	public function getMyXML() {
 		return $this->myXML;
 	}	
 
-	public function getJSON(){
+	public function getJSON() {
 		return $this->json;
 	}
 
-	public function setFeedURL($val){
+	public function setFeedURL($val) {
 		$this->feedURL=$val;
 	}
 
-	public function setMyXML($val){
+	public function setMyXML($val) {
 		$this->myXML=$val;
 	}
 
-	public function setJSON($val){
+	public function setJSON($val) {
 		$this->json=$val;
 	}	
 
-	public function parseXML(){
+	public function parseXML() {
 		$xmlString = '';
 		$feed = $this->getFeedURL();
 
@@ -50,7 +50,7 @@ class XmlToJsonConverter{
 		$this->setMyXML($xmlString);
 	}
 
-	public function convertXMLToJSON(){
+	public function convertXMLToJSON() {
 		$jsonString = '';
 		$xmlString = $this->getMyXML();
 		$jsonString = json_encode($xmlString);

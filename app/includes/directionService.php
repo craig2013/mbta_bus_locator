@@ -8,85 +8,90 @@ class directionService {
 	protected $newJSON;
 	protected $directions;
 
-	public function __construct(){
+	public function __construct() {
 		$this->json='';
 		$this->newJson='';
 		$this->directions='';
 	}
 
-	public function setJSON($val){
+	public function setJSON($val) {
 		$this->json=$val;
 	}
 
-	public function setNewJSON($val){
+	public function setNewJSON($val) {
 		$this->newJSON = $val;
 	}
 
-	public function setDirection($val){
+	public function setDirection($val) {
 		$this->directions=$val;
 	}
 
-	public function getJSON(){
+	public function getJSON() {
 		return $this->json;
 	}
 
-	public function getNewJSON(){
+	public function getNewJSON() {
 		return $this->newJSON;
 	}
 
-	public function getDirection(){
+	public function getDirection() {
 		return $this->directions;
 	}
 
-	public function decodeJSON(){
+	public function decodeJSON() {
 		$json = $this->getJSON();
 		$decodedJSON = json_decode($json,true);
-		$newJSON = $decodedJSON['predictions'];		
-		$this->setNewJSON($newJSON);
+		$newJSON = (array_key_exists('predictions',$decodedJSON) && array_key_exists('direction', $decodedJSON['predictions']))? $decodedJSON['predictions'] : '';		
+		$this->setNewJSON($decodedJSON);
 	}
 
-	public function getDirections(){
+	public function getDirections() {
 		$newJSON = $this->getNewJSON();
 		$newJSONString = '';
 		$i = 0;
-
-
-		if(!isset($newJSON['attributes']['dirTitleBecauseNoPredictions'])){
-			$i=0;
+			
+		if (!array_key_exists('dirTitleBecauseNoPredictions', $newJSON)) {
 			$newJSONString = '{"directions":[';
-			foreach((array)$newJSON as $item){
-				if(isset($item['attributes']['title'])){
-					if($i>=1){
-						$newJSONString  = $newJSONString.',';
+			/*echo '<pre>';
+			var_dump($newJSON);
+			echo '<pre>';
+			return 0;*/
+			if (array_key_exists('predictions', $newJSON) && array_key_exists('direction', $newJSON['predictions'])) {
+				foreach ($newJSON['predictions']['direction'] as $key => $value) { 
+					if ($key === 'attributes') {
+						if ($i>=1) {
+							$newJSONString  = $newJSONString.',';
+						}
+						$newJSONString  = $newJSONString.'{';
+						$newJSONString  = $newJSONString.'"direction":';
+						$newJSONString  = $newJSONString.'"'.$value['title'].'"';
+						$newJSONString  = $newJSONString.'}';						
 					}
-					$newJSONString  = $newJSONString.'{';
-					$newJSONString  = $newJSONString.'"direction":';					
-					$newJSONString  = $newJSONString.'"'.$item['attributes']['title'].'"';
-					$newJSONString  = $newJSONString.'}';
-					$i += 1;
-				}elseif(isset($item['direction']['attributes']['title'])){
-					if($i>=1){
-						$newJSONString  = $newJSONString.',';
+				}
+			} else if (array_key_exists('predictions', $newJSON) && array_key_exists('direction', $newJSON['predictions'][1])) {
+				foreach ($newJSON['predictions'][1]['direction'] as $key => $value) { 
+					if ($key === 'attributes') {
+						if ($i>=1) {
+							$newJSONString  = $newJSONString.',';
+						}
+						$newJSONString  = $newJSONString.'{';
+						$newJSONString  = $newJSONString.'"direction":';
+						$newJSONString  = $newJSONString.'"'.$value['title'].'"';
+						$newJSONString  = $newJSONString.'}';		
 					}
-					$newJSONString  = $newJSONString.'{';
-					$newJSONString  = $newJSONString.'"direction":';					
-					$newJSONString  = $newJSONString.'"'.$item['direction']['attributes']['title'].'"';
-					$newJSONString  = $newJSONString.'}';
-					$i += 1;
-				}	
+					$i++;
+				}			
 			}
 			$newJSONString  = $newJSONString.']}';
-		}else{
-			$newJSONString = '{"directions":[{';
+		} else {
+			$newJSONString = '{';
+			$newJSONString = $newJSONString.'"directions":{';
 			$newJSONString = $newJSONString.'"error":"No predictions available for this stop."';
-			$newJSONString = $newJSONString.'}]}';
+			$newJSONString = $newJSONString.'}';
+			$newJSONString = $newJSONString.'}';
 		}
 
-		$this->setDirection($newJSONString);
-
-		/*echo '<pre>';
-		var_dump($newJSON);
-		echo '<pre>';*/		
+		$this->setDirection($newJSONString);	
 	}
 }
 ?>
