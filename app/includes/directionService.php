@@ -40,8 +40,7 @@ class directionService {
 
 	public function decodeJSON() {
 		$json = $this->getJSON();
-		$decodedJSON = json_decode($json,true);
-		$newJSON = (array_key_exists('predictions',$decodedJSON) && array_key_exists('direction', $decodedJSON['predictions']))? $decodedJSON['predictions'] : '';		
+		$decodedJSON = json_decode($json,false);	
 		$this->setNewJSON($decodedJSON);
 	}
 
@@ -49,46 +48,37 @@ class directionService {
 		$newJSON = $this->getNewJSON();
 		$newJSONString = '';
 		$i = 0;
-			
-		if (!array_key_exists('dirTitleBecauseNoPredictions', $newJSON)) {
+
+		if (is_object($newJSON->predictions) && is_array($newJSON->predictions->direction)) {
+			$directionArray = $newJSON->predictions->direction;
 			$newJSONString = '{"directions":[';
-			/*echo '<pre>';
-			var_dump($newJSON);
-			echo '<pre>';
-			return 0;*/
-			if (array_key_exists('predictions', $newJSON) && array_key_exists('direction', $newJSON['predictions'])) {
-				foreach ($newJSON['predictions']['direction'] as $key => $value) { 
-					if ($key === 'attributes') {
-						if ($i>=1) {
-							$newJSONString  = $newJSONString.',';
-						}
-						$newJSONString  = $newJSONString.'{';
-						$newJSONString  = $newJSONString.'"direction":';
-						$newJSONString  = $newJSONString.'"'.$value['title'].'"';
-						$newJSONString  = $newJSONString.'}';						
-					}
+			foreach ($directionArray as $key => $value) {
+				if ($i>=1) {
+					$newJSONString  = $newJSONString.',';
 				}
-			} else if (array_key_exists('predictions', $newJSON) && array_key_exists('direction', $newJSON['predictions'][1])) {
-				foreach ($newJSON['predictions'][1]['direction'] as $key => $value) { 
-					if ($key === 'attributes') {
-						if ($i>=1) {
-							$newJSONString  = $newJSONString.',';
-						}
-						$newJSONString  = $newJSONString.'{';
-						$newJSONString  = $newJSONString.'"direction":';
-						$newJSONString  = $newJSONString.'"'.$value['title'].'"';
-						$newJSONString  = $newJSONString.'}';		
-					}
-					$i++;
-				}			
-			}
+				$newJSONString  = $newJSONString.'{';
+				$newJSONString  = $newJSONString.'"direction":"';
+				$newJSONString  = $newJSONString.$value->attributes->title;
+				$newJSONString  = $newJSONString.'"}';
+				$i++;
+			}	
 			$newJSONString  = $newJSONString.']}';
 		} else {
-			$newJSONString = '{';
-			$newJSONString = $newJSONString.'"directions":{';
-			$newJSONString = $newJSONString.'"error":"No predictions available for this stop."';
-			$newJSONString = $newJSONString.'}';
-			$newJSONString = $newJSONString.'}';
+			if (isset($newJSON->predictions->direction->attributes->title) && strlen($newJSON->predictions->direction->attributes->title)) {
+				$newJSONString = '{"directions":[';
+				$newJSONString  = $newJSONString.'{';
+				$newJSONString  = $newJSONString.'"direction":"';
+				$newJSONString  = $newJSONString.$newJSON->predictions->direction->attributes->title;
+				$newJSONString  = $newJSONString.'"}';
+				$newJSONString  = $newJSONString.']}';
+			} elseif (isset($newJSON->predictions[1]->direction->attributes->title) && strlen($newJSON->predictions[1]->direction->attributes->title)) {
+				$newJSONString = '{"directions":[';
+				$newJSONString  = $newJSONString.'{';
+				$newJSONString  = $newJSONString.'"direction":"';
+				$newJSONString  = $newJSONString.$newJSON->predictions[1]->direction->attributes->title;
+				$newJSONString  = $newJSONString.'"}';
+				$newJSONString  = $newJSONString.']}';			
+			} 
 		}
 
 		$this->setDirection($newJSONString);	

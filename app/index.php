@@ -48,6 +48,7 @@
 		$predictions->setJSON($json);
 		$predictions->setDirection($direction);
 		$predictions->setRouteTitle($routeTitle);
+		$predictions->setStopId($stop);
 		$predictions->createPredictionJSON();
 		$predictions->getPredictionJSON();
 		$json = $predictions->getPredictions();

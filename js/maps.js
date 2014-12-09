@@ -399,7 +399,8 @@
         },
 
         updateNextBusTime: function () {
-            var minutes = '';
+            var minutes = '',
+                  seconds = '';
             $.ajax({
                 async: false,
                 cache: false,
@@ -408,8 +409,8 @@
                 dataType: 'json',
                 success: function (response) {
                     if (typeof response === 'object') {
-                        //var predictionTime = (_.isArray(response)) ? response.shift() : response;
                         minutes = (typeof response.minutes === 'string')? response.minutes : response.attributes.minutes;
+                        seconds = (typeof response.seconds === 'string')? response.seconds : response.attributes.seconds;
                     }
                     busLocator.settings.displayNextTime = true;
                     if (!isNaN(minutes)) {
@@ -417,6 +418,9 @@
                             $('.container .countDown .busCountDown .busTime .minutes_until').empty().text(minutes);
                             $('.container .countDown .busCountDown  .busArriving').hide();
                             $('.container .countDown,.container .countDown .busCountDown,.container .countDown .busCountDown  .busTime').show();
+                        } else if (minutes === 0 && seconds >= 0) {
+                            $('.container .countDown .busCountDown  .busTime').hide();
+                            $('.container .countDown .busCountDown  .busArriving').show();
                         } else {
                             $('.container .countDown .busCountDown  .busTime').hide();
                             $('.container .countDown .busCountDown  .busArriving').show();

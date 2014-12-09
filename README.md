@@ -1,6 +1,9 @@
  MBTA Bus Locator
  - Uses the XML feeds from NextBus (http://www.nextbus.com/) and the Google Maps API.
 
+Version 1.3
+ - Fixed JSON for direction and predictions.
+
  Version 1.2
   - Converts XML feeds to JSON.
   - Displays a countdown for when the next bus will arive at a stop.
