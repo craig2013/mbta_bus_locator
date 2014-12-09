@@ -1,8 +1,8 @@
  MBTA Bus Locator
  - Uses the XML feeds from NextBus (http://www.nextbus.com/) and the Google Maps API.
 
-Version 1.3
- - Fixed JSON for direction and predictions.
+ Version 1.3
+  - Fixed JSON for direction and predictions.
 
  Version 1.2
   - Converts XML feeds to JSON.
@@ -10,10 +10,10 @@ Version 1.3
   - Using Underscore.js templates.
   - Using SASS for the CSS.
 
- Version 1.1
-  - Plots all bus stops for routes on the map.
-  - Plots all buses currently on the route.
-  - Updates bus locations every 10 seconds when it changes.
+Version 1.1
+ - Plots all bus stops for routes on the map.
+ - Plots all buses currently on the route.
+ - Updates bus locations every 10 seconds when it changes.
 
  Version 1.0
   - Plots all bus stops for routes on the map. 
