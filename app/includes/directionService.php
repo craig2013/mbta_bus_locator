@@ -8,6 +8,7 @@ class directionService {
 	protected $newJSON;
 	protected $directions;
 
+
 	public function __construct() {
 		$this->json='';
 		$this->newJson='';
@@ -48,37 +49,46 @@ class directionService {
 		$newJSON = $this->getNewJSON();
 		$newJSONString = '';
 		$i = 0;
-
-		if (is_object($newJSON->predictions) && is_array($newJSON->predictions->direction)) {
-			$directionArray = $newJSON->predictions->direction;
-			$newJSONString = '{"directions":[';
-			foreach ($directionArray as $key => $value) {
-				if ($i>=1) {
-					$newJSONString  = $newJSONString.',';
-				}
-				$newJSONString  = $newJSONString.'{';
-				$newJSONString  = $newJSONString.'"direction":"';
-				$newJSONString  = $newJSONString.$value->attributes->title;
-				$newJSONString  = $newJSONString.'"}';
-				$i++;
-			}	
-			$newJSONString  = $newJSONString.']}';
+		/*
+		echo '<pre>';
+		//var_dump($newJSON);
+		echo ($newJSON->predictions->attributes->dirTitleBecauseNoPredictions);
+		echo '</pre>';
+		return 0;*/
+		if (isset($newJSON->predictions->attributes->dirTitleBecauseNoPredictions)) {
+			
 		} else {
-			if (isset($newJSON->predictions->direction->attributes->title) && strlen($newJSON->predictions->direction->attributes->title)) {
+			if (is_object($newJSON->predictions) && is_array($newJSON->predictions->direction)) {
+				$directionArray = $newJSON->predictions->direction;
 				$newJSONString = '{"directions":[';
-				$newJSONString  = $newJSONString.'{';
-				$newJSONString  = $newJSONString.'"direction":"';
-				$newJSONString  = $newJSONString.$newJSON->predictions->direction->attributes->title;
-				$newJSONString  = $newJSONString.'"}';
+				foreach ($directionArray as $key => $value) {
+					if ($i>=1) {
+						$newJSONString  = $newJSONString.',';
+					}
+					$newJSONString  = $newJSONString.'{';
+					$newJSONString  = $newJSONString.'"direction":"';
+					$newJSONString  = $newJSONString.$value->attributes->title;
+					$newJSONString  = $newJSONString.'"}';
+					$i++;
+				}	
 				$newJSONString  = $newJSONString.']}';
-			} elseif (isset($newJSON->predictions[1]->direction->attributes->title) && strlen($newJSON->predictions[1]->direction->attributes->title)) {
-				$newJSONString = '{"directions":[';
-				$newJSONString  = $newJSONString.'{';
-				$newJSONString  = $newJSONString.'"direction":"';
-				$newJSONString  = $newJSONString.$newJSON->predictions[1]->direction->attributes->title;
-				$newJSONString  = $newJSONString.'"}';
-				$newJSONString  = $newJSONString.']}';			
-			} 
+			} else {
+				if (isset($newJSON->predictions->direction->attributes->title) && strlen($newJSON->predictions->direction->attributes->title)) {
+					$newJSONString = '{"directions":[';
+					$newJSONString  = $newJSONString.'{';
+					$newJSONString  = $newJSONString.'"direction":"';
+					$newJSONString  = $newJSONString.$newJSON->predictions->direction->attributes->title;
+					$newJSONString  = $newJSONString.'"}';
+					$newJSONString  = $newJSONString.']}';
+				} elseif (isset($newJSON->predictions[1]->direction->attributes->title) && strlen($newJSON->predictions[1]->direction->attributes->title)) {
+					$newJSONString = '{"directions":[';
+					$newJSONString  = $newJSONString.'{';
+					$newJSONString  = $newJSONString.'"direction":"';
+					$newJSONString  = $newJSONString.$newJSON->predictions[1]->direction->attributes->title;
+					$newJSONString  = $newJSONString.'"}';
+					$newJSONString  = $newJSONString.']}';			
+				} 
+			}
 		}
 
 		$this->setDirection($newJSONString);	

@@ -12,119 +12,34 @@
             routeStops: '',
             stops: '',
             stopMarkers: '',
-            selectedStop: '',
+            selectedStop: {},
             selectedDirection: '',
             timer: '',
             timerStarted: false,
             displayNextTime: false
         },
 
+        // Initializes app 
         init: function () {
             busLocator.settings.vehicles = new Array();
             busLocator.settings.agencyTag = 'mbta';
 
             clearTimeout(busLocator.settings.timer);
 
-            if (busLocator.settings.selectedStop < 1 && busLocator.settings.routeNumber < 1) {
-                busLocator.settings.selectedStop = 0;
-            }
 
+            //Initialize Google maps and center map on Boston
             busLocator.settings.mapOptions = {
                 zoom: 11,
-                center: new google.maps.LatLng(42.358056, -71.063611), //Center map on Boston, MA if no route selected
+                center: new google.maps.LatLng(42.358056, -71.063611),
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
-
             busLocator.settings.map = new google.maps.Map(document.getElementById('map_canvas'), busLocator.settings.mapOptions);
+
+            //Load route list
             busLocator.setRouteList();
-
-            $('.getRouteBtn').on('click', function (e) {
-                if ($('#route_select option:selected').index()) {
-                    busLocator.settings.routeNumber = $('#route_select').val();
-                    $('.container .content .countDown').hide();
-                    $('.container .content #routes .routesAvailable .resetRoute').show();
-                    busLocator.emptyStops();
-                    busLocator.getRouteStops();
-                } else {
-                    alert('Please select a route to continue.');
-                }
-            });
-
-            $('.getDirectionBtn').on('click', function (e) {
-                if ($('#stop_select option:selected').index()) {
-                    busLocator.settings.selectedStop = $('#stop_select').val();
-                    $('.container .content .countDown').hide();
-                    busLocator.updateDirectionInfo();
-                } else {
-                    alert('Please select a stop to continue.');
-                }
-            });
-
-            $('.showArivalTimeBtn').on('click', function (e) {
-                if ($('#direction_select option:selected').index()) {
-                    busLocator.settings.selectedDirection = $('#direction_select').val();
-                    busLocator.updateNextBusTime();
-                } else {
-                    alert('Please select a stop to continue.');
-                }
-            });
-
-            $('.resetOptionsBtn').click(function (e) {
-                e.preventDefault();
-                busLocator.resetOptions();
-            });
-
-            $('.getLocationBtn').click(function (e) {
-                e.preventDefault();
-
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(busLocator.findPosition, busLocator.errorPosition);
-                } else {
-                    error('not supported');
-                }
-            })
-
-            $('.showMap').click(function (e) {
-                e.preventDefault();
-            });
-
-
         },
 
-        findPosition: function (position) {
-            var lat = position.coords.latitude,
-                lon = position.coords.longitude;
-
-            if (!isNaN(lat) && !isNaN(lon)) {
-                $.ajax({
-                    async: false,
-                    cache: false,
-                    type: 'GET',
-                    url: 'get_location.php?lat=' + lat + '&lon=' + lon,
-                    dataType: 'json',
-                    success: function (response) {
-                        if (typeof response === 'object' && response.status === 'OK') {
-                            var streetNumber = (response.results[0].address_components[0].types[0] === 'street_number') ? response.results[0].address_components[0].long_name : '',
-                                streetName = (response.results[0].address_components[1].types[0] === 'route') ? response.results[0].address_components[1].long_name : '',
-                                city = (response.results[0].address_components[2].types[0] === 'locality') ? response.results[0].address_components[2].long_name : '',
-                                state = (response.results[0].address_components[4].types[0] === 'administrative_area_level_1') ? response.results[0].address_components[4].short_name : '',
-                                zipCode = (response.results[0].address_components[6].types[0] === 'postal_code') ? response.results[0].address_components[6].short_name : '',
-                                formattedAddress = (typeof response.results[0].formatted_address === 'string' && response.results[0].formatted_address.length) ? response.results[0].formatted_address : '';
-
-                            $('.yourAddress').empty().text(streetNumber + ' ' + streetName + ' ' + city + ', ' + state + ' ' + zipCode);
-
-                            $('.container .content .options .getLocation .yourLocation').show();
-
-                        }
-                    }
-                });
-            }
-        },
-
-        errorPosition: function (e) {
-            console.log('There was an error')
-        },
-
+        // Loads all routes available to route list dropdown
         setRouteList: function () {
             $.ajax({
                 async: false,
@@ -152,6 +67,7 @@
             });
         },
 
+        // Loads stops for selected route
         getRouteStops: function () {
             $.ajax({
                 async: false,
@@ -170,10 +86,15 @@
                         busLocator.settings.routeTitle = response.route.attributes.title;
                         busLocator.setRouteStopList(response.route.stop);
                         busLocator.plotRouteStops(response.route.stop, routeOptions);
+                        busLocator.settings.route = {
+                            "routeLat": centerLat,
+                            "routeLon": centerLon
+                        };
                     }
                 }
             });
         },
+
 
         setRouteStopList: function (stopsArr) {
             var template = '',
@@ -369,7 +290,7 @@
                 async: false,
                 cache: false,
                 type: 'GET',
-                url: '../app/?command=direction&agency=' + busLocator.settings.agencyTag + '&stopId=' + busLocator.settings.selectedStop,
+                url: '../app/?command=direction&agency=' + busLocator.settings.agencyTag + '&stopId=' + busLocator.settings.selectedStop.stop,
                 dataType: 'json',
                 success: function (response) {
                         if (typeof response === 'object' && typeof response.directions.error === 'undefined') {
@@ -400,17 +321,17 @@
 
         updateNextBusTime: function () {
             var minutes = '',
-                  seconds = '';
+                seconds = '';
             $.ajax({
                 async: false,
                 cache: false,
                 type: 'GET',
-                url: '../app/?command=predictions&agency=' + busLocator.settings.agencyTag + '&stopId=' + busLocator.settings.selectedStop + '&direction=' + encodeURIComponent(busLocator.settings.selectedDirection) + '&routeTitle=' + encodeURIComponent(busLocator.settings.routeTitle), //'../app/?command=predictions&agency='+busLocator.settings.agencyTag+'&stopId='+busLocator.settings.selectedStop
+                url: '../app/?command=predictions&agency=' + busLocator.settings.agencyTag + '&stopId=' + busLocator.settings.selectedStop.stop + '&direction=' + encodeURIComponent(busLocator.settings.selectedDirection) + '&routeTitle=' + encodeURIComponent(busLocator.settings.routeTitle), //'../app/?command=predictions&agency='+busLocator.settings.agencyTag+'&stopId='+busLocator.settings.selectedStop
                 dataType: 'json',
                 success: function (response) {
                     if (typeof response === 'object') {
-                        minutes = (typeof response.minutes === 'string')? response.minutes : response.attributes.minutes;
-                        seconds = (typeof response.seconds === 'string')? response.seconds : response.attributes.seconds;
+                        minutes = (typeof response.minutes === 'string') ? response.minutes : response.attributes.minutes;
+                        seconds = (typeof response.seconds === 'string') ? response.seconds : response.attributes.seconds;
                     }
                     busLocator.settings.displayNextTime = true;
                     if (!isNaN(minutes)) {
@@ -431,6 +352,16 @@
                     }
                 }
             });
+        },
+
+        zoomInToStopLocation: function () {
+            busLocator.settings.map.setCenter(new google.maps.LatLng(busLocator.settings.selectedStop.lat, busLocator.settings.selectedStop.lon));
+            busLocator.settings.map.setZoom(18);
+        },
+
+        zoomOutFromStopLocation: function () {
+            busLocator.settings.map.setCenter(new google.maps.LatLng(busLocator.settings.route.routeLat, busLocator.settings.route.routeLon));
+            busLocator.settings.map.setZoom(13);
         },
 
         emptyStops: function () {
@@ -458,7 +389,7 @@
             busLocator.settings.routeNumber = '';
             busLocator.settings.routeTitle = '';
             busLocator.settings.stops = '';
-            busLocator.settings.selectedStop = '';
+            busLocator.settings.selectedStop = {};
             busLocator.settings.selectedDirection = '';
             busLocator.settings.timer = '';
             busLocator.settings.timerStarted = false;
@@ -472,4 +403,66 @@
     };
 
     busLocator.init();
+
+    //Get bus route stops
+    $('.getRouteBtn').on('click', function (e) {
+        if ($('#route_select option:selected').index()) {
+            busLocator.settings.routeNumber = $('#route_select').val();
+            $('.container .content .countDown').hide();
+            $('.container .content #routes .routesAvailable .resetRoute').show();
+            busLocator.emptyStops();
+            busLocator.getRouteStops();
+        } else {
+            alert('Please select a route to continue.');
+        }
+    });
+
+    //Get bus directions available for bus stop
+    $('.getDirectionBtn').on('click', function (e) {
+        if ($('#stop_select option:selected').index()) {
+            busLocator.settings.selectedStop = {
+                "stop": $('#stop_select option:selected').val(),
+                "lat": $('#stop_select option:selected').attr('data-stopLat'),
+                "lon": $('#stop_select option:selected').attr('data-stopLon')
+            };
+            $('.container .content #routes .routeStops .zoomToStop').show();
+            $('.container .content .countDown').hide();
+            busLocator.updateDirectionInfo();
+        } else {
+            alert('Please select a stop to continue.');
+        }
+    });
+
+    //Show next bus arival time at selected stop 
+    $('.showArivalTimeBtn').on('click', function (e) {
+        if ($('#direction_select option:selected').index()) {
+            busLocator.settings.selectedDirection = $('#direction_select').val();
+            busLocator.updateNextBusTime();
+        } else {
+            alert('Please select a stop to continue.');
+        }
+    });
+
+    //Reset options back to default
+    $('.resetOptionsBtn').click(function (e) {
+        e.preventDefault();
+        $(this).parent().hide();
+        busLocator.resetOptions();
+    });
+
+    //Zoom map in to selected bus stop
+    $('.zoomInToStopBtn').on('click', function (e) {
+        e.preventDefault();
+        busLocator.zoomInToStopLocation();
+    });
+
+    $('.zoomOutStopBtn').on('click', function (e) {
+        e.preventDefault();
+        busLocator.zoomOutFromStopLocation();
+    });
+
+    //Show map when smartphone being used
+    $('.showMapBtn').click(function (e) {
+        e.preventDefault();
+    });
 })();

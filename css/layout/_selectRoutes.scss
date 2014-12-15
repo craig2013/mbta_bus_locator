@@ -1,0 +1,124 @@
+.selectRoutes {
+    @include media (largeDesktop) {
+        margin: 0 0 15px 10px; 
+    }
+    padding: 0 5px;     
+    width: 95%;
+    .routesAvailable {
+        display: none;
+        float: left;
+        width: 100%; 
+        .form {
+            display: block;
+            width: 100%;
+        }
+        .btn {
+            margin: 5px 0;
+        }
+        .options {
+            margin: 0 0 5px 0;
+        }
+        @include media (tablet) {
+            width: 230px;   
+            .btn {
+                margin: 5px 0;
+            }
+        }
+        @include media (mediumDesktop){
+            width: 380px; 
+        }         
+        @include media (largeDesktop) {
+            width: 355px; 
+            .form {
+                display: inline-block;
+                width: 200px;
+            }
+            .btn {
+                display: inline-block;
+            }            
+        }                
+        .options {
+            display: none;
+            margin: 5px 0 0 0;
+        }
+    }               
+    .routeStops {
+        display: none;
+        float: left;
+        width: 100%; 
+        .form {
+            display: block;
+            width: 100%;
+        }
+        .btn {
+            margin: 5px 0;
+        }
+        .options {
+            margin: 0 0 5px 0;
+        }
+        @include media (tablet) {
+            margin: 0 5px;
+            width: 230px;   
+            .btn {
+                margin: 5px 0;
+            } 
+        }
+        @include media (mediumDesktop) {
+            margin: 0 5px;
+            width: 380px; 
+        }         
+        @include media (largeDesktop) {
+            width: 440px;
+            .form {
+                display: inline-block;
+                width: 280px;
+            }
+            .btn {
+                display: inline-block;
+            }       
+            .options {
+                display: none;
+                margin: 5px 0 0 0;
+            }                       
+        }           
+        .zoomToStop {
+            display: none;
+        }
+    } 
+    .routeDirection {
+        display: none;
+        float: left;
+        width: 100%; 
+        .form {
+            display: block;
+            width: 100%;
+        }
+        .btn {
+            margin: 5px 0;
+        }
+        .options {
+            margin: 0 0 5px 0;
+        }
+        @include media (tablet) {
+            margin: 0 5px;
+            width: 230px;   
+            .btn {
+                margin: 5px 0;
+            }
+        }
+        @include media (mediumDesktop) {
+            width: 380px; 
+        }         
+        @include media (largeDesktop) {
+            width: 385px;
+            .form {
+                display: inline-block;
+                width: 240px;
+            }
+            .btn {
+                display: inline-block;
+            }                  
+        }               
+    }
+    @include clearfix();                
+}//End selectRoutes

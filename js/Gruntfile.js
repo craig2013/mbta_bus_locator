@@ -38,7 +38,7 @@ module.exports = function(grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-jsbeautifier');
-	grunt.registerTask('jsbeautifier', ['jsbeautifier']);	
+	grunt.registerTask('js-beautifier', ['jsbeautifier']);	
 
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.registerTask('js-uglify', ['uglify']);

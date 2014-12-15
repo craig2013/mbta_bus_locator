@@ -1,5 +1,5 @@
 //Default clearfix mixin
-@mixin clearfix(){
+@mixin clearfix() {
 	*zoom: 1;
 	&:before, &:after {
 		content: " ";
@@ -13,6 +13,7 @@
 		visibility: hidden;	
 	}	     
 }
+
 
 //Media query mixin
 @mixin media($type) {

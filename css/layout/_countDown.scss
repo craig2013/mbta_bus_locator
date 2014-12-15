@@ -1,0 +1,14 @@
+.countDown {
+	display: none;
+	margin: 10px 15px;
+	@include media (tablet) {
+		margin: 0 10px 15px 10px;
+	}
+	@include media (mediumDesktop) {
+	    	margin: 0 10px 15px 10px;
+	}         
+	@include media (largeDesktop) {
+	    	margin: 0 10px 15px 10px;
+	}      
+    	@include clearfix();       
+} //End countdown        

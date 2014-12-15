@@ -6,3 +6,45 @@ html {
 b,strong{
     font-weight: bold;
 }
+
+a {
+	text-decoration: none;
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+
+/**** Form Styles ****/
+.form {
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	font-size: 1em;
+	line-height: 1.42857143;
+	padding: 6px 12px;
+}
+
+.form-label {
+	display: block;
+}
+
+//Buttons
+.btn {
+	border: 1px solid transparent;
+	border-radius: 4px;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 1em;
+	padding: 6px 12px;
+	&:hover {
+		background-color: #ccc;
+	}
+}
+
+.btn-default {
+	background-color: #fff;
+	border-color: #ccc;
+	color: #000;
+}
+
+

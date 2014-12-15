@@ -17,49 +17,54 @@
 		<header>
 			<h1>MBTA Bus Locator</h1>
 		</header>
-		<div class="loading">Loading...</div>
-		<section class="content">
-			<form id="routes" name="routes" class="selectRoutes">
-				<div class="routesBox routesAvailable">
-					<label for="route_select">Routes:</label>
-					<select id="route_select" name="route_select">
-						<option value="0" selected="selected">Select a route</option>
-					</select>
-					<button type="button" class="getRouteBtn">Show Route Stops</button>
-					<div class="options resetRoute">
-						<a href="#" class="resetOptionsBtn">Reset Options</a>
+		<main>
+			<div class="loading">Loading...</div>
+			<div class="content">
+				<form id="routes" name="routes" class="selectRoutes">
+					<div class="routesAvailable">
+						<label class="form-label" for="route_select">Routes:</label>
+						<select class="form" id="route_select" name="route_select">
+							<option value="0" selected="selected">Select a route</option>
+						</select>
+						<button type="button" class="btn btn-default getRouteBtn">Show Route Stops</button>
+						<div class="options resetRoute">
+							<a href="#" class="resetOptionsBtn">Reset Options</a>
+						</div>
+					</div>
+					<div class="routeStops">
+						<label class="form-label" for="stop_select">Stops:</label>
+						<select class="form" id="stop_select" name="stop_select">
+							<option value="0">Select a stop</option>
+						</select>
+						<button type="button" class="btn btn-default getDirectionBtn">Get Direction Info</button>
+						<div class="options zoomToStop">
+							Options:  
+							<a href="#" class="zoomInToStopBtn">Zoom In</a> | 
+							<a href="#" class="zoomOutStopBtn">Zoom Out</a>
+						</div>		      
+					</div>
+					<div class="routeDirection">
+						<label class="form-label" for="direction_select">Direction:</label>
+						<select class="form" id="direction_select" name="direction_select">
+							<option value="0">Select a direction</option>
+						</select>
+						<button type="button" class="btn btn-default showArivalTimeBtn">Show Arival Time</button>		      
+					</div>
+				</form>
+				<div class="countDown">
+					<div class="busCountDown">
+						<p class="busTime">The next bus will arive in <span class="minutes_until"></span> minute(s).</p>
+						<p class="busArriving">Your bus is now arriving.</p>
 					</div>
 				</div>
-				<div class="routesBox routeStops">
-					<label for="stop_select">Stops:</label>
-					<select id="stop_select" name="stop_select">
-						<option value="0">Select a stop</option>
-					</select>
-					<button type="button" class="getDirectionBtn">Get Direction Info</button>
-					<div class="options getLocation">
-						<a href="#" class="getLocationBtn">Get Location</a>
-						<p class="yourLocation">Your address is: <span class="yourAddress"></span></p>
-					</div>		      
+				<div class="showMap">
+					<a  href="#" class="showMapBtn">Show Map</a>
 				</div>
-				<div class="routesBox routeDirection">
-					<label for="direction_select">Direction:</label>
-					<select id="direction_select" name="direction_select">
-						<option value="0">Select a direction</option>
-					</select>
-					<button type="button" class="showArivalTimeBtn">Show Arival Time</button>		      
-				</div>
-			</form>
-			<div class="countDown">
-				<div class="busCountDown">
-					<p class="busTime">The next bus will arive in <span class="minutes_until"></span> minute(s).</p>
-					<p class="busArriving">Your bus is now arriving.</p>
+				<div class="mapArea">
+					<div id="map_canvas"></div>
 				</div>
 			</div>
-			<div class="mapArea">
-				<a  href="#" class="showMapBtn">Show Map</a>
-				<div id="map_canvas"></div>
-			</div>
-		</section>
+		</main>
 		<footer>
 			<div class="mapKey">
 				<h3>Map Key:</h3>
@@ -78,17 +83,17 @@
 	</div><!-- container -->
 	<script type="text/template" id="routes-template">
 		<% _.each(routes, function(routes){ %>
-			<option value="<%- routes.attributes.tag %>"><%- routes.attributes.title %></option>
+			<option value="<%- routes.attributes.tag %>" title="<%- routes.attributes.tag %>"><%- routes.attributes.title %></option>
 		<% }); %>
 	</script>
 	<script type="text/template" id="stops-template">
 		<% _.each(stops, function(stops){ %>
-			<option value="<%- stops.attributes.tag %>"><%- stops.attributes.title %></option>
+			<option value="<%- stops.attributes.tag %>" title="<%- stops.attributes.tag %>" data-stopLat="<%- stops.attributes.lat %>" data-stopLon="<%- stops.attributes.lon %>"><%- stops.attributes.title %></option>
 		<% }); %>
 	</script>
 	<script type="text/template" id="direction-template">
 		<% _.each(directions, function(directions){ %>
-			<option value="<%- directions.direction %>"><%- directions.direction %></option>	
+			<option value="<%- directions.direction %>" title="<%- directions.direction %>"><%- directions.direction %></option>	
 		<% }); %>
 	</script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

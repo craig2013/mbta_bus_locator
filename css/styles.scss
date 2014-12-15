@@ -1,132 +1,25 @@
 @import "includes/reset";
 @import "includes/mixins";
+@import "includes/base-styles";
 @import "includes/elements";
  
-html{
-    body{
+html {
+    body {
         font-family: arial, helvetica, sans-serif;
         font-size: 0.85em;
-        .container{    
+        font-size: 0.85em;
+        .container {    
             margin: 10px 0 0 0;
             header {
                 margin: 0 auto 15px auto;
                 text-align: center;
             }
             .content {
-                .selectRoutes{
-                    margin: 0 0 15px 0; 
-                    padding: 0;
-                    width: 100%;
-                    .routesBox {
-                        float: left;
-                        margin: 0 10px;
-                        width: 100%; 
-                        @include media(tablet){
-                            width: 380px;   
-                        }
-                        @include media(mediumDesktop){
-                            width: 380px; 
-                        }         
-                        @include media(largeDesktop){
-                            width: 380px;   
-                        }                         
-                        label {
-                            display: block;
-                        }
-                        button {
-                            display: block;
-                            @include media(tablet){
-                                display: inline-box;
-                            }
-                            @include media(mediumDesktop){
-                                display: inline-box;
-                            }         
-                            @include media(largeDesktop){
-                                display: inline-block;   
-                            }                                  
-                        }
-                        @include clearfix();
-                    }
-                    .routesAvailable,.routeStops, .routeDirection {
-                        display: none;
-                        .options {
-                            display: none;
-                            width: 150px !important;
-                            p {
-                                margin: 0;
-                            }
-                            .getLocation {
-                                display: none !important;
-                            }
-                        }                            
-                    }                    
-                    @include clearfix();                
-                }//End selectRoutes
-                .countDown {
-                    display: none;
-                    margin: 0 10px 15px 10px;
-                    @include clearfix();       
-                }         
-                .mapArea {
-                    margin: 0 15px 15px 15px;
-                    #map_canvas{
-                        display: none;
-                        height: 650px;
-                        margin: 0 auto;
-                        @include media(tablet){
-                            display: block;
-                            width: 100%;    
-                        }
-                        @include media(mediumDesktop){
-                            display: block;
-                            width: 100%;    
-                        }         
-                        @include media(largeDesktop){
-                            display: block;
-                            width: 100%;    
-                        }                                                   
-                    }
-                    .showMapBtn {
-                        display: block;
-                        @include media(tablet){
-                            display: none;    
-                        }
-                        @include media(mediumDesktop){
-                            display: none;  
-                        }         
-                        @include media(largeDesktop){
-                            display: none;   
-                        }                         
-                    }
-                     @include clearfix();   
-                }//End map area        
-            }
-            footer {
-                        .mapKey {
-                            display: none;
-                        }
-                        @include media(tablet){
-                            margin: 0 15px;
-                            width: 650px;  
-                            .mapKey {
-                                display: block;
-                            }                            
-                        }
-                        @include media(mediumDesktop){
-                            margin: 0 15px;
-                            width: 750px;
-                            .mapKey {
-                                display: block;
-                            }                                
-                        }         
-                        @include media(largeDesktop){
-                            margin: 0 15px;
-                            width: 900px;
-                            .mapKey {
-                                display: block;
-                            }                                
-                        }                     
-            }
-        }
+                @import "layout/selectRoutes";
+                @import "layout/countDown";
+                @import "layout/mapArea";
+            }//End content
+            @import "layout/footer";
+        }  
     }
 }
