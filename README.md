@@ -1,6 +1,10 @@
  MBTA Bus Locator
  - Uses the XML feeds from NextBus (http://www.nextbus.com/) and the Google Maps API.
 
+Version 1.4
+ - Various UI improvements.
+ - Added ability to zoom into selected stop.
+
  Version 1.3
   - Fixed JSON for direction and predictions.
 
