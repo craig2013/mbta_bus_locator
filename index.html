@@ -9,8 +9,8 @@
 	<title>MBTA Bus Locator</title>
 	<meta name="description" content="Get MBTA bus times for your stop."/>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-	<script src="/js/modernizr-2.8.3.js"></script>
-	<link rel="stylesheet" href="/css/styles.min.css?v=1.01"/>
+	<script src="/js/libs/modernizr-2.8.3.js"></script>
+	<link rel="stylesheet" href="/css/styles.css"/>
     </head>
     <body>
 	<div class="container">
@@ -20,87 +20,116 @@
 		<main>
 			<div class="loading">Loading...</div>
 			<div class="content">
-				<form id="routes" name="routes" class="selectRoutes">
+				<p>Find out when the next bus is coming at your stop by selecting a route, direction, and then the stop.</p>
+				<form class="routeInfo">
 					<div class="routesAvailable">
-						<label class="form-label" for="route_select">Routes:</label>
-						<select class="form" id="route_select" name="route_select">
+						<label  for="route_select chosen-select">Routes:</label>
+						<select class="form"  id="route_select" name="route_select">
 							<option value="0" selected="selected">Select a route</option>
 						</select>
-						<button type="button" class="btn btn-default getRouteBtn">Show Route Stops</button>
-						<div class="options resetRoute">
-							<a href="#" class="resetOptionsBtn">Reset Options</a>
-						</div>
-					</div>
-					<div class="routeStops">
-						<label class="form-label" for="stop_select">Stops:</label>
-						<select class="form" id="stop_select" name="stop_select">
-							<option value="0">Select a stop</option>
-						</select>
-						<button type="button" class="btn btn-default getDirectionBtn">Get Direction Info</button>
-						<div class="options zoomToStop">
-							Options:  
-							<a href="#" class="zoomInToStopBtn">Zoom In</a> | 
-							<a href="#" class="zoomOutStopBtn">Zoom Out</a>
-						</div>		      
+						<button type="button" class="btn btn-default" id="getRouteDirections">Show Route Directions</button>	
 					</div>
 					<div class="routeDirection">
-						<label class="form-label" for="direction_select">Direction:</label>
+						<label for="direction_select">Direction:</label>
 						<select class="form" id="direction_select" name="direction_select">
 							<option value="0">Select a direction</option>
 						</select>
-						<button type="button" class="btn btn-default showArivalTimeBtn">Show Arival Time</button>		      
-					</div>
-				</form>
-				<div class="countDown">
-					<div class="busCountDown">
-						<p class="busTime">The next bus will arive in <span class="minutes_until"></span> minute(s).</p>
-						<p class="busArriving">Your bus is now arriving.</p>
-					</div>
-				</div>
-				<div class="showMap">
-					<a  href="#" class="showMapBtn">Show Map</a>
-				</div>
-				<div class="mapArea">
-					<div id="map_canvas"></div>
-				</div>
-			</div>
+						<button type="button" class="btn btn-default" id="getDirectionStops">Show Route Stops</button>		      
+					</div>						
+					<div class="routeStops">
+						<label  for="stop_select">Stops:</label>
+						<select class="form" id="stop_select" name="stop_select">
+							<option value="0">Select a stop</option>
+						</select>
+						<button type="button" class="btn btn-default" id="showArivalTime">Show Bus Arival Time</button>	      
+					</div>									
+				</form> <!-- /.routeInfo -->
+				<div class="bus-countdown-container">
+					<div class="bus-predictions">
+						<h1>Bus Arival Time(s):</h1>
+						<div class="next-bus-time">
+							<span class="minutes"></span>
+							<span class="disclaimer"> *</span>
+							<div class="next-bus-arriving">Your bus is now arriving.</div>
+						</div>
+						<div class="second-bus-time">
+							<span class="minutes"></span>
+							<span class="disclaimer"> *</span>
+						</div>		
+						<div class="third-bus-time">
+							<span class="minutes"></span>
+							<span class="disclaimer"> *</span>
+						</div>											
+						<div class="disclaimer-text">*Vehicle has not yet departed terminal. Actual departure time is subject to change.</div>	
+					</div> <!-- /.bus-predictions -->
+					<div class="no-bus-predictions">
+						No bus predictions currently.
+					</div>							
+				</div> <!-- /.bus-countdown-container -->
+			</div> <!-- /.content -->
 		</main>
 		<footer>
-			<div class="mapKey">
+			<!--div class="mapKey">
 				<h3>Map Key:</h3>
-				<p><img src="images/red_stop.png" alt="Bus Stop Icon"/> = Bus stop.  Mouse over icon for bus stop name.</p>
-				<p><img src="images/marker_icon.png" alt="Bus Icon"/> = Buses currently on route.</p>
-			</div>
+				<p><img src="/img/red_stop.png" alt="Bus Stop Icon"/> = Bus stop.  Mouse over icon for bus stop name.</p>
+				<p><img src="/img/marker_icon.png" alt="Bus Icon"/> = Buses currently on route.</p>
+			</div-->
 			<div class="about">
 				<p>
 					<h3>About this service:</h3>
-					This service relies on data from the <a href="http://www.nextbus.com" target="_blank">Nextbus</a> XML feeds for the <a href="http://www.mbta.com/" target="_blank">MBTA</a>.
-					The bus icon markers being displayed on the map updates it's location every 10 seconds due to MBTA policy on accessing the data.
-					The accuracy of the data cannot be guranteed.
+					This service relies on data from the <a href="http://www.nextbus.com" target="_blank">Nextbus</a> XML feeds API for the <a href="http://www.mbta.com/" target="_blank">MBTA</a>.
+					This app is using Backbone.js for a front end and a PHP wrapper for the backend to convert the XML feeds to JSON. I've also written my CSS using SASS.  The source code can be found on my Github page.
+					<!--The bus icon markers being displayed on the map updates it's location every 10 seconds due to MBTA policy on accessing the data.-->
 				</p>			
-			</div>    
+				<p>The accuracy of the data cannot be guranteed.</p>
+			</div>   
+			<div class="bookmark-text">
+				You can now bookmark your stop and come back to it later.
+			</div>
 		</footer>
-	</div><!-- container -->
-	<script type="text/template" id="routes-template">
-		<% _.each(routes, function(routes){ %>
-			<option value="<%- routes.attributes.tag %>" title="<%- routes.attributes.tag %>"><%- routes.attributes.title %></option>
-		<% }); %>
+	</div><!-- /.container -->
+
+	<!-- Begin Underscore/Backbone templates -->
+	<script type="text/template" id="tpl-routes">
+		<option value="<%= tag %>"><%= title %></option>
 	</script>
-	<script type="text/template" id="stops-template">
-		<% _.each(stops, function(stops){ %>
-			<option value="<%- stops.attributes.tag %>" title="<%- stops.attributes.tag %>" data-stopLat="<%- stops.attributes.lat %>" data-stopLon="<%- stops.attributes.lon %>"><%- stops.attributes.title %></option>
-		<% }); %>
+
+	<script type="text/template" id="tpl-route-direction">
+		<option value="<%= dirTag %>"><%= directionText %></option>
 	</script>
-	<script type="text/template" id="direction-template">
-		<% _.each(directions, function(directions){ %>
-			<option value="<%- directions.direction %>" title="<%- directions.direction %>"><%- directions.direction %></option>	
-		<% }); %>
-	</script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
+
+	<script type="text/template" id="tpl-route-stops">
+		<option value="<%= dirTag %>" data-stopId="<%= stopId %>"><%= title %></option>
+	</script>	
+
+	<script type="text/template" id="tpl-bus-minutes">
+		<%= busMinutes %>
+	</script>	
+	<!-- End Underscore/Backbone templates -->
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.js"></script>
+	<script>window.jQuery || document.write('<script src="/js/libs/jquery-1.9.1.min.js"><\/script>')</script>
 	<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCpljpAf9iuxW7gj2YZZlaS9o4e3oTBgp0&amp;sensor=false"></script>
-	<script src="/js/underscore-1.7.0.js"></script>
-	<script src="/js/maps.js?v=1.0008"></script>
-	<!--script src="/js/maps.min.js?ver=1.0008"></script-->
+	<script src="/js/libs/underscore-1.7.0.js"></script>
+	<script src="/js/libs/backbone-1.1.2.js"></script>
+	<script src="/js/libs/chosen.jquery.js"></script>
+	<script src="/js/app.js"></script>
+	<script src="/js/models/busRoutes.js"></script>
+	<script src="/js/models/busRouteDirections.js"></script>
+	<script src="/js/models/busRouteStops.js"></script>
+	<script src="/js/models/busCountdown.js"></script>
+	<script src="/js/collections/busRoutes.js"></script>
+	<script src="/js/collections/busRouteDirections.js"></script>
+	<script src="/js/collections/busRouteStops.js"></script>
+	<script src="/js/collections/busCountdown.js"></script>
+	<script src="/js/controllers/showBusRoutes.js"></script>
+	<script src="/js/controllers/showBusRouteDirections.js"></script>
+	<script src="/js/controllers/showBusRouteStops.js"></script>
+	<script src="/js/controllers/showBusCountdown.js"></script>
+	<script src="/js/views/busRoutes.js"></script>
+	<script src="/js/views/busRouteDirections.js"></script>
+	<script src="/js/views/busRouteStops.js"></script>
+	<script src="/js/views/busCountdown.js"></script>
+	<script src="/js/router.js"></script>
     </body>
-</html>
+</html> 

@@ -90,45 +90,9 @@ return 0;
 */
 
 		if (isset($newJSON->predictions)) {
-			if (isset($newJSON->predictions->attributes->stopTag) && isset($newJSON->predictions->attributes->routeTitle)) {
-				if ($newJSON->predictions->attributes->stopTag === $stopId && $newJSON->predictions->attributes->routeTitle === $routeTitle) {
-					if (isset($newJSON->predictions->direction) && (!is_array($newJSON->predictions->direction))) {
-						if ($newJSON->predictions->direction->attributes->title===$direction) {
-							if (is_array($newJSON->predictions->direction->prediction)) {
-								$newJSONString = $newJSON->predictions->direction->prediction[0];
-							} else {
-								$newJSONString = $newJSON->predictions->direction->prediction;
-							}
-							$newJSONString  = utf8_encode(json_encode($newJSONString));
-							$this->setPredictions($newJSONString); 						
-						}
-					} elseif (isset($newJSON->predictions->direction) && (is_array($newJSON->predictions->direction))) {
-						foreach ($newJSON->predictions->direction as $key => $value) {
-							if (isset($value->attributes->title) && $value->attributes->title===$direction) {
-								if (is_array($value->prediction)) {
-									$newJSONString = $value->prediction[0]->attributes;
-								} else {
-									$newJSONString = $value->prediction->attributes;
-								}
-							}
-						}
-							$newJSONString  = utf8_encode(json_encode($newJSONString));
-							$this->setPredictions($newJSONString); 
-					}
-				}
-			} elseif (isset($newJSON->predictions[1]->attributes->stopTag) && isset($newJSON->predictions[1]->attributes->routeTitle)) {
-				if ($newJSON->predictions[1]->attributes->stopTag === $stopId && $newJSON->predictions[1]->attributes->routeTitle === $routeTitle) {
-					if ($newJSON->predictions[1]->direction->attributes->title===$direction) {
-						if (is_array($newJSON->predictions[1]->direction->prediction)) {
-							$newJSONString = $newJSON->predictions[1]->direction->prediction[0];
-						} else {
-							$newJSONString = $newJSON->predictions[1]->direction->prediction;
-						}
-						$newJSONString  = utf8_encode(json_encode($newJSONString));
-						$this->setPredictions($newJSONString); 	
-					}
-				}				
-			}
+			$newJSONString = json_encode($newJSON);
+
+			$this->setPredictions($newJSONString); 
 		}
 	}
 }

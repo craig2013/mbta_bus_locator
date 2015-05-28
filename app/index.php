@@ -15,13 +15,15 @@
 	$direction = (array_key_exists('direction',$_GET))?$_GET['direction']:'';
 	$routeTitle = (array_key_exists('routeTitle',$_GET))?$_GET['routeTitle']:'';
 
-	$url = ($command === 'direction')?$url.'?command=predictions&a='.$agency:$url.'?command='.$command.'&a='.$agency;
 
-	if (strlen($route)) {
+	$url = ( ($command === 'direction') || ($command === 'directionStops') )?$url.'?command=routeConfig&a='.$agency : $url.'?command='.$command.'&a='.$agency;
+	//echo $url.'<br/>';
+
+	if ( strlen($route) ) {
 	    $url = $url.'&r='.$route;
 	}
 
-	if ((strlen($stop)) && ($command == 'predictions' || $command === 'direction')) {
+	if ( (strlen($stop)) && ($command == 'predictions' || $command === 'direction')) {
 	    $url = $url.'&stopId='.$stop;
 	}
 
@@ -35,23 +37,29 @@
 	$toJSON->convertXMLToJSON();
 	$json = $toJSON->getJSON();
 
-	if ($command === 'direction') {
-		$directions = new directionService();
-		$directions->setJSON($json);
-		$directions->decodeJSON();
-		$directions->getDirections();
-		$json = $directions->getDirection();
+	//Return only the direction objects for a route if direction is requested.
+	if ( $command === 'direction' ) {
+		$json = json_decode($json);
+		$json = $json->route->direction;
+		$json = json_encode($json);
 	}	
 
-	if ($command==='predictions') {
-		$predictions = new predictionService();
-		$predictions->setJSON($json);
-		$predictions->setDirection($direction);
-		$predictions->setRouteTitle($routeTitle);
-		$predictions->setStopId($stop);
-		$predictions->createPredictionJSON();
-		$predictions->getPredictionJSON();
-		$json = $predictions->getPredictions();
+	//Return just the route object and the direction stops if directionStops is requested.
+	if ( $command === 'directionStops' ) {
+		$json = json_decode($json);
+		$routeStops = $json->route->stop;
+		$directionStops = '';
+
+		foreach ( $json->route->direction as $key => $value ) {
+			if ( $value->attributes->tag === $direction ) {
+				$directionStops = $value;			
+			}
+		}
+
+		$jsonObject = array(array('routeStops'=>$routeStops,'directionStops'=>$directionStops));
+
+		$json = json_encode($jsonObject);
+
 	}
 	
 	print_r($json);

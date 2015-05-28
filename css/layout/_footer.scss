@@ -1,5 +1,27 @@
 footer {
-            .mapKey {
+            display: block;
+            margin: 0 auto;
+            width: 100%;
+            @include media (tablet) {
+                width: 730px;
+            }
+            @include media (mediumDesktop) {
+                width: 850px;
+            }
+            @include media (largeDesktop) {
+                width: 940px; 
+            }            
+            .about {
+                p {
+                    margin: 10px 0;
+                }
+            }
+            .bookmark-text {
+                font-weight: bold;
+                margin: 10px 0 0 0;
+            }
+
+            /*.mapKey {
                 display: none;
             }
             @include media (tablet) {
@@ -22,5 +44,8 @@ footer {
                 .mapKey {
                     display: block;
                 }                                
-            }                     
+            } */
+
+
+            @include clearfix();             
 }//End footer

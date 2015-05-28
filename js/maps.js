@@ -77,12 +77,13 @@
                 dataType: 'json',
                 success: function (response) {
                     if (typeof response.route === 'object') {
-                        var centerLat = response.route.attributes.latMin,
-                            centerLon = response.route.attributes.lonMin,
-                            routeOptions = {
+                        var centerLat = response.route.attributes.latMin;
+                        var centerLon = response.route.attributes.lonMin;
+                        var routeOptions = {
                                 'centerLat': centerLat,
                                 'centerLon': centerLon
-                            };
+                        };
+
                         busLocator.settings.routeTitle = response.route.attributes.title;
                         busLocator.setRouteStopList(response.route.stop);
                         busLocator.plotRouteStops(response.route.stop, routeOptions);
@@ -112,9 +113,9 @@
         },
 
         plotRouteStops: function (stopsArr, routeOptionsObj) {
-            var image = 'images/red_stop.png',
-                centerRoute = new google.maps.LatLng(routeOptionsObj.centerLat, routeOptionsObj.centerLon),
-                mapOptions = {};
+            var image = 'images/red_stop.png';
+            var centerRoute = new google.maps.LatLng(routeOptionsObj.centerLat, routeOptionsObj.centerLon);
+            var mapOptions = {};
 
             mapOptions = {
                 zoom: 13,
@@ -131,8 +132,8 @@
                             'title': stopsArr[i].attributes.title,
                             'lat': stopsArr[i].attributes.lat,
                             'lon': stopsArr[i].attributes.lon
-                        },
-                        myLatLng = new google.maps.LatLng(stopObj.lat, stopObj.lon);
+                    };
+                    var myLatLng = new google.maps.LatLng(stopObj.lat, stopObj.lon);
 
                     busLocator.settings.routeStops = [];
 
@@ -164,11 +165,11 @@
                         if (_.isArray(responseObj)) {
                             for (var i = 0; i < responseObj.length; i++) {
                                 if (!isNaN(responseObj[i].attributes.lat) && !isNaN(responseObj[i].attributes.lon)) {
-                                    var lat = responseObj[i].attributes.lat,
-                                        lon = responseObj[i].attributes.lon,
-                                        busId = responseObj[i].attributes.id,
-                                        myLatLon = new google.maps.LatLng(lat, lon),
-                                        bus = {};
+                                    var lat = responseObj[i].attributes.lat;
+                                    var lon = responseObj[i].attributes.lon;
+                                    var busId = responseObj[i].attributes.id;
+                                    var myLatLon = new google.maps.LatLng(lat, lon);
+                                    var bus = {};
 
                                     bus = new google.maps.Marker({
                                         position: myLatLon,
@@ -185,11 +186,11 @@
                             }
                         } else {
                             if (!isNaN(responseObj.attributes.lat) && !isNaN(responseObj.attributes.lon)) {
-                                var lat = responseObj.attributes.lat,
-                                    lon = responseObj.attributes.lon,
-                                    busId = responseObj.attributes.id,
-                                    myLatLon = new google.maps.LatLng(lat, lon),
-                                    bus = {};
+                                var lat = responseObj.attributes.lat;
+                                var lon = responseObj.attributes.lon;
+                                var busId = responseObj.attributes.id;
+                                var myLatLon = new google.maps.LatLng(lat, lon);
+                                var bus = {};
 
                                 bus = new google.maps.Marker({
                                     position: myLatLon,
@@ -230,54 +231,56 @@
                 success: function (response) {
                     if (typeof response === 'object') {
                         if (_.isArray(response.vehicle)) {
-                            var lastTime = response.lastTime.attributes.time,
-                                responseObj = response.vehicle;
+                            var lastTime = response.lastTime.attributes.time;
+                            var responseArray = response.vehicle;
 
-                            for (var i = 0; i < responseObj.length; i++) {
-                                var lat = '',
-                                    lon = '',
-                                    busId = '',
-                                    lastTime = '',
-                                    bus = '',
-                                    updatedBus = '',
-                                    busObj = '',
-                                    vehicleObj = busLocator.settings.vehicles;
+                            for (var i = 0; i < responseArray.length; i++) {
+                                var lat = '';
+                                var lon = '';
+                                var busId = '';
+                                var lastTime = '';
+                                var bus = '';
+                                var updatedBus = '';
+                                var busObj = '';
+                                var vehicleObj = busLocator.settings.vehicles;
 
-                                if (!isNaN(responseObj[i].attributes.lat) && !isNaN(responseObj[i].attributes.lon)) {
-                                    lat = responseObj[i].attributes.lat;
-                                    lon = responseObj[i].attributes.lon;
-                                    busId = responseObj[i].attributes.id;
+                                if (!isNaN(responseArray[i].attributes.lat) && !isNaN(responseArray[i].attributes.lon)) {
+                                    lat = responseArray[i].attributes.lat;
+                                    lon = responseArray[i].attributes.lon;
+                                    busId = responseArray[i].attributes.id;
+
+                                    $.map(vehicleObj, function (obj, i) {
+                                        if (obj.busId == busId) {
+                                            obj.marker.setPosition(new google.maps.LatLng(lat, lon));
+                                        }
+                                    });                                    
                                 }
-
-                                $.map(vehicleObj, function (obj, i) {
-                                    if (obj.busId == busId) {
-                                        obj.marker.setPosition(new google.maps.LatLng(lat, lon));
-                                    }
-                                });
-
                             }
+
                         } else {
-                            var responseObj = response.vehicle,
-                                lat = '',
-                                lon = '',
-                                busId = '',
-                                lastTime = '',
-                                bus = '',
-                                updatedBus = '',
-                                busObj = '',
-                                vehicleObj = busLocator.settings.vehicles;
+                            var responseObj = (_.isObject(response.vehicle)) ? response.vehicle : {};
+                            var lat = '';
+                            var lon = '';
+                            var busId = '';
+                            var lastTime = '';
+                            var bus = '';
+                            var updatedBus = '';
+                            var busObj = '';
+                            var vehicleObj = busLocator.settings.vehicles;
 
-                            if (!isNaN(responseObj.attributes.lat) && !isNaN(responseObj.attributes.lon)) {
-                                lat = responseObj.attributes.lat;
-                                lon = responseObj.attributes.lon;
-                                busId = responseObj.attributes.id;
-                            }
-
-                            $.map(vehicleObj, function (obj, i) {
-                                if (obj.busId === busId) {
-                                    obj.marker.setPosition(new google.maps.LatLng(lat, lon));
+                            if (responseObj.attributes.lat !== undefined && responseObj.attributes.lon !== undefined) {
+                                if (!isNaN(responseObj.attributes.lat) && !isNaN(responseObj.attributes.lon)) {
+                                    lat = responseObj.attributes.lat;
+                                    lon = responseObj.attributes.lon;
+                                    busId = responseObj.attributes.id;
+                                    $.map(vehicleObj, function (obj, i) {
+                                        if (obj.busId === busId) {
+                                            obj.marker.setPosition(new google.maps.LatLng(lat, lon));
+                                        }
+                                    });                                
                                 }
-                            });
+                            }
+                            
                         }
                     }
                 }
@@ -292,36 +295,54 @@
                 type: 'GET',
                 url: '../app/?command=direction&agency=' + busLocator.settings.agencyTag + '&stopId=' + busLocator.settings.selectedStop.stop,
                 dataType: 'json',
-                success: function (response) {
-                        if (typeof response === 'object' && typeof response.directions.error === 'undefined') {
-                            var predictionsArr = response.directions,
-                                template = '',
-                                templateData = '';
+                success: function (response) { 
+                    var predictionsArray = [];
+                    var templateData = [];
+                    var template = {};
 
-                            $('#direction_select option:gt(0)').remove();
+                    $('#direction_select option:gt(0)').remove();
 
-                            _.templateSettings.variable = 'directions';
+                    //console.log(response)
+                    
+                    if (typeof response === 'object') {
+                            if (_.isObject(response.predictions.direction) && _.isObject(response.predictions.direction.attributes)) {
+                                predictionsArray.push(response.predictions.direction.attributes.title);
+                            } else if (_.isArray(response.predictions) && response.predictions.length) {
+                                _.each(response.predictions, function(prediction) {
+                                    if (typeof prediction.attributes.dirTitleBecauseNoPredictions === 'string') {//No predictions
+                                        return;
+                                    } else if (_.isArray(prediction.direction)) {
+                                        _.each(prediction.direction, function(direction) {
+                                            predictionsArray.push(direction.attributes.title);
+                                        }); 
+                                    } else if (_.isObject(prediction.direction.attributes) && (typeof prediction.direction.attributes.title === 'string')) {
+                                        predictionsArray.push(prediction.direction.attributes.title);
+                                    }
+                                });
+                            } else if (_.isObject(response.predictions.attributes)) {
+                                if (response.predictions.attributes.dirTitleBecauseNoPredictions) {
+                                    alert('Please choose another stop.  No bus predictions at this time.');
+                                }
+                            }
+                    }
 
-                            template = _.template($('#direction-template').html());
+                    _.templateSettings.variable = 'directions';
 
-                            templateData = predictionsArr;
+                    template = _.template($('#direction-template').html());
 
-                            $('#direction_select').append(template(templateData));
+                     templateData = predictionsArray;
 
-                            $('.container .content #routes .routeDirection').show();
+                     $('#direction_select').append(template(templateData));
 
-                        } else {
-                            $('#direction_select option:gt(0)').remove();
-                            $('.container .content #routes .routeDirection').hide();
-                            alert(response.directions.error);
-                        }
+                     $('.container .content #routes .routeDirection').show();
+
                     } //end success
             });
         },
 
         updateNextBusTime: function () {
-            var minutes = '',
-                seconds = '';
+            var minutes = '';
+            var seconds = '';
             $.ajax({
                 async: false,
                 cache: false,
@@ -329,28 +350,48 @@
                 url: '../app/?command=predictions&agency=' + busLocator.settings.agencyTag + '&stopId=' + busLocator.settings.selectedStop.stop + '&direction=' + encodeURIComponent(busLocator.settings.selectedDirection) + '&routeTitle=' + encodeURIComponent(busLocator.settings.routeTitle), //'../app/?command=predictions&agency='+busLocator.settings.agencyTag+'&stopId='+busLocator.settings.selectedStop
                 dataType: 'json',
                 success: function (response) {
+                    var minutes = '';
+                    var seconds = '';
+
                     if (typeof response === 'object') {
-                        minutes = (typeof response.minutes === 'string') ? response.minutes : response.attributes.minutes;
-                        seconds = (typeof response.seconds === 'string') ? response.seconds : response.attributes.seconds;
-                    }
-                    busLocator.settings.displayNextTime = true;
-                    if (!isNaN(minutes)) {
-                        if (minutes > 0) {
-                            $('.container .countDown .busCountDown .busTime .minutes_until').empty().text(minutes);
-                            $('.container .countDown .busCountDown  .busArriving').hide();
-                            $('.container .countDown,.container .countDown .busCountDown,.container .countDown .busCountDown  .busTime').show();
-                        } else if (minutes === 0 && seconds >= 0) {
-                            $('.container .countDown .busCountDown  .busTime').hide();
-                            $('.container .countDown .busCountDown  .busArriving').show();
+                        if (_.isArray(response.predictions)) {
+                            _.each(response.predictions, function(element, index) {
+                                if (_.isObject(element.direction)) {
+                                    if (_.isObject(element.direction.prediction) && _.isObject(element.direction.prediction.attributes)) {
+                                        minutes = (typeof element.direction.prediction.attributes.minutes === 'string') ? element.direction.prediction.attributes.minutes : minutes;
+                                        seconds = (typeof element.direction.prediction.attributes.seconds === 'string') ? element.direction.prediction.attributes.seconds : seconds;
+                                    } else if (_.isArray(element.direction.prediction) && _.isObject(element.direction.prediction[0].attributes)) {
+                                         minutes = (typeof element.direction.prediction[0].attributes.minutes === 'string') ? element.direction.prediction[0].attributes.minutes : minutes;
+                                         seconds = (typeof element.direction.prediction[0].attributes.seconds === 'string') ? element.direction.prediction[0].attributes.seconds : seconds;                                       
+                                    }
+                                } 
+                            });
+                        } else if (_.isObject(response.predictions)) {
+                            if (_.isObject(response.predictions.direction.prediction) && _.isObject(response.predictions.direction.prediction.attributes) && !_.isArray(response.predictions.direction.prediction)) {
+                                        minutes = (typeof response.predictions.direction.prediction.attributes.minutes === 'string') ? response.predictions.direction.prediction.attributes.minutes : minutes;
+                                        seconds = (typeof response.predictions.direction.prediction.attributes.seconds === 'string') ? response.predictions.direction.prediction.attributes.seconds : seconds;                                
+                            } else if (_.isArray(response.predictions.direction.prediction)) {
+                                         minutes = (typeof response.predictions.direction.prediction[0].attributes.minutes === 'string') ? response.predictions.direction.prediction[0].attributes.minutes : minutes;
+                                        seconds = (typeof response.predictions.direction.prediction[0].attributes.seconds === 'string') ? response.predictions.direction.prediction[0].attributes.seconds : seconds;                                 
+                            }
+                        } 
+
+                        if (!isNaN(minutes)) {
+                            busLocator.settings.displayNextTime = true;
+
+                            if (minutes>0) {
+                                $('.container .countDown .busCountDown .busTime .minutes_until').empty().text(minutes);
+                                $('.container .countDown .busCountDown  .busArriving').hide();
+                                $('.container .countDown,.container .countDown .busCountDown,.container .countDown .busCountDown  .busTime').show();
+                            } else if (minutes === 0 && seconds >= 0) {
+                                $('.container .countDown .busCountDown  .busTime').hide();
+                                $('.container .countDown .busCountDown  .busArriving').show();                                           
+                            } 
                         } else {
-                            $('.container .countDown .busCountDown  .busTime').hide();
-                            $('.container .countDown .busCountDown  .busArriving').show();
-                        }
-                    } else {
-                        $('.container .countDown .busCountDown').hide();
-                        console.log('No bus information.')
+                            busLocator.settings.displayNextTime = false;
+                        }                        
                     }
-                }
+                }//end success
             });
         },
 

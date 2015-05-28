@@ -1,25 +1,44 @@
-@import "includes/reset";
+
+@import "includes/bourbon/bourbon";
+@import "includes/config";
+@import "includes/foundation";
 @import "includes/mixins";
 @import "includes/base-styles";
 @import "includes/elements";
+@import "includes/chosen";
  
-html {
-    body {
-        font-family: arial, helvetica, sans-serif;
-        font-size: 0.85em;
-        font-size: 0.85em;
-        .container {    
-            margin: 10px 0 0 0;
-            header {
-                margin: 0 auto 15px auto;
-                text-align: center;
+
+body {
+    font-family: arial, helvetica, sans-serif;
+    font-size: 0.85em;
+    font-size: 0.85em;
+    .container {    
+        margin: 10px 0 0 0;
+        header {
+            margin: 0 auto 15px auto;
+            text-align: center;
+        }
+        .content {
+            display: none;
+            margin: 0 auto;
+            text-align: center;
+            width: 100%;
+            @include media (tablet) {
+                width: 730px;
             }
-            .content {
-                @import "layout/selectRoutes";
-                @import "layout/countDown";
-                @import "layout/mapArea";
-            }//End content
-            @import "layout/footer";
-        }  
-    }
+            @include media (mediumDesktop) {
+                width: 850px;
+            }
+            @include media (largeDesktop) {
+                width: 940px; 
+            }
+            @import "layout/selectRoutes";
+            @import "layout/countDown";
+            @import "layout/mapArea";
+        }//End content
+        footer {
+            display: none;
+        }
+        @import "layout/footer";
+    }  
 }

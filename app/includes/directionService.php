@@ -49,49 +49,23 @@ class directionService {
 		$newJSON = $this->getNewJSON();
 		$newJSONString = '';
 		$i = 0;
-		/*
-		echo '<pre>';
-		//var_dump($newJSON);
-		echo ($newJSON->predictions->attributes->dirTitleBecauseNoPredictions);
+		
+		/*echo '<pre>';
+		var_dump($newJSON);
 		echo '</pre>';
 		return 0;*/
-		if (isset($newJSON->predictions->attributes->dirTitleBecauseNoPredictions)) {
-			
-		} else {
-			if (is_object($newJSON->predictions) && is_array($newJSON->predictions->direction)) {
-				$directionArray = $newJSON->predictions->direction;
-				$newJSONString = '{"directions":[';
-				foreach ($directionArray as $key => $value) {
-					if ($i>=1) {
-						$newJSONString  = $newJSONString.',';
-					}
-					$newJSONString  = $newJSONString.'{';
-					$newJSONString  = $newJSONString.'"direction":"';
-					$newJSONString  = $newJSONString.$value->attributes->title;
-					$newJSONString  = $newJSONString.'"}';
-					$i++;
-				}	
-				$newJSONString  = $newJSONString.']}';
-			} else {
-				if (isset($newJSON->predictions->direction->attributes->title) && strlen($newJSON->predictions->direction->attributes->title)) {
-					$newJSONString = '{"directions":[';
-					$newJSONString  = $newJSONString.'{';
-					$newJSONString  = $newJSONString.'"direction":"';
-					$newJSONString  = $newJSONString.$newJSON->predictions->direction->attributes->title;
-					$newJSONString  = $newJSONString.'"}';
-					$newJSONString  = $newJSONString.']}';
-				} elseif (isset($newJSON->predictions[1]->direction->attributes->title) && strlen($newJSON->predictions[1]->direction->attributes->title)) {
-					$newJSONString = '{"directions":[';
-					$newJSONString  = $newJSONString.'{';
-					$newJSONString  = $newJSONString.'"direction":"';
-					$newJSONString  = $newJSONString.$newJSON->predictions[1]->direction->attributes->title;
-					$newJSONString  = $newJSONString.'"}';
-					$newJSONString  = $newJSONString.']}';			
-				} 
-			}
-		}
 
-		$this->setDirection($newJSONString);	
+		if (isset($newJSON->Error)){
+			$newJSONString = '{"directions":[';
+			$newJSONString  = $newJSONString.'{';
+			$newJSONString  = $newJSONString.'"error":"';
+			$newJSONString  = $newJSONString.$newJSON->Error;
+			$newJSONString  = $newJSONString.'"}';
+			$newJSONString  = $newJSONString.']}';
+		} else {
+			$newJSONString = json_encode($newJSON);
+			$this->setDirection($newJSONString);	
+		}
 	}
 }
 ?>
