@@ -1,5 +1,5 @@
- #MBTA Bus Locator
- - Uses the XML feeds from NextBus (http://www.nextbus.com/) and the Google Maps API.
+#MBTA Bus Locator
+ - Uses the XML feeds from NextBus (http://www.nextbus.com/) to display MBTA bus predictions.
 
 ##Version History
 
