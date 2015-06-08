@@ -25,7 +25,7 @@
  - Using Underscore.js templates.
  - Using SASS for the CSS.
 
-######Version 1.1
+ ######Version 1.1
  - Plots all bus stops for routes on the map.
  - Plots all buses currently on the route.
  - Updates bus locations every 10 seconds when it changes.
