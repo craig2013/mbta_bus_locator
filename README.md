@@ -1,7 +1,10 @@
 #MBTA Bus Locator
- - Uses the XML feeds from NextBus (http://www.nextbus.com/) to display MBTA bus predictions.
+ - Uses the XML feeds from NextBus (http://www.nextbus.com/) to display MBTA bus predictions.  
 
 ##Version History
+
+######Version 2.0.1
+- Made various improvements.
 
 ######Version 2.0.0
 - Switched to using the Backbone framework.
@@ -14,13 +17,13 @@
  - Added ability to zoom into selected stop.
 
  ######Version 1.3
-  - Fixed JSON for direction and predictions.
+ - Fixed JSON for direction and predictions.
 
  ######Version 1.2
-  - Converts XML feeds to JSON.
-  - Displays a countdown for when the next bus will arive at a stop.
-  - Using Underscore.js templates.
-  - Using SASS for the CSS.
+ - Converts XML feeds to JSON.
+ - Displays a countdown for when the next bus will arive at a stop.
+ - Using Underscore.js templates.
+ - Using SASS for the CSS.
 
 ######Version 1.1
  - Plots all bus stops for routes on the map.
@@ -28,4 +31,4 @@
  - Updates bus locations every 10 seconds when it changes.
 
  ######Version 1.0
-  - Plots all bus stops for routes on the map. 
+ - Plots all bus stops for routes on the map. 

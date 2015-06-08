@@ -22,20 +22,22 @@ var app = app || {};
 		},
 
 		render: function(e) {
-			var self = this;
+			var busDirectionItems = {};
 			var busDirectionModel = this.model.models;
-			var busDirectionItems = this.getBusDirections(busDirectionModel);
-			
+			var self = this;
 
+			busDirectionItems = this.getBusDirections(busDirectionModel);
+			
 			this.$direction_select = $('#direction_select');
 
 			this.$direction_select.find('option:gt(0)').remove();
 			
-			if ( _.isArray(busDirectionItems.directions) ) {
+			if ( Array.isArray(busDirectionItems.directions) ) {
 				busDirectionItems = _.sortBy(busDirectionItems.directions, 'directionText');
-				_.each(busDirectionItems, function(obj) {
-					self.$direction_select.append(self.template(obj));
-				});
+
+				for ( var i = 0; i < busDirectionItems.length; i++ ) {
+					self.$direction_select.append(self.template(busDirectionItems[i]));
+				}
 			}
 			
 
@@ -72,23 +74,25 @@ var app = app || {};
 			var directionData = {
 				'directions': []
 			};
-
-
-			_.each(busDirections, function(obj) {
-				if ( app.functions.checkNested(obj, 'attributes',  'attributes') ) {
-					var directionsItem = {
+			
+			for ( var i = 0; i < busDirections.length; i++ ) {
+				var obj = busDirections[i];
+				if ( typeof obj.attributes === 'object' ) {
+					if ( typeof obj.attributes.attributes === 'object' ) {
+						var directionsItem = {
 						'dirTag': '',
-						'directionText': ''
-					};
+							'directionText': ''
+						};
 
-					directionsItem.dirTag = ( typeof obj.attributes.attributes.tag === 'string' )? obj.attributes.attributes.tag : '';
-					directionsItem.directionText = ( typeof obj.attributes.attributes.title === 'string' )? obj.attributes.attributes.title : '';
+						directionsItem.dirTag = ( typeof obj.attributes.attributes.tag === 'string' )? obj.attributes.attributes.tag : '';
+						directionsItem.directionText = ( typeof obj.attributes.attributes.title === 'string' )? obj.attributes.attributes.title : '';
 
-					if ( (typeof directionsItem.directionText === 'string' && directionsItem.directionText.length) && (typeof directionsItem.dirTag === 'string' && directionsItem.dirTag.length) ) {
-						directionData.directions.push(directionsItem);
-					}					
-				}
-			});
+						if ( (typeof directionsItem.directionText === 'string' && directionsItem.directionText.length) && (typeof directionsItem.dirTag === 'string' && directionsItem.dirTag.length) ) {
+							directionData.directions.push(directionsItem);
+						}
+					}
+				}	
+			}
 
 			return directionData;
 
@@ -108,8 +112,11 @@ var app = app || {};
 			if ( this.$direction_select.length ) {
 				this.$direction_select.find('option:gt(0)').remove();
 			}
+			
 			$('.container main .content .routeInfo .routeDirection').hide();
-		            $(this.el).unbind();	
+
+		           this.$el.unbind();
+
 			app.defaults.directionText = 0;
 			app.defaults.directionVar = 0;	            
 		}

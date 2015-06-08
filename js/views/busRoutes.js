@@ -22,13 +22,15 @@ var app = app || {};
 		},
 
 		render: function(e) {
+			var routeModel = this.model.models[0];
 			var self = this;
 			this.$route_select = $('#route_select');
-			if (_.isObject(this.model.models[0])) {
-				if (this.$route_select.find('option').length<=1) {
-					_.each(this.model.models[0].attributes.route, function(busRoute) {
-						self.$route_select.append(self.template(busRoute.attributes));
-					});			
+
+			if ( typeof routeModel === 'object' ) {
+				if ( this.$route_select.find('option').length<=1 ) {
+					for ( var i = 0; i < routeModel.attributes.route.length; i++ ) {
+						self.$route_select.append(self.template(routeModel.attributes.route[i].attributes));
+					}			
 				}	
 				$('.container main .loading').hide();
 
@@ -55,8 +57,7 @@ var app = app || {};
 		},
 
 		close: function() {
-		            $(this.el).unbind();
-		            $(this.el).empty();			
+		            this.$el.unbind();		
 		}
 	});
 })();

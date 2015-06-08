@@ -12,32 +12,25 @@
 		}         
 		@include media (largeDesktop) {
 		    	margin: 0 10px 15px 10px;
-		}      
-		.next-bus-time {
-			font-size: 2.5em;
-			font-weight: bold;
-			.next-bus-arriving, 
-			.disclaimer {
-				display: none;
+		}     
+		.bus-times { 
+			.bus-time.next-bus-time {
+				font-size: 2.5em;
+				font-weight: bold;
+			}
+
+			.bus-time {
+				font-size: 1.5em;
+				.disclaimer,
+				.next-bus-arriving {
+					display: none;
+				}				
 			}
 		}
-
-		.second-bus-time, 
-		.third-bus-time {
-			font-size: 1.5em;
-		}
-		
-		.next-bus-time, 
-		.second-bus-time, 
-		.third-bus-time, 
-		.next-bus-arriving {
-			display: none;
-		}
-
 		.disclaimer-text {
 			display: none;
 			margin: 20px 0 0 0;
-		}
+		}		
 	}
 
 	.no-bus-predictions {

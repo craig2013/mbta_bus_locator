@@ -7,7 +7,6 @@ var app = app || {};
 	app.controller.showBusRoutes = function(routeId) {	
 		//Close all other active views if they are open.
 		if ( (typeof app.activeViews.busRouteDirections === 'object') && (typeof app.activeViews.busRouteDirections === 'function') ) {
-			console.log('app.activeViews.busRouteDirections');
 		    	app.activeViews.busRouteDirections.close();
 		    	app.activeViews.busRouteDirections = {};
 		    	delete app.activeViews.busRouteDirections;		

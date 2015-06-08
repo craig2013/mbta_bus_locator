@@ -695,20 +695,14 @@ body {
           @media (min-width: 1200px) {
             body .container .content .bus-countdown-container .bus-predictions {
               margin: 0 10px 15px 10px; } }
-          body .container .content .bus-countdown-container .bus-predictions .next-bus-time {
+          body .container .content .bus-countdown-container .bus-predictions .bus-times .bus-time.next-bus-time {
             font-size: 2.5em;
             font-weight: bold; }
-            body .container .content .bus-countdown-container .bus-predictions .next-bus-time .next-bus-arriving,
-            body .container .content .bus-countdown-container .bus-predictions .next-bus-time .disclaimer {
-              display: none; }
-          body .container .content .bus-countdown-container .bus-predictions .second-bus-time,
-          body .container .content .bus-countdown-container .bus-predictions .third-bus-time {
+          body .container .content .bus-countdown-container .bus-predictions .bus-times .bus-time {
             font-size: 1.5em; }
-          body .container .content .bus-countdown-container .bus-predictions .next-bus-time,
-          body .container .content .bus-countdown-container .bus-predictions .second-bus-time,
-          body .container .content .bus-countdown-container .bus-predictions .third-bus-time,
-          body .container .content .bus-countdown-container .bus-predictions .next-bus-arriving {
-            display: none; }
+            body .container .content .bus-countdown-container .bus-predictions .bus-times .bus-time .disclaimer,
+            body .container .content .bus-countdown-container .bus-predictions .bus-times .bus-time .next-bus-arriving {
+              display: none; }
           body .container .content .bus-countdown-container .bus-predictions .disclaimer-text {
             display: none;
             margin: 20px 0 0 0; }

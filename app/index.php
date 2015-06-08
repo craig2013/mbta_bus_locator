@@ -17,7 +17,7 @@
 
 
 	$url = ( ($command === 'direction') || ($command === 'directionStops') )?$url.'?command=routeConfig&a='.$agency : $url.'?command='.$command.'&a='.$agency;
-	//echo $url.'<br/>';
+	
 
 	if ( strlen($route) ) {
 	    $url = $url.'&r='.$route;
@@ -30,6 +30,8 @@
 	if ($command === 'vehicleLocations') {
 	    $url = $url.'&t=100000000000';
 	}	
+
+	//echo $url.'<br/>';
 
 	$toJSON = new XmlToJsonConverter();
 	$toJSON->setFeedURL($url);
@@ -51,9 +53,21 @@
 		$directionStops = '';
 
 		foreach ( $json->route->direction as $key => $value ) {
-			if ( $value->attributes->tag === $direction ) {
-				$directionStops = $value;			
+			/*echo '<pre>';
+			var_dump($value);
+			echo '</pre>';*/
+			if ( isset($value->attributes->tag) ) {
+				if ( $value->attributes->tag === $direction ) {
+					$directionStops = $value;			
+				}				
+			}  elseif ( isset($value->tag) ) {
+				if ( $value->tag === $direction ) {
+					$directionStops = $value;			
+				}					
 			}
+			/*if ( $value->attributes->tag === $direction ) {
+				$directionStops = $value;			
+			}*/
 		}
 
 		$jsonObject = array(array('routeStops'=>$routeStops,'directionStops'=>$directionStops));
