@@ -3,6 +3,9 @@
 
 ##Version History
 
+######Version 2.0.2
+- Made various bug fixes.
+
 ######Version 2.0.1
 - Made various improvements.
 

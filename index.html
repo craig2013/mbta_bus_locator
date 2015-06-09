@@ -63,23 +63,15 @@
 			</div> <!-- /.content -->
 		</main>
 		<footer>
-			<!--div class="mapKey">
-				<h3>Map Key:</h3>
-				<p><img src="/img/red_stop.png" alt="Bus Stop Icon"/> = Bus stop.  Mouse over icon for bus stop name.</p>
-				<p><img src="/img/marker_icon.png" alt="Bus Icon"/> = Buses currently on route.</p>
-			</div-->
 			<div class="about">
 				<p>
 					<h3>About this service:</h3>
 					This service relies on data from the <a href="http://www.nextbus.com" target="_blank">Nextbus</a> XML feeds API for the <a href="http://www.mbta.com/" target="_blank">MBTA</a>.
 					This app is using Backbone.js for a front end and a PHP wrapper for the backend to convert the XML feeds to JSON. I've also written my CSS using SASS.  The source code can be found on my Github page.
-					<!--The bus icon markers being displayed on the map updates it's location every 10 seconds due to MBTA policy on accessing the data.-->
-				</p>			
+				</p>	
+				<p><b>You can now bookmark your stop and come back to it later.</b></p>		
 				<p>The accuracy of the data cannot be guranteed.</p>
 			</div>   
-			<div class="bookmark-text">
-				You can now bookmark your stop and come back to it later.
-			</div>
 		</footer>
 	</div><!-- /.container -->
 
@@ -103,9 +95,8 @@
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
 	<script>window.jQuery || document.write('<script src="/js/libs/jquery-2.1.4.js"><\/script>')</script>
-	<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCpljpAf9iuxW7gj2YZZlaS9o4e3oTBgp0&amp;sensor=false"></script>
-	<script src="/js/libs/underscore-1.7.0.js"></script>
-	<script src="/js/libs/backbone-1.1.2.js"></script>
+	<script src="/js/libs/underscore-1.8.3.js"></script>
+	<script src="/js/libs/backbone-1.2.1.js"></script>
 	<script src="/js/app.js"></script>
 	<script src="/js/models/busRoutes.js"></script>
 	<script src="/js/models/busRouteDirections.js"></script>

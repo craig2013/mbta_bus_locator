@@ -36,10 +36,10 @@ var app = app || {};
 
 				this.$el.find('.bus-predictions, .no-bus-predictions').hide();
 
-				if ( Array.isArray(busData.predictions) ) {	
+				if ( Array.isArray(busData.predictions) ) { 	
 
-					//Show no predictions message if it's only item in the model Todo: change to undefined
-					if ( (typeof busData.predictions[0].attributes.dirTitleBecauseNoPredictions !== undefined ) && (busData.predictions.length === 1) ) {
+					//Show no predictions message if it's only item in the model
+					if ( (typeof busData.predictions[0].attributes.dirTitleBecauseNoPredictions !== 'undefined' ) && (busData.predictions.length === 1) ) {
 						this.$el.find('.bus-predictions').hide();
 						this.$el.find('.no-bus-predictions').show();
 					} else {
@@ -164,7 +164,7 @@ var app = app || {};
 			//Update bus predictions 
 			app.settings.busCountdownTimer = setTimeout(function() {
 				self.getBusCountdown();
-			},app.defaults.refreshPredictionsTime);			
+			}, app.defaults.refreshPredictionsTime);			
 
 		},
 		/**
@@ -180,11 +180,12 @@ var app = app || {};
 				'predictions': []
 			};
 
-			if ( Array.isArray(obj) ) { //Multiple directions for stop
-				for ( var i = 0; i < _.size(obj); i++ ) {
+
+			if ( Array.isArray(obj) ) { //Multiple predictions for a stop
+				for ( var i = 0; i < obj.length; i++ ) {
 					if ( (typeof obj[i].direction === 'object') && (!Array.isArray(obj[i].direction)) ) {
 						if ( Array.isArray(obj[i].direction.prediction) ) {
-							for ( var j = 0; j < _.size(obj[i].direction.prediction); j++ ) {
+							for ( var j = 0; j < obj[i].direction.prediction.length; j++ ) {
 								predictionsData.predictions.push(obj[i].direction.prediction[j]);
 							}
  
@@ -192,11 +193,11 @@ var app = app || {};
 							predictionsData.predictions.push(obj[i].direction.prediction);
 						}
 
-					} else if ( Array.isArray(obj[i].direction) ) {
+					} else if ( Array.isArray(obj[i].direction) ) { //The prediction has multiple directions
 
-						for ( var j = 0; j < _.size(obj[i].direction); j++ ) {
+						for ( var j = 0; j < obj[i].direction.length; j++ ) {
 
-							for ( var k = 0; k < _.size(obj[i].direction[j].prediction); k++) {
+							for ( var k = 0; k < obj[i].direction[j].prediction.length; k++) {
 								if ( typeof obj[i].direction[j].prediction[k] !== 'undefined' ) {
 									predictionsData.predictions.push(obj[i].direction[j].prediction[k]);
 								}
@@ -207,19 +208,26 @@ var app = app || {};
 					}
 
 				} //end outer for
+			} else if ( Array.isArray(obj.direction) ) { //Multiple directions for a stop
+				for ( var i = 0; i < obj.direction.length; i++ ) {
+					if ( typeof obj.direction[i].prediction === 'object' ) {
+						if ( typeof obj.direction[i].prediction.attributes === 'object' ){
+							predictionsData.predictions.push(obj.direction[i].prediction);
+						}
+					}
+				}
 			} else if ( typeof obj.direction === 'object' ) { //Only 1 direction for stop
 				if ( Array.isArray(obj.direction.prediction) ) {
-					for ( var i =  0; i < obj.direction.prediction.length; i++ ) {
+					for ( var i =  0; i < obj.direction.prediction.length; i++ ) { //Multiple predictions for a direction
 						predictionsData.predictions.push(obj.direction.prediction[i]);
 					}
-				} else if ( (typeof obj.direction.prediction === 'object') && (!Array.isArray(obj.direction.prediction)) ) {
+				} else if ( (typeof obj.direction.prediction === 'object') && (!Array.isArray(obj.direction.prediction)) ) { //Only 1 prediction for a direction
 					predictionsData.predictions.push(obj.direction.prediction);
 				}
 			} else if ( typeof obj.attributes === 'object' ) { //No bus predictions for selected stop and/or route 
 				predictionsData.predictions.push(obj);
 			}
-
-
+			
 			return predictionsData;
 
 		},
