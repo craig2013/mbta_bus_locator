@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+        <title>MBTA Bus Locator - Route Map</title>
+        <meta name="description" content="The route map for buses."/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <script src="../js/libs/modernizr-2.8.3.js"></script>
+        <link rel="stylesheet" href="css/styles.css"/>
+    </head>
+    <body>
+    	<div class="container">
+                        <main>      
+                            <div class="content">                  
+                                <div class="mapArea">
+                                    <div id="mapCanvas"></div>
+                                </div>
+                            </div>
+                        </main>
+    		<footer>
+			<div class="mapKey">
+				<h3>Map Key:</h3>
+				<p><img src="../img/red_stop.png" alt="Bus Stop Icon"/> = Bus stop.  Mouse over icon for bus stop name.</p>
+				<p><img src="../img/marker_icon.png" alt="Bus Icon"/> = Buses currently on route.</p>
+                                                <p>The bus icon markers being displayed on the map update every 10 seconds per NextBus policy on accessing data.</p>
+			</div>
+    		</footer>
+    	</div>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+        <script>window.jQuery || document.write('<script src="../js/libs/jquery-2.1.4.js"><\/script>')</script>
+        <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCpljpAf9iuxW7gj2YZZlaS9o4e3oTBgp0&amp;sensor=false"></script>
+        <script src="js/maps.js"></script>
+    </body>
+</html>

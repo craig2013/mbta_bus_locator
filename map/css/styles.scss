@@ -1,0 +1,40 @@
+@import "../../css/includes/bourbon/bourbon";
+@import "../../css/includes/config";
+@import "../../css/includes/foundation";
+@import "../../css/includes/mixins";
+@import "../../css/includes/base-styles";
+@import "../../css/includes/elements";
+@import "../../css/includes/chosen";
+
+body {
+	font-family: arial, helvetica, sans-serif;
+	font-size: 0.85em;
+	font-size: 0.85em;
+	.container {    
+		margin: 10px auto 0 auto;
+		text-align: center;
+		main {
+			.content {
+				display: block;
+				.mapArea {
+					display: block;
+					@include media (tablet) {
+						width: 100%;    
+					}
+					@include media (mediumDesktop) {
+						width: 100%;    
+					}         
+					@include media (largeDesktop) {
+						width: 100%;    
+					}  					
+					#mapCanvas {
+						height: 500px;
+						margin: 0 auto;
+						width: 900px;
+					} //end #map_canvas
+				} //end .mapArea				
+			} //end .content			
+		}  //end main
+	} //end .container
+}
+

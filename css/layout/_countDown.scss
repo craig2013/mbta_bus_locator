@@ -27,6 +27,21 @@
 				}				
 			}
 		}
+		.map-text {
+			display: none;
+			@include media(tablet) {
+				display: block;
+				margin: 20px 0;
+			}
+			@include media(mediumDesktop) {
+				display: block;
+				margin: 20px 0;
+			}         
+			@include media(largeDesktop) {
+				display: block;
+				margin: 20px 0;
+			} 
+		}
 		.disclaimer-text {
 			display: none;
 			margin: 20px 0 0 0;

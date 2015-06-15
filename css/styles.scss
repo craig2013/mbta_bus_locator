@@ -24,17 +24,16 @@ body {
             text-align: center;
             width: 100%;
             @include media (tablet) {
-                width: 730px;
+                width: 100%;
             }
             @include media (mediumDesktop) {
-                width: 850px;
+                width: 100%;
             }
             @include media (largeDesktop) {
-                width: 940px; 
+                width: 100%; 
             }
             @import "layout/selectRoutes";
             @import "layout/countDown";
-            @import "layout/mapArea";
         }//End content
         footer {
             display: none;

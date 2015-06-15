@@ -142,6 +142,9 @@ var app = app || {};
 			}
 
 		},
+		events: {
+			'click .show-map-link': 'showMap'
+		},	
 		/**
 		* This function will get the bus predictions from the direction service.
 		**/			
@@ -230,6 +233,19 @@ var app = app || {};
 			
 			return predictionsData;
 
+		},
+		/**
+		* Function that opens the bus route map.
+		* 
+		* @param 
+		* 
+		* @return 
+		**/			
+		showMap: function(e) {
+			e.preventDefault();
+
+			var mapURL = '/map/?a=' + app.defaults.agencyTag + '&r=' + app.defaults.routeNumber + '&d=' + app.defaults.directionVar + '&s=' + app.defaults.stopId
+			window.open(mapURL);
 		},
 		clearCountdown: function() {
 			//Clear any bus predictions

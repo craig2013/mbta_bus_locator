@@ -3,6 +3,9 @@
 
 ##Version History
 
+######Version 2.1.2
+- Added map for seeing buses on route.
+
 ######Version 2.0.2
 - Made various bug fixes.
 
