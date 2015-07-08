@@ -3,6 +3,11 @@
 
 ##Version History
 
+######Version 2.2.2
+- Started work on FAQ page.
+- Made some style changes to the CSS.
+- Made some fixes to the bus countdown view.
+
 ######Version 2.1.2
 - Added map for seeing buses on route.
 

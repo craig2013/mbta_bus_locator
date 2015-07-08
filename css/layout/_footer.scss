@@ -21,31 +21,5 @@ footer {
                 margin: 10px 0 0 0;
             }
 
-            /*.mapKey {
-                display: none;
-            }
-            @include media (tablet) {
-                margin: 0 15px;
-                width: 650px;  
-                .mapKey {
-                    display: block;
-                }                            
-            }
-            @include media (mediumDesktop) {
-                margin: 0 15px;
-                width: 750px;
-                .mapKey {
-                    display: block;
-                }                                
-            }         
-            @include media (largeDesktop) {
-                margin: 0 15px;
-                width: 900px;
-                .mapKey {
-                    display: block;
-                }                                
-            } */
-
-
             @include clearfix();             
 }//End footer

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" ie7> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9 ie8"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<title>MBTA Bus Locator</title>
+	<meta name="description" content="Get MBTA bus times for your stop."/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+	<script src="/js/libs/modernizr-2.8.3.js"></script>
+	<link rel="stylesheet" href="/css/styles.css"/>
+    </head> 
+    <body>
+	<div class="container faq">
+		<header>
+			<h1>Frequently Asked question-containers</h1>
+			<hr/>
+		</header>
+		<main>
+			<div class="content">
+				<div class="questions">
+					<div class="question-container">
+						<div class="question">
+							How do I use this app?
+						</div>
+						<div class="answer">
+							You use this app by first selecting the route number for the route you want predictions for.  
+							Then you select a direction you want to go.
+							Once you've selected a direction you then select the stop you want to recieve the predictions for.
+						</div>
+					</div>
+					<div class="question-container">
+						<div class="question">
+							How does this work?
+						</div>
+						<div class="answer">
+							This service uses the NextBus API.  Nextbus uses GPS technology and computer modeling to track buses on their routes.
+						</div>
+					</div>
+					<div class="question-container">
+						<div class="question">
+							What if I don't know the route number?
+						</div>
+						<div class="answer">
+							Please use the <a href="http://mbta.com/rider_tools/servicenearby/" target="_blank">MBTA Find Service Nearby</a> service to find out the route number.  This app doesn't provide a way to find the route number yet.
+						</div>						
+					</div>
+					<div class="question-container">
+						<div class="question">
+							What if no buses are running on a particular route?
+						</div>
+						<div class="answer">
+							<p>
+								If no buses are running on a route you may see the text &quot;No bus predictions currently for this route&quot;.  For certain routes this may be
+								temporary due to the frequency that buses are run on that route. If this is the case it will be updated eventually wit ha prediction 
+								once buses are running again. 
+							</p>
+
+							<p>
+								This message may also apear if the route in particular doesn't have service for the day and/or if it's 
+								later then 1:00 AM since service ends every night at this time and resumes the next morning at 5:00 Am for certain routes. Please 
+								check your route schedule for more information.								
+							</p>
+
+						</div>
+					</div>
+					<div class="question-container">
+						<div class="question">
+							Why am I seeing buses also at this stop?
+						</div>
+						<div class="answer">
+							Sometimes bus stops will have buses from multiple bus routes stop at a particular bus stop and you may not have selected 
+							that bus route for predictions so you will also see those other bus routes.
+						</div>
+					</div>
+				</div>
+			</div> <!-- /.content -->
+		</main>
+	</div><!-- /.container -->
+
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+	<script>window.jQuery || document.write('<script src="/js/libs/jquery-2.1.4.js"><\/script>')</script>
+    </body>
+</html> 

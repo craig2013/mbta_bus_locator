@@ -1,4 +1,4 @@
-.routesAvailable {
+.routeDirection {
         margin: 0 0 35px 0;
         @include media(tablet) {
             margin: 0 auto 25px auto;
@@ -11,7 +11,7 @@
         @include media(largeDesktop) {
             margin: 0 auto 25px auto;
             width: 580px;
-        } 
+        }         
 
         label {
             display: inline-block;
@@ -39,7 +39,7 @@
 
         button {
             @extend .btn; 
-            @extend .btn-default;
+            @extend .btn-default;            
             float: left;
             margin: 5px 0 0 27px;
             @include media (tablet) {
@@ -57,4 +57,4 @@
         }        
 
         @include clearfix();
-}//end .routesAvailable
+}//end .routeDirection

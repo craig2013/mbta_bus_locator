@@ -1,0 +1,28 @@
+.container.faq {
+	.content {
+		display: block;
+		@include media(tablet) {
+			width: 450px;
+		}
+		@include media(mediumDesktop) {
+			width: 450px;
+		}         
+		@include media(largeDesktop) {
+			width: 450px;
+		} 
+		.questions {
+			.question-container {
+				margin: 0 0 10px 0;
+				.question {
+					font-weight: bold;
+					margin: 0 0 10px 0;
+				}
+				.answer {
+					p {
+						margin: 0 0 15px 0;
+					}
+				}
+			}
+		}
+	}
+}

@@ -11,7 +11,6 @@
 body {
     font-family: arial, helvetica, sans-serif;
     font-size: 0.85em;
-    font-size: 0.85em;
     .container {    
         margin: 10px 0 0 0;
         header {
@@ -32,12 +31,28 @@ body {
             @include media (largeDesktop) {
                 width: 100%; 
             }
-            @import "layout/selectRoutes";
+
+            .routeInfo {
+                    margin: 20px 0 0 0;
+
+                    @import "layout/selectRoutes";
+                    @import "layout/selectDirection";
+                    @import "layout/selectStop";
+
+                    .routeStops, 
+                    .routeDirection { 
+                        display: none;
+                    }                    
+            }
+
             @import "layout/countDown";
-        }//End content
+
+        }//end .content
         footer {
             display: none;
         }
         @import "layout/footer";
-    }  
+    }//end .container
+
+    @import "pages/faq";   
 }
