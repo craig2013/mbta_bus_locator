@@ -3,6 +3,16 @@
 
 ##Version History
 
+######Version 2.4.2
+- Added bus routes that also stop at a particular route.
+- Added the jQuery Chosen plugin for the desktop view.
+- Added a dynamic link to the bus route schedule.
+- Cleaned up many functions and using more Underscore.js methods with the JSON.
+
+######Version 2.3.2
+- Added jQuery Chosen plugin for drop downs.
+- Made various improvements to functions handleing JSON results.
+
 ######Version 2.2.2
 - Started work on FAQ page.
 - Made some style changes to the CSS.

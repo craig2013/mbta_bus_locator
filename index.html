@@ -23,44 +23,46 @@
 				<p>Find out when the next bus is coming at your stop by selecting a route, direction, and then the stop.</p>
 				<form class="routeInfo">
 					<div class="routesAvailable">
+						<div class="info">
+							<p>Select a route first from the list of routes:</p>
+						</div>
 						<label  for="route_select chosen-select">Routes:</label>
 						<select class="form"  id="route_select" name="route_select">
 							<option value="0" selected="selected">Select a route</option>
-						</select>
-						<button type="button" class="btn btn-default" id="getRouteDirections">Show Route Directions</button>	
+						</select>								
 					</div>
 					<div class="routeDirection">
-						<label for="direction_select">Direction:</label>
+						<p>Select a direction you are headed in from the list:</p>
+						<label for="direction_select">Direction:</label> 
 						<select class="form" id="direction_select" name="direction_select">
 							<option value="0">Select a direction</option>
 						</select>
-						<button type="button" class="btn btn-default" id="getDirectionStops">Show Route Stops</button>		      
 					</div>						
 					<div class="routeStops">
+						<p>Select the stop you are currently at:</p>
 						<label  for="stop_select">Stops:</label>
 						<select class="form" id="stop_select" name="stop_select">
 							<option value="0">Select a stop</option>
-						</select>
-						<button type="button" class="btn btn-default" id="showArivalTime">Show Bus Arival Time</button>	      
+						</select>      
 					</div>									
 				</form> <!-- /.routeInfo -->
 				<div class="bus-countdown-container">
-					<div class="bus-predictions">
-						<h1>Bus Arival Time(s):</h1>
-						<div class="bus-times">
-							<div class="bus-time">
-								<span class="minutes"></span>
-								<span class="disclaimer"> *</span>
-								<span class="next-bus-arriving">Your bus is now arriving.</span>
-							</div>	
+					<h1>Bus Arival Time(s):</h1>
+					<div class="bus-stop-container">
+						<div class="selected-route-container">
+							<div class="bus-times"></div>	
+							<div class="no-bus-predictions">No bus predictions currently for your selected route.</div>
+							<p class="map-text"><a href="#" class="show-map-link">Show Map</a> <br/>(Please note map will open in a new window.)</p>																					
+							<p class="disclaimer-text">*Vehicle has not yet departed terminal. Actual departure time is subject to change.</p>	
+							<p class="bus-schedule"><b><a href="" target="_blank">Bus Schedule</a></b></p>							
+						</div>
+						<div class="also-at-stop-container">
+							<h4>Also at this stop:</h4>
+							<div class="bus-times"></div>
 						</div>	
-						<p class="map-text"><a href="#" class="show-map-link">Show Map</a> <br/>Please note map will open in a new window.</p>															
-						<p class="disclaimer-text">*Vehicle has not yet departed terminal. Actual departure time is subject to change.</p>	
-					</div> <!-- /.bus-predictions -->
-					<div class="no-bus-predictions">
-						No bus predictions currently.
-					</div>							
-				</div> <!-- /.bus-countdown-container -->
+						<div class="no-bus-predictions">No bus predictions currently for your selected route.</div>
+					</div><!--/.bus-stop-container-->
+				</div><!-- /.bus-countdown-container -->
 			</div> <!-- /.content -->
 		</main>
 		<footer>
@@ -70,6 +72,7 @@
 					This service relies on data from the <a href="http://www.nextbus.com" target="_blank">Nextbus</a> XML feeds API for the <a href="http://www.mbta.com/" target="_blank">MBTA</a>.
 					This app is using Backbone.js for a front end and a PHP wrapper for the backend to convert the XML feeds to JSON. I've also written my CSS using SASS.  The source code can be found on my Github page.
 				</p>	
+				<p><b><a href="faq.html" target="'_blank">Frequently Asked Questions</a></b></p>
 				<p><b>You can now bookmark your stop and come back to it later.</b></p>		
 				<p>The accuracy of the data cannot be guranteed.</p>
 			</div>   
@@ -78,26 +81,63 @@
 
 	<!-- Begin Underscore/Backbone templates -->
 	<script type="text/template" id="tpl-routes">
-		<option value="<%= tag %>"><%= title %></option>
+		<% _.each(route, function(r) { %>
+			<option value="<%= r.attributes.tag %>"><%= r.attributes.title %></option>
+		<% }); %>
 	</script>
 
 	<script type="text/template" id="tpl-route-direction">
-		<option value="<%= dirTag %>"><%= directionText %></option>
+		<% _.each(directionItems, function(d) { %>
+			<option value="<%= d.tag %>"><%= d.title %></option>
+		<% }); %>
 	</script>
 
 	<script type="text/template" id="tpl-route-stops">
-		<option value="<%= dirTag %>" data-stopId="<%= stopId %>"><%= title %></option>
+		<% _.each(stopItems, function(s) { %>
+			<option value="<%= s.attributes.tag %>" data-stopId="<%= s.attributes.stopId %>"><%= s.attributes.title %></option>
+		<% }); %>
 	</script>	
 
-	<script type="text/template" id="tpl-bus-minutes">
-		<%= busMinutes %>
-	</script>	
+	<script type="text/template" id="tpl-bus-countdown">
+		<% _.each(busTimes.predictions, function(b, i) { %>
+			<% if ( i === 0 ) { %>
+				<div class="bus-time next-bus-time">
+			<% } else { %>
+				<div class="bus-time">
+			<% } %>
+				<% if ( b.attributes.minutes >= '1' ) { %>
+					<div>
+						<%= b.attributes.minutes %> min 
+						<% if (b.attributes.affectedByLayover==='true') { %>
+							<span class="disclaimer"> *</span>
+						<% } %>
+					</div>									
+				<% } else if (  i === 0 && b.attributes.minutes < '1' ) { %>
+					<div class="arriving">Your bus is now arriving.</div>
+				<% } %>				
+			</div>		
+		<% }); %>		
+	</script>
+
+	<script type="text/template" id="tpl-also-at-stop">
+		<% _.each(busTimes, function(b, i) { %>
+			<div class="bus-time">
+				<% if ( b.attributes.minutes >= '1' ) { %>
+					<b><%= b.attributes.minutes %> min</b> Route
+					<%= b.attributes.routeName %>
+				<% } else if ( i === 0 && b.attributes.minutes < '1' ) { %>
+					<b>Arriving</b> Route <%= b.attributes.routeName %>
+				<% } %>
+			</div>
+		<% }); %>
+	</script>
 	<!-- End Underscore/Backbone templates -->
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
 	<script>window.jQuery || document.write('<script src="/js/libs/jquery-2.1.4.js"><\/script>')</script>
 	<script src="/js/libs/underscore-1.8.3.js"></script>
 	<script src="/js/libs/backbone-1.2.1.js"></script>
+	<script src="/js/libs/chosen-1.4.2.js"></script>
 	<script src="/js/app.js"></script>
 	<script src="/js/models/busRoutes.js"></script>
 	<script src="/js/models/busRouteDirections.js"></script>
@@ -115,6 +155,7 @@
 	<script src="/js/views/busRouteDirections.js"></script>
 	<script src="/js/views/busRouteStops.js"></script>
 	<script src="/js/views/busCountdown.js"></script>
+	<script src="/js/views/busAlsoAtStop.js"></script>
 	<script src="/js/router.js"></script>
     </body>
 </html> 

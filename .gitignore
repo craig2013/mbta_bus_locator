@@ -1,3 +1,6 @@
+getRouteStops.php
 testing-local-only/
-js/node_modules/
-css/.sass-cache/
+node_modules/
+css/sass/.sass-cache/
+js/models/busRouteStopInfo.json
+NextBusXMLFeed.pdf

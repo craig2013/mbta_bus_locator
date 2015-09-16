@@ -1,0 +1,63 @@
+
+@import "includes/bourbon/bourbon";
+@import "includes/config";
+@import "includes/foundation";
+@import "includes/mixins";
+@import "includes/base-styles";
+@import "includes/elements";
+@import "includes/classes"; 
+
+$chosen-sprite: url('../img/chosen-sprite.png') !default;
+$chosen-sprite-retina: url('../img/chosen-sprite@2x.png') !default;
+
+@import "includes/chosen"; 
+
+
+body {
+    font-family: arial, helvetica, sans-serif;
+    font-size: 0.85em;
+    .container {    
+        margin: 10px 0 0 0;
+        header {
+            margin: 0 auto 15px auto; 
+            text-align: center;
+        } 
+        .content {
+            display: none;
+            margin: 0 auto;
+            text-align: center;
+            width: 100%;
+            @include media (tablet) {
+                width: 100%;
+            }
+            @include media (mediumDesktop) { 
+                width: 100%;
+            }
+            @include media (largeDesktop) {
+                width: 100%; 
+            }
+
+            .routeInfo {
+                    margin: 20px 0 0 0;
+
+                    @import "layout/selectRoutes";
+                    @import "layout/selectDirection";
+                    @import "layout/selectStop";
+
+                    .routeStops, 
+                    .routeDirection { 
+                        display: none;
+                    }                    
+            }
+
+            @import "layout/countDown";
+
+        }//end .content
+        footer {
+            display: none;
+        }
+        @import "layout/footer";
+    }//end .container
+
+    @import "pages/faq";   
+}

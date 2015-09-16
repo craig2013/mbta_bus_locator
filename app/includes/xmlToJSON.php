@@ -55,6 +55,7 @@ class XmlToJsonConverter{
 		$xmlString = $this->getMyXML();
 		$jsonString = json_encode($xmlString);
 		$jsonString = str_replace('@attributes', 'attributes', $jsonString);
+		$jsonString = str_replace('"attributes":{"copyright":"All data copyright MBTA 2015."},', '', $jsonString);
 		$this->setJSON($jsonString);		
 	}
 }
