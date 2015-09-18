@@ -44,11 +44,14 @@ var app = app || {};
                     if ( busData.hasOwnProperty( 'predictions' ) ) {
                         if ( Array.isArray( busData.predictions ) ) {
                             //Bus schedule link URL
+                            busData.predictions = this.sortPredictions(busData.predictions);
                             var busScheduleURL = 'http://www.mbta.com/schedules_and_maps/bus/routes/?route=';
-                            var busTimeTemplate = this.template( {
-                                'busTimes': busData
-                            } );
+                            var busTimeTemplate = {};
                             var routeString = '';
+
+                            busTimeTemplate = this.template( {
+                                                                'busTimes': busData
+                                                            } );                            
 
                             if ( app.defaults.routeNumber === '741' || app.defaults.routeNumber === '742' || app.defaults.routeNumber === '751' || app.defaults.routeNumber === '751' || app.defaults.routeNumber === '749' || app.defaults.routeNumber === '746' || app.defaults.routeNumber === '701' || app.defaults.routeNumber === '747' || app.defaults.routeNumber === '708' ) {
                                 routeString = app.defaults.routeNames[ app.defaults.routeNumber ].shortName;
@@ -61,7 +64,7 @@ var app = app || {};
                             this.$el.find( '.selected-route-container .bus-schedule a' ).attr( 'href', busScheduleURL );
 
 
-                            if ( ( busData.predictions.length === 1 ) && ( typeof busData.predictions[ 0 ].attributes.dirTitleBecauseNoPredictions === 'string' ) ) {
+                            if ( (( busData.predictions.length === 1 ) && ( typeof busData.predictions[ 0 ].attributes.dirTitleBecauseNoPredictions === 'string' )) || ( busData.predictions.length === 0 ) ) {
                                 //If no predictions for selected route then show no predictions message
                                 this.$el.find( '.selected-route-container .no-bus-predictions' ).show();
                                 this.$el.find( '.bus-stop-container .also-at-stop-container' ).hide();
@@ -97,6 +100,7 @@ var app = app || {};
                                 if ( busData.alsoAtStop.length >= 1 ) {
                                     var alsoAtStopModel = busData.alsoAtStop;
 
+                                    alsoAtStopModel = this.sortPredictions(alsoAtStopModel);
                                     var childView = new app.views.busAlsoAtStop( {
                                         model: alsoAtStopModel
                                     } );
@@ -192,7 +196,6 @@ var app = app || {};
                 }
 
             } else if ( Array.isArray( busPredictions.direction ) ) { //Multiple directions for a stop
-                console.log( 'here' )
                 var res = _( busPredictions.direction ).chain().
                 flatten().
                 pluck( 'prediction' );
