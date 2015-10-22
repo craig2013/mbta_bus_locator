@@ -1,13 +1,16 @@
 //routes collection
-var app = app || {};
+define([
+                'jquery',
+                'underscore',
+                'backbone',
+                'models/busRoutes'], function($, backbone, _, busRouteModel) {
 
-( function () {
-    'use strict';
+            'use strict';
 
-    app.collections.busRoutes = Backbone.Collection.extend( {
-        model: app.models.busRoutes,
-        url: '../../app/'
-    } );
+            var busRoutes = Backbone.Collection.extend( {
+		model: busRouteModel,
+		url: '../../app/'
+            });
 
-    app.collections.busRoutes = new app.collections.busRoutes();
-} )();
+            return new busRoutes();
+});

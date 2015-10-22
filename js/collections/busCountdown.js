@@ -1,13 +1,16 @@
-//bus countdown collection
-var app = app || {};
+//countdown collection
+define([
+                'jquery',
+                'underscore',
+                'backbone',
+                'models/busCountdown'], function($, backbone, _, busCountdownModel) {
 
-( function () {
-    'use strict';
+            'use strict';
 
-    app.collections.busCountdown = Backbone.Collection.extend( {
-        model: app.models.busCountdown,
-        url: '../../app/'
-    } );
+            var busRouteDirections = Backbone.Collection.extend( {
+		model: busCountdownModel,
+		url: '../../app/'
+            });
 
-    app.collections.busCountdown = new app.collections.busCountdown();
-} )();
+            return new busRouteDirections();
+});

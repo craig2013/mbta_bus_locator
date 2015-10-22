@@ -1,0 +1,3 @@
+<% _.each(stopItems, function(s) { %>
+	<option value="<%= s.attributes.tag %>" data-stopId="<%= s.attributes.stopId %>"><%= s.attributes.title %></option>
+<% }); %>

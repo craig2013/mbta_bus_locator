@@ -1,44 +1,32 @@
- var app = app || {};
+//also at stop
+define([
+            'jquery',
+            'underscore',
+            'backbone',
+            'models/busCountdown',
+            'collections/busCountdown',
+            'text!templates/alsoAtStop.html'], function($,  _, Backbone, busCountdownModel, busCountdownCollection, alsoAtStopTemplate) {
 
- ( function () {
-     'use strict';
+            var alsoAtStopView = Backbone.View.extend({
+                el: '.also-at-stop-container',
 
-     app.views.busAlsoAtStop = Backbone.View.extend( {
-         el: '.also-at-stop-container',
+                 initialize: function () {
+                     this.listenTo( this.model, 'sync', this.render );
+                 },
 
-         template: _.template( $( '#tpl-also-at-stop' ).html() ),
+                 render: function() {
+                    var busData = ( this.model.length > 4 && Array.isArray( this.model ) ) ? this.model.slice( 0, 4 ) : this.model;
+                    var data = {
+                        'busTimes': busData
+                    };                     
+                    var predictionsCount = busData.length;   
+                    var  template = _.template( alsoAtStopTemplate );
 
-         initialize: function () {
-             this.listenTo( this.model, 'add', this.render );
-         },
+                    this.$el.find( '.bus-times' ).html( template(data) );
 
-         render: function () {
-             var busData = ( this.model.length > 4 && Array.isArray( this.model ) ) ? this.model.slice( 0, 4 ) : this.model;
-             var predictionsCount = busData.length;
+                    return this;                                      
+                 }
+            });
 
-             app.activeViews.busAlsoAtStop = this;
-
-             var alsoAtStopTemplate = this.template( {
-                 'busTimes': busData
-             } );
-
-             this.$el.find( '.bus-times' ).html( alsoAtStopTemplate );
-
-             return this;
-         },
-
-         clearCountdown: function () {
-             //Clear any bus predictions
-             this.$el.find( '.bus-time' ).each( function () {
-                 $( this ).remove();
-             } );
-         },
-
-         close: function () {
-             this.clearCountdown();
-
-             this.$el.hide();
-             this.$el.unbind();
-         }
-     } );
- } )();
+            return alsoAtStopView;
+});

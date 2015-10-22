@@ -1,0 +1,10 @@
+<% _.each(busTimes, function(b, i) { %>
+	<div class="bus-time">
+		<% if ( b.attributes.minutes >= '1' ) { %>
+			<b><%= b.attributes.minutes %> min</b> Route
+			<%= b.attributes.routeName %>
+		<% } else if ( i === 0 && b.attributes.minutes < '1' ) { %>
+			<b>Arriving</b> Route <%= b.attributes.routeName %>
+		<% } %>
+	</div>
+<% }); %>

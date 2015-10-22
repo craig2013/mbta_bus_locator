@@ -1,77 +1,81 @@
-var app = app || {};
+//bus routes
+define([
+            'jquery',
+            'chosen',
+            'underscore',
+            'backbone',
+            'models/busRoutes',
+            'collections/busRoutes',
+            'text!templates/busRoutes.html'], function($, chosen, _, Backbone, busRoutesModel, busRoutesCollection, routesTemplate) {
 
-( function () {
-    'use strict';
+            var routesView = Backbone.View.extend({
+                el: '.routesAvailable',
 
-    app.views.busRoutes = Backbone.View.extend( {
+                initialize: function() {
+                    busRoutesCollection.fetch( {
+                        traditional: true,
+                        data: {
+                            'command': 'routeList',
+                            'agency': Backbone.app.defaults.agencyTag
+                        }
+                    } );            
+                    
+                    this.listenTo( busRoutesCollection, 'sync', this.render );        
+                },
 
-        el: '.routesAvailable',
+                render: function() {
+                    var routeModel = busRoutesCollection.models[0];
+                    var self = this;
+                    this.$route_select = $( '#route_select' );
 
-        initialize: function () {
-            app.collections.busRoutes.fetch( {
-                traditional: true,
-                data: {
-                    'command': 'routeList',
-                    'agency': app.defaults.agencyTag
+                    this.$route_select.trigger( 'chosen:updated' );
+
+                    if ( typeof routeModel === 'object' ) {
+                        if ( this.$route_select.find( 'option' ).length <= 1 ) {
+                            var data = {
+                                    'route': routeModel.attributes.route
+                            };
+
+                            var routeTemplate = _.template( routesTemplate );
+                            this.$route_select.append( routeTemplate(data) );   
+                        }
+
+                        if ( !isNaN( Backbone.app.defaults.routeNumber ) ) {
+                            this.$route_select.val( Backbone.app.defaults.routeNumber );
+                        }
+
+                        $( '#route_select' ).chosen( {
+                            no_results_text: 'Nothing found.',
+                            width: '60%'
+                        } );
+
+                        $( '.container main .loading' ).hide();
+                        $( '.container main .content, .container main .content .routeInfo .routesAvailable' ).show();                    
                 }
-            } );
-            this.listenTo( app.collections.busRoutes, 'all', this.render );
 
-            this.template = _.template( $( '#tpl-routes' ).html() );
-        },
+            },
 
-        render: function ( e ) {
-            var routeModel = this.model.models[ 0 ];
-            var self = this;
-            this.$route_select = $( '#route_select' );
+            events: {
+                'change #route_select': 'showDirections'
+            },
 
-            this.$route_select.trigger( 'chosen:updated' );
+            showDirections: function ( e ) {
+                var routeNumber = $( '#route_select' ).chosen().val();
 
-            if ( typeof routeModel === 'object' ) {
-                if ( this.$route_select.find( 'option' ).length <= 1 ) {
-
-                    var routeTemplate = this.template( routeModel.toJSON() );
-                    this.$route_select.append( routeTemplate );
-
+                if ( !isNaN( routeNumber ) ) {
+                    Backbone.app.defaults.routeNumber = routeNumber;
+                    Backbone.app.router.navigate('route/' + routeNumber, {
+                        trigger: true
+                    });
                 }
 
+                return false;
+            },            
 
+            close: function () {
+                this.$el.unbind();
+            }            
+        });
 
-                if ( !isNaN( app.defaults.routeNumber ) ) {
-                    this.$route_select.val( app.defaults.routeNumber );
-                }
-
-
-                $( '#route_select' ).chosen( {
-                    no_results_text: 'Nothing found.',
-                    width: '60%'
-                } );
-
-
-                $( '.container main .loading' ).hide();
-                $( '.container main .content, .container main .content .routeInfo .routesAvailable' ).show();
-            }
-        },
-
-        events: {
-            'change #route_select': 'showDirections'
-        },
-
-        showDirections: function ( e ) {
-            var routeNumber = $( '#route_select' ).chosen().val();
-
-            if ( !isNaN( routeNumber ) ) {
-                app.defaults.routeNumber = routeNumber;
-                app.router.navigate( 'route/' + app.defaults.routeNumber, {
-                    trigger: true
-                } );
-            }
-
-            return false;
-        },
-
-        close: function () {
-            this.$el.unbind();
-        }
-    } );
-} )();
+        return routesView;
+});

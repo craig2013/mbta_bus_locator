@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 var app = app || {};
 
 ( function () {
@@ -82,10 +83,97 @@ var app = app || {};
 
                                     if ( busData.showFooterDisclaimer ) {
                                         $( '.bus-countdown-container .bus-stop-container .selected-route-container .disclaimer-text' ).show();
+=======
+//bus countdown
+define([
+            'jquery',
+            'underscore',
+            'backbone',
+            'models/busCountdown',
+            'collections/busCountdown',
+            'utility/getBusPredictions',
+            'utility/sortRoutes',
+            'utility/sortPredictions',
+            'text!templates/busCountdown.html',
+            'text!templates/alsoAtStop.html'], function($,  _, Backbone, busCountdownModel, busCountdownCollection, getPredictionsUtility, sortRoutesUtility, sortPredictionsUtility, countdownTemplate, alsoAtTemplate) {
+
+            var countdownView = Backbone.View.extend({
+                el: '.bus-countdown-container',
+
+                initialize: function () {
+                    var self = this;
+                    var collectionOptions = {
+                        traditional: true,
+                        data: {
+                            'command': 'predictions',
+                            'agency': Backbone.app.defaults.agencyTag,
+                            'stopId': Backbone.app.defaults.stopId
+                        }                        
+                    };
+
+                    //Clear any existing timers
+                    this.clearTimer();
+                    
+                    //Fetch busCountdown collection 
+                    var updatePredictions = function() {
+                        busCountdownCollection.fetch(collectionOptions);
+                        Backbone.app.settings.busCountdownTimer = setTimeout(updatePredictions, Backbone.app.defaults.refreshPredictionsTime);
+                    };
+
+                    //Update bus predictions
+                    updatePredictions();
+
+                    this.listenTo( busCountdownCollection, 'sync', this.render );
+                },               
+                
+                render: function() {
+                    var alsoAtStopPredictions = false;
+                    var busData = {};
+                    var busStopPredictions = false;
+                    var predictionsCount = 0;
+                    var predictionModel = {};
+                    var self = this;
+                    var showAffectedByLayover = false;
+                    var showNoPredictions = false;        
+                    
+                    if ( typeof this.model.models[ 0 ] === 'object' ) {
+                        //Reset the bus countdown container by clearing it first
+                        this.clearCountdown();
+
+                        //Set the model
+                        predictionModel = this.model.models[ 0 ].attributes;
+                        busData = getPredictionsUtility.getBusPredictions( predictionModel.predictions );
+
+                        busData = sortRoutesUtility.sortRoutes( busData );            
+                        
+                        if ( typeof busData === 'object' ) {
+                            if ( busData.hasOwnProperty( 'predictions' ) ) {
+                                if ( Array.isArray( busData.predictions ) && ( busData.predictions.length>=1 ) ) {
+                                    //Bus schedule link URL
+                                    var busScheduleURL = 'http://www.mbta.com/schedules_and_maps/bus/routes/?route=';
+                                    var countDownTemplate =  _.template( countdownTemplate );
+                                    var data = {
+                                        'busTimes': busData
+                                    };
+
+                                    var routeString = '';
+
+                                    if ( Backbone.app.defaults.routeNumber === '741' || 
+                                         Backbone.app.defaults.routeNumber === '742' || 
+                                         Backbone.app.defaults.routeNumber === '751' || 
+                                         Backbone.app.defaults.routeNumber === '751' || 
+                                         Backbone.app.defaults.routeNumber === '749' || 
+                                         Backbone.app.defaults.routeNumber === '746' || 
+                                         Backbone.app.defaults.routeNumber === '701' || 
+                                         Backbone.app.defaults.routeNumber === '747' || 
+                                         Backbone.app.defaults.routeNumber === '708' ) {
+                                        routeString = Backbone.app.defaults.routeNames[ Backbone.app.defaults.routeNumber ].shortName;
+>>>>>>> de56c9d... requirejs
                                     } else {
-                                        $( '.bus-countdown-container .bus-stop-container .selected-route-container .disclaimer-text' ).hide();
+                                        routeString = Backbone.app.defaults.routeNumber;
                                     }
 
+<<<<<<< HEAD
                                     this.$el.find( '.selected-route-container' ).show();
                                 }
                             } //busData.predictions.length === 1
@@ -163,10 +251,23 @@ var app = app || {};
             var predictionsData = {
                 'predictions': []
             };
+=======
+                                    busScheduleURL += routeString;
+>>>>>>> de56c9d... requirejs
 
-            if ( Array.isArray( busPredictions ) ) { //Multiple predictions for a stop
+                                    this.$el.find( '.selected-route-container .bus-schedule a' ).attr( 'href', busScheduleURL );
 
+                                    if ( ( busData.predictions.length === 1 ) && ( typeof busData.predictions[ 0 ].attributes.dirTitleBecauseNoPredictions === 'string' ) ) {
+                                        //If no predictions for selected route then show no predictions message
+                                        this.$el.find( '.selected-route-container .no-bus-predictions' ).show();
+                                        this.$el.find( '.bus-stop-container .also-at-stop-container' ).hide();
+                                        this.$el.find( '.selected-route-container .map-text' ).hide();
+                                        this.$el.find( '.selected-route-container' ).show();
+                                    } else {
+                                        //Render predictions
+                                        this.$el.find( '.selected-route-container .no-bus-predictions' ).hide();
 
+<<<<<<< HEAD
                 //Test if no predictions exist for a route
                 var noPredictions = _.find( busPredictions, function ( obj ) {
                     return ( typeof obj.attributes.dirTitleBecauseNoPredictions === 'string' ) ? obj.attributes.dirTitleBecauseNoPredictions : '';
@@ -300,93 +401,85 @@ var app = app || {};
                         }
 
                         o.attributes[ 'routeName' ] = routeName;
+=======
+                                        predictionsCount = busData.predictions.length;
+>>>>>>> de56c9d... requirejs
 
-                        sortedPredictions.alsoAtStop.push( o );
-                    }
+                                        this.$el.find( '.selected-route-container .bus-times' ).html( countDownTemplate(data) );
+
+                                        if ( predictionsCount ) {
+
+                                            if ( busData.showFooterDisclaimer ) {
+                                                $( '.bus-countdown-container .bus-stop-container .selected-route-container .disclaimer-text' ).show();
+                                            } else {
+                                                $( '.bus-countdown-container .bus-stop-container .selected-route-container .disclaimer-text' ).hide();
+                                            }
+
+                                            this.$el.find( '.selected-route-container, .selected-route-container .bus-times' ).show();
+                                        }
+                                    } //busData.predictions.length === 1
+                                }//Array.isArray( busData.predictions )
+                            }//busData.hasOwnProperty( 'predictions' )
+
+                            if ( busData.hasOwnProperty( 'alsoAtStop' ) ) {
+                                if ( Array.isArray( busData.alsoAtStop ) ) {
+                                    if ( ( busData.alsoAtStop.length === 0 ) || ( busData.alsoAtStop.length === 1 ) && ( typeof busData.alsoAtStop[ 0 ].attributes.dirTitleBecauseNoPredictions === 'string' ) ) {
+                                        this.$el.find( '.bus-stop-container .also-at-stop-container' ).hide();
+                            } else {
+                                        if ( busData.alsoAtStop.length >= 1 ) {
+                                            var alsoAtStopModel = busData.alsoAtStop;
+                                            var alsoAtStopTemplate = _.template( alsoAtTemplate );
+                                            var busData = ( alsoAtStopModel.length > 4 && Array.isArray( alsoAtStopModel ) ) ? alsoAtStopModel.slice( 0, 4 ) : alsoAtStopModel;
+                                            var alsoAtStopdata = {
+                                                'busTimes': busData
+                                            };
+
+                                            this.$el.find(  '.bus-stop-container .also-at-stop-container .bus-times' ).html( alsoAtStopTemplate(alsoAtStopdata) );
+
+                                            this.$el.find( '.bus-stop-container .also-at-stop-container' ).show();
+                                        }
+
+                                    } //busData.alsoAtStop.length === 1                     
+                                } //Array.isArray(busData.alsoAtStop    
+                            } //busData.hasOwnProperty('alsoAtStop')
+
+                            this.$el.show();
+                        }//typeof busData === 'object'        
+                    }//typeof this.model.models[ 0 ] === 'object'     
+                },
+
+                clearCountdown: function () {
+                    //Clear any bus predictions
+                    this.$el.find( '.bus-stop-container .selected-route-container .bus-times .bus-time' ).each( function () {
+                        $( this ).remove();
+                    } );
+
+                    if ( this.$el.find( '.bus-stop-container .also-at-stop-container .bus-times .bus-time' ).length ) {
+                        this.$el.find( '.bus-stop-container .also-at-stop-container .bus-times .bus-time' ).each( function () {
+                            $( this ).remove();
+                        } );  
+                    }                  
+                },
+
+                clearTimer: function () {
+                    //Clear the refresh predictions timmer
+                    window.clearTimeout( Backbone.app.settings.busCountdownTimer );
+                    Backbone.app.settings.busCountdownTimer = 0;
+                },
+
+                close: function () {
+                    this.clearTimer();
+
+                    this.clearCountdown();
+
+                    this.$el.find( '.bus-stop-container .selected-route-container .disclaimer-text' ).hide();
+
+                    //Hide the .bus-countdown container
+                    this.$el.hide();
+
+                    this.$el.unbind();
                 }
+            });
 
-                if ( showDisclaimer ) {
-                    if ( Array.isArray( sortedPredictions.predictions ) ) {
-                        sortedPredictions.showFooterDisclaimer = true;
-                    }
-                }
-
-            } );
-
-            return sortedPredictions;
-        },
-        /**
-         * Function that returns predictions sorted in ascending order by minutes until the bus arrives at a stop.
-         *
-         * @param obj This is the predictions object.
-         *
-         * @return The bus predictions object containing sorted predictions.
-         **/
-        sortPredictions: function ( obj ) {
-            obj.sort( function ( a, b ) {
-
-                //Test if a.attributes or b.attributes, and a.attributes.dirTag or b.attributes.dirTag exists first
-                if ( typeof a.attributes === 'undefined' || typeof a.attributes.dirTag === 'undefined' || typeof a.attributes.minutes === 'undefined' ) {
-                    return 1;
-                }
-
-                if ( typeof b.attributes === 'undefined' || typeof b.attributes.dirTag === 'undefined' || typeof b.attributes.minutes === 'undefined' ) {
-                    return 0;
-                }
-
-                //Dirtag and minutes for a
-                var aDirTag = parseInt( a.attributes.dirTag.substring( 0, a.attributes.dirTag.indexOf( '_' ) ) );
-                var aMin = parseInt( a.attributes.minutes );
-
-                //Dirtag and minutes for b
-                var bDirTag = parseInt( b.attributes.dirTag.substring( 0, b.attributes.dirTag.indexOf( '_' ) ) );
-                var bMin = parseInt( b.attributes.minutes );
-
-                return ( aDirTag === bDirTag ) ? aMin - bMin : aDirTag - bDirTag;
-            } );
-
-            return obj;
-        },
-        /**
-         *
-         * Function that opens the bus route map.
-         *
-         **/
-        showMap: function ( e ) {
-            e.preventDefault();
-
-            var mapURL = '/map/?a=' + app.defaults.agencyTag + '&r=' + app.defaults.routeNumber + '&d=' + app.defaults.directionVar + '&s=' + app.defaults.stopId
-            window.open( mapURL );
-        },
-        clearCountdown: function () {
-            //Clear any bus predictions
-            this.$el.find( '.bus-stop-container .selected-route-container .bus-times .bus-time' ).each( function () {
-                $( this ).remove();
-            } );
-        },
-        clearTimer: function () {
-            //Clear the refresh predictions timmer
-            window.clearTimeout( app.settings.busCountdownTimer );
-            app.settings.busCountdownTimer = 0;
-        },
-        close: function () {
-            this.clearTimer();
-
-            this.clearCountdown();
-
-            this.$el.find( '.bus-stop-container .selected-route-container .disclaimer-text' ).hide();
-
-            //Close also at this stop view
-            if ( typeof app.activeViews.busAlsoAtStop === 'object' ) {
-                app.activeViews.busAlsoAtStop.close();
-                app.activeViews.busAlsoAtStop = {};
-                delete app.activeViews.busAlsoAtStop;
-            }
-
-            //Hide the .bus-countdown container
-            this.$el.hide();
-
-            this.$el.unbind();
-        }
-    } );
-} )();
+            return countdownView;
+});

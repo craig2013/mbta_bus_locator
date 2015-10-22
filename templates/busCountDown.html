@@ -1,0 +1,18 @@
+<% _.each(busTimes.predictions, function(b, i) { %>
+	<% if ( i === 0 ) { %>
+		<div class="bus-time next-bus-time">
+	<% } else { %>
+		<div class="bus-time">
+	<% } %>
+		<% if ( b.attributes.minutes >= '1' ) { %>
+			<div>
+				<%= b.attributes.minutes %> min 
+				<% if (b.attributes.affectedByLayover==='true') { %>
+					<span class="disclaimer"> *</span>
+				<% } %>
+			</div>									
+		<% } else if (  i === 0 && b.attributes.minutes < '1' ) { %>
+			<div class="arriving">Your bus is now arriving.</div>
+		<% } %>				
+	</div>		
+<% }); %>

@@ -33,14 +33,14 @@
 					</div>
 					<div class="routeDirection">
 						<p>Select a direction you are headed in from the list:</p>
-						<label for="direction_select">Direction:</label> 
+						<label for="direction_select chosen-select">Direction:</label> 
 						<select class="form" id="direction_select" name="direction_select">
 							<option value="0">Select a direction</option>
 						</select>
 					</div>						
 					<div class="routeStops">
 						<p>Select the stop you are currently at:</p>
-						<label  for="stop_select">Stops:</label>
+						<label  for="stop_select chosen-select">Stops:</label>
 						<select class="form" id="stop_select" name="stop_select">
 							<option value="0">Select a stop</option>
 						</select>      
@@ -79,83 +79,9 @@
 		</footer>
 	</div><!-- /.container -->
 
-	<!-- Begin Underscore/Backbone templates -->
-	<script type="text/template" id="tpl-routes">
-		<% _.each(route, function(r) { %>
-			<option value="<%= r.attributes.tag %>"><%= r.attributes.title %></option>
-		<% }); %>
+	<script src="/js/libs/require.js"></script>
+	<script>
+		require(['/js/main.js?bust='+Date.now()]);
 	</script>
-
-	<script type="text/template" id="tpl-route-direction">
-		<% _.each(directionItems, function(d) { %>
-			<option value="<%= d.tag %>"><%= d.title %></option>
-		<% }); %>
-	</script>
-
-	<script type="text/template" id="tpl-route-stops">
-		<% _.each(stopItems, function(s) { %>
-			<option value="<%= s.attributes.tag %>" data-stopId="<%= s.attributes.stopId %>"><%= s.attributes.title %></option>
-		<% }); %>
-	</script>	
-
-	<script type="text/template" id="tpl-bus-countdown">
-		<% _.each(busTimes.predictions, function(b, i) { %>
-			<% if ( i === 0 ) { %>
-				<div class="bus-time next-bus-time">
-			<% } else { %>
-				<div class="bus-time">
-			<% } %>
-				<% if ( b.attributes.minutes >= '1' ) { %>
-					<div>
-						<%= b.attributes.minutes %> min 
-						<% if (b.attributes.affectedByLayover==='true') { %>
-							<span class="disclaimer"> *</span>
-						<% } %>
-					</div>									
-				<% } else if (  i === 0 && b.attributes.minutes < '1' ) { %>
-					<div class="arriving">Your bus is now arriving.</div>
-				<% } %>				
-			</div>		
-		<% }); %>		
-	</script>
-
-	<script type="text/template" id="tpl-also-at-stop">
-		<% _.each(busTimes, function(b, i) { %>
-			<div class="bus-time">
-				<% if ( b.attributes.minutes >= '1' ) { %>
-					<b><%= b.attributes.minutes %> min</b> Route
-					<%= b.attributes.routeName %>
-				<% } else if ( i === 0 && b.attributes.minutes < '1' ) { %>
-					<b>Arriving</b> Route <%= b.attributes.routeName %>
-				<% } %>
-			</div>
-		<% }); %>
-	</script>
-	<!-- End Underscore/Backbone templates -->
-
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
-	<script>window.jQuery || document.write('<script src="/js/libs/jquery-2.1.4.js"><\/script>')</script>
-	<script src="/js/libs/underscore-1.8.3.js"></script>
-	<script src="/js/libs/backbone-1.2.1.js"></script>
-	<script src="/js/libs/chosen-1.4.2.js"></script>
-	<script src="/js/app.js"></script>
-	<script src="/js/models/busRoutes.js"></script>
-	<script src="/js/models/busRouteDirections.js"></script>
-	<script src="/js/models/busRouteStops.js"></script>
-	<script src="/js/models/busCountdown.js"></script>
-	<script src="/js/collections/busRoutes.js"></script>
-	<script src="/js/collections/busRouteDirections.js"></script>
-	<script src="/js/collections/busRouteStops.js"></script>
-	<script src="/js/collections/busCountdown.js"></script>
-	<script src="/js/controllers/showBusRoutes.js"></script>
-	<script src="/js/controllers/showBusRouteDirections.js"></script>
-	<script src="/js/controllers/showBusRouteStops.js"></script>
-	<script src="/js/controllers/showBusCountdown.js"></script>
-	<script src="/js/views/busRoutes.js"></script>
-	<script src="/js/views/busRouteDirections.js"></script>
-	<script src="/js/views/busRouteStops.js"></script>
-	<script src="/js/views/busCountdown.js"></script>
-	<script src="/js/views/busAlsoAtStop.js"></script>
-	<script src="/js/router.js"></script>
     </body>
 </html> 

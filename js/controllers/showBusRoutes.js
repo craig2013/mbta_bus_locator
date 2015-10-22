@@ -1,5 +1,16 @@
 //show routes controller
-var app = app || {};
+define([
+                'jquery',
+                'underscore',
+                'backbone',
+                'collections/busRoutes',
+                'models/busRoutes',
+                'views/busRoutes'], function($, backbone, _) {
+
+            //var busRoutes = 
+});
+
+/*var app = app || {};
 
 ( function () {
     'use strict';
@@ -34,4 +45,4 @@ var app = app || {};
             model: app.collections.busRoutes
         } );
     };
-} )();
+} )();*/

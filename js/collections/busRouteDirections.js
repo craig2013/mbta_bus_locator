@@ -1,13 +1,16 @@
-//bus stop directions collection
-var app = app || {};
+//routes collection
+define([
+                'jquery',
+                'underscore',
+                'backbone',
+                'models/busRouteDirections'], function($, backbone, _, busRouteDirectionsModel) {
 
-( function () {
-    'use strict';
+            'use strict';
 
-    app.collections.busRouteDirections = Backbone.Collection.extend( {
-        model: app.models.busRouteDirections,
-        url: '../../app/'
-    } );
+            var busRouteDirections = Backbone.Collection.extend( {
+		model: busRouteDirectionsModel,
+		url: '../../app/'
+            });
 
-    app.collections.busRouteDirections = new app.collections.busRouteDirections();
-} )();
+            return new busRouteDirections();
+});

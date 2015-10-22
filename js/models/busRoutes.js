@@ -1,10 +1,15 @@
 //routes model
-var app = app || {};
+define([
+                'jquery',
+                'underscore',
+                'backbone'], function($, _, backbone) {
 
-( function () {
-    'use strict';
+            'use strict';
 
-    app.models.busRoutes = Backbone.Model.extend( {
-        urlRoot: '../../app/'
-    } );
-} )();
+            var busRoutesModel = Backbone.Model.extend({
+            	urlRoot: '../../app/'
+            });
+
+            return busRoutesModel;
+});
+

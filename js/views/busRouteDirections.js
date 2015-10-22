@@ -1,120 +1,126 @@
-var app = app || {};
+//bus route directions
+define([
+            'jquery',
+            'chosen',
+            'underscore',
+            'backbone',
+            'models/busRouteDirections',
+            'collections/busRouteDirections',
+            'text!templates/busDirections.html'], function($, chosen, _, Backbone, busRouteDirectionsModel, busRouteDirectionsCollection, directionsTemplate) {
 
-( function () {
-    'use strict';
+            var directionView = Backbone.View.extend({
+                el: '.routeDirection',
 
-    app.views.busRouteDirections = Backbone.View.extend( {
+                initialize: function() {
+                    busRouteDirectionsCollection.fetch( {
+                        traditional: true,
+                            data: {
+                                'command': 'direction',
+                                'agency': Backbone.app.defaults.agencyTag,
+                                'route': Backbone.app.defaults.routeNumber
+                            }
+                    } );            
+                    
+                    this.listenTo( busRouteDirectionsCollection, 'sync', this.render );        
+                },
 
-        el: '.routeDirection',
+                render: function() {
+                    var directionItems = {};
+                    var directionModel = busRouteDirectionsCollection;
+                    var self = this;
+                    this.$direction_select = $( '#direction_select' );
+                    
+                    this.$direction_select.trigger( 'chosen:updated' );
+                    this.$direction_select.find( 'option:gt(0)' ).remove();
+                    
+                    directionItems = this.getBusDirections( directionModel );
 
-        initialize: function () {
-            app.collections.busRouteDirections.fetch( {
-                traditional: true,
-                data: {
-                    'command': 'direction',
-                    'agency': app.defaults.agencyTag,
-                    'route': app.defaults.routeNumber
-                }
-            } );
+                    if ( (Array.isArray(directionItems)) && (directionItems.length >=1) ) {
+                        if ( this.$direction_select.find( 'option' ).length <= 1 ) {
+                            var data = {
+                                'directionItems': directionItems
+                            };
 
-            this.listenTo( app.collections.busRouteDirections, 'add', this.render );
+                            var directionTemplate = _.template( directionsTemplate );
+                            self.$direction_select.append( directionTemplate(data) );        
+                        }
 
-            this.template = _.template( $( '#tpl-route-direction' ).html() );
-        },
+                        if ( Backbone.app.defaults.directionVar.length >=1 ) {
+                            this.$direction_select.val( Backbone.app.defaults.directionVar );
+                        }
 
-        render: function ( e ) {
-            var directionItems = {};
-            var busDirectionModel = this.model;
+                        $( '#direction_select' ).chosen( {
+                            no_results_text: 'Nothing found.',
+                            width: '60%'
+                        } );
+                        
+                        $( '.container main .content .routeInfo .routeDirection' ).show();                           
+                    }       
+                },
 
-            directionItems = this.getBusDirections( busDirectionModel );
+                events: {
+                    'change #direction_select': 'showDirectionStops'
+                },
 
-            //Sort directions in ascending order
-            directionItems.sort( function ( a, b ) {
-                if ( a.title < b.title ) {
-                    return -1;
-                }
+                /**
+                * Function that returns directions available for a selected stop.
+                *
+                * @param obj This is the predictions object.
+                *
+                * @return The directions for a selected stop.
+                **/
+                getBusDirections: function ( obj ) {
+                    var busDirections = obj.models;
+                    var result = [];
 
-                if ( a.title > b.title ) {
-                    return 1;
-                }
+                    _.each(busDirections, function(obj) {
+                        if ( typeof obj.attributes !== 'undefined' ) {
+                            if ( typeof obj.attributes.attributes !== 'undefined' ) {
+                                result.push(obj.attributes.attributes);
+                            }
+                        }
+                    });
 
-                return 0;
-            } );
+                    if ( Array.isArray(result) ) {
+                        result.sort( function ( a, b ) {
+                            if ( a.title < b.title ) {
+                                return -1;
+                            }
 
-            this.$direction_select = $( '#direction_select' );
+                            if ( a.title > b.title ) {
+                                return 1;
+                            }
 
-            this.$direction_select.trigger( 'chosen:updated' );
+                            return 0;
+                        } );                        
+                    }
 
-            this.$direction_select.find( 'option:gt(0)' ).remove();
+                    return result;
+                },
 
-            var directionTemplate = this.template( {
-                'directionItems': directionItems
-            } );
+                showDirectionStops: function() {
+                    if ( this.$direction_select.val() ) {
+                        Backbone.app.defaults.directionVar = this.$direction_select.val();
+                        Backbone.app.defaults.directionText = this.$direction_select.find( 'option:selected' ).text();
+                        Backbone.app.router.navigate( 'route/' + Backbone.app.defaults.routeNumber + '/direction/' + encodeURIComponent( Backbone.app.defaults.directionVar ), {
+                            trigger: true
+                        } );
+                    }
+                },
 
-            this.$direction_select.append( directionTemplate );
+                close: function() {
+                    if ( this.$direction_select.length ) {
+                        this.$direction_select.find( 'option:gt(0)' ).remove();
+                    }
 
-            if ( ( isNaN( app.defaults.directionVar ) && app.defaults.directionVar.length ) ) {
-                this.$direction_select.val( app.defaults.directionVar );
+                    $( '.container main .content .routeInfo .routeDirection' ).hide();
 
-                if ( app.defaults.directionText === 0 ) {
-                    app.defaults.directionText = this.$direction_select.find( 'option:selected' ).text();
-                }
+                    this.$el.unbind();
 
+                    Backbone.app.defaults.directionText = 0;
+                    Backbone.app.defaults.directionVar = 0;
+                }       
+            });
 
-            } else {
-                this.$direction_select.val( 0 );
-            }
-
-
-            $( '#direction_select' ).chosen( {
-                no_results_text: 'Nothing found.',
-                width: '60%'
-            } );
-
-
-
-            $( '.container main .content .routeInfo .routeDirection' ).show();
-
-        },
-
-        events: {
-            'change #direction_select': 'showDirectionStops'
-        },
-
-        /**
-         * Function that returns directions available for a selected stop.
-         *
-         * @param obj This is the predictions object.
-         *
-         * @return The directions for a selected stop.
-         */
-        getBusDirections: function ( obj ) {
-            return ( typeof obj === 'object' ) ? obj.pluck( 'attributes' ) : 'No directions found';
-        },
-
-        showDirectionStops: function ( e ) {
-            if ( this.$direction_select.val() ) {
-                app.defaults.directionVar = this.$direction_select.val();
-                app.defaults.directionText = this.$direction_select.find( 'option:selected' ).text();
-                app.router.navigate( 'route/' + app.defaults.routeNumber + '/direction/' + encodeURIComponent( app.defaults.directionVar ), {
-                    trigger: true
-                } );
-            }
-
-            return false;
-        },
-
-        close: function () {
-            if ( this.$direction_select.length ) {
-                this.$direction_select.find( 'option:gt(0)' ).remove();
-            }
-
-            $( '.container main .content .routeInfo .routeDirection' ).hide();
-
-            this.$el.unbind();
-
-            app.defaults.directionText = 0;
-            app.defaults.directionVar = 0;
-        }
-    } );
-} )();
+    return directionView;
+});
