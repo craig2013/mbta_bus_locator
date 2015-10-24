@@ -2,6 +2,10 @@
  - Uses the XML feeds from NextBus (http://www.nextbus.com/) to display MBTA bus predictions.  
 
 ##Version History
+######Version 3.0.0
+- Switched to using RequireJS with Backbone.
+- Moved functions into seperate files for better organization.
+
 ######Version 2.4.3
 - Fixed some bugs with the countdown display.
 
