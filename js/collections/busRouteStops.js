@@ -1,16 +1,17 @@
 //bus route stops collection
-define([
-                'jquery',
-                'underscore',
-                'backbone',
-                'models/busRouteStops'], function($, backbone, _, busRouteStopsModel) {
+define( [
+    'jquery',
+    'underscore',
+    'backbone',
+    'models/busRouteStops'
+], function ( $, backbone, _, busRouteStopsModel ) {
 
-            'use strict';
+    'use strict';
 
-            var busRoutes = Backbone.Collection.extend( {
-		model: busRouteStopsModel,
-		url: '../../app/'
-            });
+    var busRoutes = Backbone.Collection.extend( {
+        model: busRouteStopsModel,
+        url: '../../app/'
+    } );
 
-            return new busRoutes();
-});
+    return new busRoutes();
+} );

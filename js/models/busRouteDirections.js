@@ -1,15 +1,15 @@
 //bus stop directions model
-define([
-                'jquery',
-                'underscore',
-                'backbone'], function($, _, backbone) {
+define( [
+    'jquery',
+    'underscore',
+    'backbone'
+], function ( $, _, backbone ) {
 
-            'use strict';
+    'use strict';
 
-            var busDirectionModel = Backbone.Model.extend({
-            	urlRoot: '../../app/'
-            });
+    var busDirectionModel = Backbone.Model.extend( {
+        urlRoot: '../../app/'
+    } );
 
-            return busDirectionModel;
-});
-
+    return busDirectionModel;
+} );

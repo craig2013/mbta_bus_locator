@@ -1,15 +1,15 @@
 //routes model
-define([
-                'jquery',
-                'underscore',
-                'backbone'], function($, _, backbone) {
+define( [
+    'jquery',
+    'underscore',
+    'backbone'
+], function ( $, _, backbone ) {
 
-            'use strict';
+    'use strict';
 
-            var busRoutesModel = Backbone.Model.extend({
-            	urlRoot: '../../app/'
-            });
+    var busRoutesModel = Backbone.Model.extend( {
+        urlRoot: '../../app/'
+    } );
 
-            return busRoutesModel;
-});
-
+    return busRoutesModel;
+} );

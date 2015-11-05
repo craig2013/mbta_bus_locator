@@ -1,14 +1,14 @@
-define(['router'], function(router) {
+define( [ 'router' ], function ( router ) {
 
-    var initialize = function() {
+    var initialize = function () {
         router.initialize();
     };
-    
+
     return {
         initialize: initialize
     };
 
-});
+} );
 
 /**
  * Function is pollyfil for isArray for testing if a object is an array.
@@ -21,5 +21,3 @@ if ( !Array.isArray ) {
         return Object.prototype.toString.call( arg ) === '[object Array]';
     };
 }
-
-

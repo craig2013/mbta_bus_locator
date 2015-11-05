@@ -1,19 +1,22 @@
 /**
  * Function that returns the predictions sorted for either the route selected or bus routes that also stop at the bus stop.
  *
- * @param obj This is the predictions object.
+ * @param {Object} The predictions object.
  *
- * @return The bus predictions containing an array of objects called predictions, an  array of obects called alsoAtStop, and showFooterDisclaimer.
+ * @return {Array} The bus predictions containing an array of objects called predictions, an  array of obects called alsoAtStop, and showFooterDisclaimer.
  **/
-define([
+define( [
     'jquery',
     'underscore',
-    'backbone'], function($, _, Backbone) {
+    'backbone',
+    'utility/getRouteName'
+], function ( $, _, Backbone, getRouteNameUtility ) {
 
     'use strict';
 
     return {
-        sortRoutes: function( obj ) {
+        sortRoutes: function ( obj ) {
+
             var sortedPredictions = {
                 'predictions': [],
                 'alsoAtStop': [],
@@ -35,24 +38,22 @@ define([
                         var routeNumber = ( typeof o.attributes.dirTag === 'string' ) ? o.attributes.dirTag.substring( 0, 3 ) : '';
                         var routeName = '';
 
-                        if ( routeNumber === '741' ) {
-                            routeName = Backbone.app.defaults.routeNames[ '741' ].longName;
-                        } else if ( routeNumber === '742' ) {
-                            routeName = Backbone.app.defaults.routeNames[ '742' ].longName;
-                        } else if ( routeNumber === '746' ) {
-                            routeName = Backbone.app.defaults.routeNames[ '746' ].longName;
-                        } else if ( routeNumber === '749' ) {
-                            routeName = Backbone.app.defaults.routeNames[ '749' ].longName;
-                        } else if ( routeNumber === '751' ) {
-                            routeName = Backbone.app.defaults.routeNames[ '751' ].longName;
+
+                        if ( typeof getRouteNameUtility.getRouteName( routeNumber, 'longName' ) === 'string' ) {
+                            routeName = getRouteNameUtility.getRouteName( routeNumber, 'longName' );
                         } else {
-                            routeName = ( typeof o.attributes.dirTag === 'string' ) ? o.attributes.dirTag.substring( 0, 3 ).replace( '_', ' ' ) : '';
+                            if ( typeof o.attributes.dirTag === 'string' ) {
+                                routeName = o.attributes.dirTag.substring( 0, 3 ).replace( '_', ' ' );
+                            } else {
+                                routeName = '';
+                            }
                         }
 
                         o.attributes[ 'routeName' ] = routeName;
 
-                        if ( routeName )
+                        if ( routeName ) {
                             sortedPredictions.alsoAtStop.push( o );
+                        }
                     }
                 } else {
                     //For also at this stop.
@@ -67,18 +68,14 @@ define([
                         var routeNumber = ( typeof o.attributes.dirTag === 'string' ) ? o.attributes.dirTag.substring( 0, 3 ) : '';
                         var routeName = '';
 
-                        if ( routeNumber === '741' ) {
-                            routeName = Backbone.app.defaults.routeNames[ '741' ].longName;
-                        } else if ( routeNumber === '742' ) {
-                            routeName = Backbone.app.defaults.routeNames[ '742' ].longName;
-                        } else if ( routeNumber === '746' ) {
-                            routeName = Backbone.app.defaults.routeNames[ '746' ].longName;
-                        } else if ( routeNumber === '749' ) {
-                            routeName = Backbone.app.defaults.routeNames[ '749' ].longName;
-                        } else if ( routeNumber === '751' ) {
-                            routeName = Backbone.app.defaults.routeNames[ '751' ].longName;
+                        if ( typeof getRouteNameUtility.getRouteName( routeNumber, 'longName' ) === 'string' ) {
+                            routeName = getRouteNameUtility.getRouteName( routeNumber, 'longName' );
                         } else {
-                            routeName = ( typeof o.attributes.dirTag === 'string' ) ? o.attributes.dirTag.substring( 0, 3 ).replace( '_', ' ' ) : '';
+                            if ( typeof o.attributes.dirTag === 'string' ) {
+                                routeName = o.attributes.dirTag.substring( 0, 3 ).replace( '_', ' ' );
+                            } else {
+                                routeName = '';
+                            }
                         }
 
                         o.attributes[ 'routeName' ] = routeName;
@@ -95,7 +92,7 @@ define([
 
             } );
 
-            return sortedPredictions;       
+            return sortedPredictions;
         }
     };
-});
+} );

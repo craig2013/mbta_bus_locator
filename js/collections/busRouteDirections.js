@@ -1,16 +1,17 @@
 //routes collection
-define([
-                'jquery',
-                'underscore',
-                'backbone',
-                'models/busRouteDirections'], function($, backbone, _, busRouteDirectionsModel) {
+define( [
+    'jquery',
+    'underscore',
+    'backbone',
+    'models/busRouteDirections'
+], function ( $, backbone, _, busRouteDirectionsModel ) {
 
-            'use strict';
+    'use strict';
 
-            var busRouteDirections = Backbone.Collection.extend( {
-		model: busRouteDirectionsModel,
-		url: '../../app/'
-            });
+    var busRouteDirections = Backbone.Collection.extend( {
+        model: busRouteDirectionsModel,
+        url: '../../app/'
+    } );
 
-            return new busRouteDirections();
-});
+    return new busRouteDirections();
+} );

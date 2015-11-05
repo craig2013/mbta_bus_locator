@@ -1,14 +1,15 @@
 //bus countdown model
-define([
-                'jquery',
-                'underscore',
-                'backbone'], function($, _, backbone) {
+define( [
+    'jquery',
+    'underscore',
+    'backbone'
+], function ( $, _, backbone ) {
 
-            'use strict';
+    'use strict';
 
-            var busCountdownModel = Backbone.Model.extend({
-            	urlRoot: '../../app/'
-            });
+    var busCountdownModel = Backbone.Model.extend( {
+        urlRoot: '../../app/'
+    } );
 
-            return busCountdownModel;
-});
+    return busCountdownModel;
+} );

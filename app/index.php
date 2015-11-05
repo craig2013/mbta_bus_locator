@@ -31,8 +31,6 @@
 	    $url = $url.'&t=100000000000';
 	}	
 
-	//echo $url.'<br/>';
-
 	$toJSON = new XmlToJsonConverter();
 	$toJSON->setFeedURL($url);
 	$toJSON->parseXML();
@@ -53,9 +51,6 @@
 		$directionStops = '';
 
 		foreach ( $json->route->direction as $key => $value ) {
-			/*echo '<pre>';
-			var_dump($value);
-			echo '</pre>';*/
 			if ( isset($value->attributes->tag) ) {
 				if ( $value->attributes->tag === $direction ) {
 					$directionStops = $value;			
@@ -65,9 +60,6 @@
 					$directionStops = $value;			
 				}					
 			}
-			/*if ( $value->attributes->tag === $direction ) {
-				$directionStops = $value;			
-			}*/
 		}
 
 		$jsonObject = array(array('routeStops'=>$routeStops,'directionStops'=>$directionStops));

@@ -1,16 +1,15 @@
 //route stops model
-define([
-                'jquery',
-                'underscore',
-                'backbone'], function($, _, backbone) {
+define( [
+    'jquery',
+    'underscore',
+    'backbone'
+], function ( $, _, backbone ) {
 
-            'use strict';
+    'use strict';
 
-            var busRouteStopsModel = Backbone.Model.extend({
-            	urlRoot: '../../app/'
-            });
+    var busRouteStopsModel = Backbone.Model.extend( {
+        urlRoot: '../../app/'
+    } );
 
-            return busRouteStopsModel;
-});
-
-
+    return busRouteStopsModel;
+} );
