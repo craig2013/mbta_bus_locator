@@ -3,6 +3,10 @@
 
 ##Version History
 
+######Version 3.2.0
+- Added more route information for the also at stop display.
+- Improved various functions.
+
 ######Version 3.1.0
 - Various improvements to functions.
 

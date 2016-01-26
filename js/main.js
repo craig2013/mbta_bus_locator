@@ -20,12 +20,18 @@ require.config( {
         'templates': '../templates'
     },
     'shim': {
-        backbone: {
-            deps: [ 'jquery', 'underscore' ],
-            exports: 'Backbone'
+        jquery: {
+            exports: '$'
+        },
+        chosen: {
+            deps: [ 'jquery' ]
         },
         underscore: {
             exports: '_'
+        },
+        backbone: {
+            deps: [ 'jquery', 'underscore' ],
+            exports: 'Backbone'
         }
     }
 } );
@@ -36,5 +42,55 @@ require( [
         'app'
     ],
     function ( _, Backbone, app ) {
+
+        /** Global variables and functions**/
+        Backbone.app = {};
+        Backbone.app.defaults = {
+            'refreshPredictionsTime': 20000,
+            'agencyTag': 'mbta',
+            'routeNumber': 0,
+            'directionVar': '',
+            'stopId': 0,
+            'stopTag': '',
+            'routeNames': {
+                '741': {
+                    'longName': 'Silver Line SL1',
+                    'shortName': 'SL1'
+                },
+                '742': {
+                    'longName': 'Silver Line SL2',
+                    'shortName': 'SL2'
+                },
+                '751': {
+                    'longName': 'Silver Line SL4',
+                    'shortName': 'SL4'
+                },
+                '746': {
+                    'longName': 'Silver Line SL2, Drydock',
+                    'shortName': 'SL2'
+                },
+                '749': {
+                    'longName': 'Silver Line, Waterfront',
+                    'shortName': 'SL1'
+                },
+                '701': {
+                    'longName': 'CT1',
+                    'shortName': 'CT1'
+                },
+                '747': {
+                    'longName': 'CT2',
+                    'shortName': 'CT2'
+                },
+                '708': {
+                    'longName': 'CT3',
+                    'shortName': 'CT3'
+                }
+            }
+        };
+
+        Backbone.app.settings = {
+            'busCountdownTimer': 0
+        };
+
         app.initialize();
     } );

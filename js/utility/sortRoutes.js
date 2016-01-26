@@ -19,75 +19,52 @@ define( [
 
             var sortedPredictions = {
                 'predictions': [],
-                'alsoAtStop': [],
+                'alsoAtStop': [], //Template issue when switching routes is with this.  It's still filled with previous values.
                 'showFooterDisclaimer': false
             };
+
+            sortedPredictions.predictions = [];
+            sortedPredictions.alsoAtStop = [];
 
             _.map( obj.predictions, function ( o, i ) {
                 var showDisclaimer = false;
 
-                if ( typeof o.attributes.dirTitleBecauseNoPredictions === 'string' ) {
+                if ( typeof o.attributes.dirTitleBecauseNoPredictions === 'string' ) { //No predictions
                     if ( o.attributes.routeTag === Backbone.app.defaults.routeNumber ) {
                         sortedPredictions.predictions.push( o );
-
-                        if ( o.attributes.affectedByLayover === 'true' ) {
-                            showDisclaimer = true;
-                        }
-                    } else {
-                        //Set route name for display with Also at this stop
-                        var routeNumber = ( typeof o.attributes.dirTag === 'string' ) ? o.attributes.dirTag.substring( 0, 3 ) : '';
-                        var routeName = '';
-
-
-                        if ( typeof getRouteNameUtility.getRouteName( routeNumber, 'longName' ) === 'string' ) {
-                            routeName = getRouteNameUtility.getRouteName( routeNumber, 'longName' );
-                        } else {
-                            if ( typeof o.attributes.dirTag === 'string' ) {
-                                routeName = o.attributes.dirTag.substring( 0, 3 ).replace( '_', ' ' );
-                            } else {
-                                routeName = '';
-                            }
-                        }
-
-                        o.attributes[ 'routeName' ] = routeName;
-
-                        if ( routeName ) {
-                            sortedPredictions.alsoAtStop.push( o );
-                        }
                     }
                 } else {
-                    //For also at this stop.
-                    if ( o.attributes.dirTag.substring( 0, 3 ) === Backbone.app.defaults.directionVar.substring( 0, 3 ) ) {
+                    var dirTag = ( typeof o.attributes.dirTag === 'string' ) ? o.attributes.dirTag.substring( 0, 3 ) : '';
+                    var routeNumber = ( typeof o.attributes.dirTag === 'string' ) ? o.attributes.dirTag.substring( 0, 3 ) : '';
+                    var selectedRouteDirTag = ( typeof Backbone.app.defaults.directionVar === 'string' ) ? Backbone.app.defaults.directionVar.substring( 0, 3 ) : '';
+
+                    if ( dirTag === selectedRouteDirTag ) { //Predictions for selected route
                         sortedPredictions.predictions.push( o );
 
                         if ( o.attributes.affectedByLayover === 'true' ) {
                             showDisclaimer = true;
                         }
-                    } else {
-                        //Set route name for display with Also at this stop
-                        var routeNumber = ( typeof o.attributes.dirTag === 'string' ) ? o.attributes.dirTag.substring( 0, 3 ) : '';
-                        var routeName = '';
 
-                        if ( typeof getRouteNameUtility.getRouteName( routeNumber, 'longName' ) === 'string' ) {
-                            routeName = getRouteNameUtility.getRouteName( routeNumber, 'longName' );
-                        } else {
-                            if ( typeof o.attributes.dirTag === 'string' ) {
-                                routeName = o.attributes.dirTag.substring( 0, 3 ).replace( '_', ' ' );
-                            } else {
-                                routeName = '';
-                            }
-                        }
 
-                        o.attributes[ 'routeName' ] = routeName;
+                    } else { //Predictions for also at stop
+                        var currentRouteNumber = routeNumber.replace( '_', '' );
+                        var currentRouteInfo = _.find( obj.routeInfo, function ( item ) {
+                            return ( item.routeTag === currentRouteNumber ) ? item : undefined;
+                        } );
+
+                        o.attributes[ 'routeNumber' ] = currentRouteNumber;
+                        o.attributes[ 'routeTitle' ] = ( typeof currentRouteInfo.routeTitle === 'string' ) ? currentRouteInfo.routeTitle : '';
+                        o.attributes[ 'routeDirection' ] = ( typeof currentRouteInfo.routeDirection === 'string' ) ? currentRouteInfo.routeDirection : '';
 
                         sortedPredictions.alsoAtStop.push( o );
                     }
-                }
 
-                if ( showDisclaimer ) {
-                    if ( Array.isArray( sortedPredictions.predictions ) ) {
-                        sortedPredictions.showFooterDisclaimer = true;
+                    if ( showDisclaimer ) {
+                        if ( Array.isArray( sortedPredictions.predictions ) ) {
+                            sortedPredictions.showFooterDisclaimer = true;
+                        }
                     }
+
                 }
 
             } );

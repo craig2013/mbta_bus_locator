@@ -14,70 +14,14 @@ define( [
     'views/busRoutes',
     'views/busRouteDirections',
     'views/busRouteStops',
-    'views/busCountdown'
+    'views/selectedRoute',
+    'views/alsoAtStop'
 ], function ( $, _, Backbone,
     busRoutesModel, busDirectionsModel, busRouteStopsModel, busCountdownModel,
     busRoutesCollection, busDirectionsCollection, busStopsCollection, busCountdownCollection,
-    busRoutesView, busDirectionsView, busRouteStopsView, busCountdownView ) {
+    busRoutesView, busDirectionsView, busRouteStopsView, selectedRouteView, alsoAtStopView ) {
 
     'use strict';
-
-    Backbone.View.prototype.close = function () {
-        if ( this.onClose ) {
-            this.onClose();
-        }
-        this.remove();
-    };
-
-    /** Global variables are inside this object**/
-    Backbone.app = {};
-    Backbone.app.defaults = {
-        'refreshPredictionsTime': 20000,
-        'agencyTag': 'mbta',
-        'routeNumber': 0,
-        'directionVar': '',
-        'stopId': 0,
-        'stopTag': '',
-        'routeNames': {
-            '741': {
-                'longName': 'Silver Line SL1',
-                'shortName': 'SL1'
-            },
-            '742': {
-                'longName': 'Silver Line SL2',
-                'shortName': 'SL2'
-            },
-            '751': {
-                'longName': 'Silver Line SL4',
-                'shortName': 'SL4'
-            },
-            '746': {
-                'longName': 'Silver Line, Drydock',
-                'shortName': 'SL2'
-            },
-            '749': {
-                'longName': 'Silver Line, Waterfront',
-                'shortName': 'SL1'
-            },
-            '701': {
-                'longName': 'CT1',
-                'shortName': 'CT1'
-            },
-            '747': {
-                'longName': 'CT2',
-                'shortName': 'CT2'
-            },
-            '708': {
-                'longName': 'CT3',
-                'shortName': 'CT3'
-            }
-
-        }
-    };
-
-    Backbone.app.settings = {
-        'busCountdownTimer': 0
-    };
 
     var router = Backbone.Router.extend( {
         routes: {
@@ -89,24 +33,12 @@ define( [
     } );
 
     var initialize = function () {
-        var busRouter = new router;
+        var busRouter = new router();
 
         Backbone.app.router = busRouter;
 
-        //homeRoute: No route selected.sole
+        //homeRoute: No route selected.
         busRouter.on( 'route:homeRoute', function () {
-            if ( this.directionView ) {
-                this.directionView.close();
-                delete this.directionView;
-            }
-            if ( this.stopsView ) {
-                this.stopsView.close();
-                delete this.stopsView;
-            }
-            if ( this.countDownView ) {
-                this.countDownView.close();
-                delete this.countDownView;
-            }
             this.routeView = new busRoutesView( {
                 model: busRoutesCollection
             } );
@@ -115,13 +47,17 @@ define( [
 
         //routeSelected: Route selected, but no direction selected yet.
         busRouter.on( 'route:routeSelected', function ( routeId ) {
+            if ( this.directionView ) {
+                this.directionView.close();
+                delete this.directionView;
+            }
             if ( this.stopsView ) {
                 this.stopsView.close();
                 delete this.stopsView;
             }
-            if ( this.countDownView ) {
-                this.countDownView.close();
-                delete this.countDownView;
+            if ( this.selectedRouteView ) {
+                this.selectedRouteView.close();
+                delete this.selectedRouteView;
             }
             if ( !isNaN( routeId ) && ( !this.routeView ) ) {
                 Backbone.app.defaults.routeNumber = routeId;
@@ -129,10 +65,6 @@ define( [
                     model: busRoutesCollection
                 } );
                 this.routeView.render();
-            }
-            if ( this.directionView ) {
-                this.directionView.close();
-                delete this.directionView;
             }
             this.directionView = new busDirectionsView( {
                 model: busDirectionsCollection
@@ -142,9 +74,13 @@ define( [
 
         //directionSelected: Direction selected but no stop selected yet.
         busRouter.on( 'route:directionSelected', function ( routeId, busDirection ) {
-            if ( this.countDownView ) {
-                this.countDownView.close();
-                delete this.countDownView;
+            if ( this.stopsView ) {
+                this.stopsView.close();
+                delete this.stopsView;
+            }
+            if ( this.selectedRouteView ) {
+                this.selectedRouteView.close();
+                delete this.selectedRouteView;
             }
             if ( !isNaN( routeId ) && ( !this.routeView ) ) {
                 Backbone.app.defaults.routeNumber = routeId;
@@ -159,10 +95,6 @@ define( [
                     model: busDirectionsCollection
                 } );
                 this.directionView.render();
-            }
-            if ( this.stopsView ) {
-                this.stopsView.close();
-                delete this.stopsView;
             }
             this.stopsView = new busRouteStopsView( {
                 model: busStopsCollection
@@ -193,10 +125,15 @@ define( [
                 } );
                 this.stopsView.render();
             }
-            this.countDownView = new busCountdownView( {
-                model: busCountdownCollection
+            if ( this.selectedRouteView ) {
+                this.selectedRouteView.close();
+                delete this.selectedRouteView;
+            }
+            this.selectedRouteView = new selectedRouteView( {
+                model: busCountdownCollection,
+                el: '.selected-route-container'
             } );
-            this.countDownView.render();
+            this.selectedRouteView.render();
         } );
 
         Backbone.history.start();

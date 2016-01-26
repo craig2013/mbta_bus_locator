@@ -47,20 +47,11 @@
 					</div>									
 				</form> <!-- /.routeInfo -->
 				<div class="bus-countdown-container">
-					<h1>Bus Arival Time(s):</h1>
+					<h1 class="bus-countdown-title">Bus Arival Time(s):</h1>
 					<div class="bus-stop-container">
-						<div class="selected-route-container">
-							<div class="bus-times"></div>	
-							<div class="no-bus-predictions">No bus predictions currently for your selected route.</div>
-							<p class="map-text"><a href="#" class="show-map-link">Show Map</a> <br/>(Please note map will open in a new window.)</p>																					
-							<p class="disclaimer-text">*Vehicle has not yet departed terminal. Actual departure time is subject to change.</p>	
-							<p class="bus-schedule"><b><a href="" target="_blank">Bus Schedule</a></b></p>							
-						</div>
-						<div class="also-at-stop-container">
-							<h4>Also at this stop:</h4>
-							<div class="bus-times"></div>
-						</div>	
-						<div class="no-bus-predictions">No bus predictions currently for your selected route.</div>
+						<div class="selected-route-container"></div>
+						<div class="also-at-stop-container"></div>
+						<!--div class="no-bus-predictions">No bus predictions currently for your selected route.</div-->					
 					</div><!--/.bus-stop-container-->
 				</div><!-- /.bus-countdown-container -->
 			</div> <!-- /.content -->
@@ -70,11 +61,12 @@
 				<p>
 					<h3>About this service:</h3>
 					This service relies on data from the <a href="http://www.nextbus.com" target="_blank">Nextbus</a> XML feeds API for the <a href="http://www.mbta.com/" target="_blank">MBTA</a>.
-					This app is using Backbone.js for a front end and a PHP wrapper for the backend to convert the XML feeds to JSON. I've also written my CSS using SASS.  The source code can be found on my Github page.
+					This app is using Backbone.js for a front end and a PHP wrapper for the backend to convert the XML feeds to JSON. I've also written my CSS using SASS.  The source code can be found on my <a href="https://github.com/craigstroman/mbta_bus_locator" target="_blank">Github</a> page.
 				</p>	
-				<p><b><a href="faq.html" target="'_blank">Frequently Asked Questions</a></b></p>
-				<p><b>You can now bookmark your stop and come back to it later.</b></p>		
+				<p><a class="faq-link" href="faq.html" target="_blank">Frequently Asked Questions</a></p>
+				<p>You can now bookmark your stop and come back to it later.</p>		
 				<p>The accuracy of the data cannot be guranteed.</p>
+				<p>Please note all bus predictions for a particular route may not be available at times.  This is due to the response from the Nexbus API.</p>
 			</div>   
 		</footer>
 	</div><!-- /.container -->

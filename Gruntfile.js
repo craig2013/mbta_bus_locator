@@ -60,5 +60,5 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('js-beautifier', ['jsbeautifier']);	
 	grunt.registerTask('js-uglify', ['uglify']);
-	grunt.registerTask('watch-task',['watch']);
+	grunt.registerTask('watch-css',['watch']);
 };

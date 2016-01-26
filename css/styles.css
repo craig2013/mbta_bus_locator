@@ -718,8 +718,10 @@ body {
         body .container .content .routeInfo .routeDirection {
           display: none; }
       body .container .content .bus-countdown-container {
-        display: none;
+        display: block;
         *zoom: 1; }
+        body .container .content .bus-countdown-container .bus-countdown-title {
+          display: none; }
         body .container .content .bus-countdown-container .bus-stop-container {
           margin: 10px 15px;
           /* Small devices (tablets, >= 768px and <= 991px) */
@@ -739,7 +741,8 @@ body {
               width: 600px; } }
           body .container .content .bus-countdown-container .bus-stop-container .selected-route-container {
             background: #337AB7;
-            border: 1px solid #000;
+            border: 2px solid #000;
+            border-radius: 5px;
             display: none;
             line-height: 1.5;
             margin: 0 0 10px 0;
@@ -777,13 +780,16 @@ body {
               font-weight: bold; }
             body .container .content .bus-countdown-container .bus-stop-container .selected-route-container .disclaimer-text {
               display: none; }
+            body .container .content .bus-countdown-container .bus-stop-container .selected-route-container .bus-schedule {
+              font-weight: bold; }
           body .container .content .bus-countdown-container .bus-stop-container .also-at-stop-container {
             background: #DEDEDE;
-            border: 1px solid #000;
+            border: 2px solid #000;
+            border-radius: 5px;
             display: none;
             font-size: 1em;
-            height: 100px;
-            padding: 10px 10px 0 10px;
+            height: auto;
+            padding: 10px;
             text-align: left; }
           body .container .content .bus-countdown-container .bus-stop-container .no-bus-predictions {
             display: none;
@@ -819,9 +825,11 @@ body {
           width: 940px; } }
       body .container footer .about p {
         margin: 10px 0; }
-      body .container footer .bookmark-text {
-        font-weight: bold;
-        margin: 10px 0 0 0; }
+        body .container footer .about p .faq-link {
+          font-weight: bold;
+          text-decoration: underline; }
+          body .container footer .about p .faq-link:hover {
+            text-decoration: none; }
       body .container footer:before, body .container footer:after {
         content: " ";
         display: table; }

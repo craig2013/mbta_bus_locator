@@ -14,11 +14,14 @@ footer {
             .about {
                 p {
                     margin: 10px 0;
+                    .faq-link {
+                        font-weight: bold;
+                        text-decoration: underline;
+                        &:hover {
+                            text-decoration: none;
+                        }
+                    }
                 }
-            }
-            .bookmark-text {
-                font-weight: bold;
-                margin: 10px 0 0 0;
             }
 
             @include clearfix();             

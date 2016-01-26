@@ -16,18 +16,25 @@ define( [
     return {
         getRouteName: function ( routeNumber, routeType ) {
             var routeName = '';
+            routeNumber = parseInt( routeNumber );
 
             if ( !isNaN( routeNumber ) ) {
-                if ( routeNumber === '741' ) {
-                    routeName = Backbone.app.defaults.routeNames[ 741 ][ routeType ];
-                } else if ( routeNumber === '742' ) {
-                    routeName = Backbone.app.defaults.routeNames[ 742 ][ routeType ];
-                } else if ( routeNumber === '746' ) {
-                    routeName = Backbone.app.defaults.routeNames[ 746 ][ routeType ];
-                } else if ( routeNumber === '749' ) {
-                    routeName = Backbone.app.defaults.routeNames[ 749 ][ routeType ];
-                } else if ( routeNumber === '751' ) {
-                    routeName = Backbone.app.defaults.routeNames[ 751 ][ routeType ];
+                if ( routeNumber === 741 ) {
+                    routeName = Backbone.app.defaults.routeNames[ routeNumber.toString() ][ routeType ];
+                } else if ( routeNumber === 742 ) {
+                    routeName = Backbone.app.defaults.routeNames[ routeNumber.toString() ][ routeType ];
+                } else if ( routeNumber === 746 ) {
+                    routeName = Backbone.app.defaults.routeNames[ routeNumber.toString() ][ routeType ];
+                } else if ( routeNumber === 749 ) {
+                    routeName = Backbone.app.defaults.routeNames[ routeNumber.toString() ][ routeType ];
+                } else if ( routeNumber === 751 ) {
+                    routeName = Backbone.app.defaults.routeNames[ routeNumber.toString() ][ routeType ];
+                } else if ( routeNumber === 701 ) {
+                    routeName = Backbone.app.defaults.routeNames[ routeNumber.toString() ][ routeType ];
+                } else if ( routeNumber === 747 ) {
+                    routeName = Backbone.app.defaults.routeNames[ routeNumber.toString() ][ routeType ];
+                } else if ( routeNumber === 708 ) {
+                    routeName = Backbone.app.defaults.routeNames[ routeNumber.toString() ][ routeType ];
                 } else {
                     routeName = undefined;
                 }

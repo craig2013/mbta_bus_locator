@@ -1,5 +1,8 @@
 .bus-countdown-container {
-	display: none;
+	display: block;
+	.bus-countdown-title {
+		display: none;
+	}
 	.bus-stop-container {
 		margin: 10px 15px;		
 		@include media (tablet) {
@@ -16,14 +19,15 @@
 		}   
 		.selected-route-container {
 			background: #337AB7;
-			border: 1px solid #000;
+			border: 2px solid #000;
+			border-radius: 5px;
 			display: none;
 			line-height: 1.5;
 			margin: 0 0 10px 0;
-			padding: 10px 0 0 0;	
+			padding: 10px 0 0 0;
 			.bus-times {
 				line-height: 1;
-				margin:0 0 10px 0;
+				margin: 0 0 10px 0;
 				.bus-time {
 					font-size: 1.5em;
 					.arriving {
@@ -58,14 +62,18 @@
 			.disclaimer-text {
 				display: none;
 			}
+			.bus-schedule {
+				font-weight: bold;
+			}
 		}//end .selected-route-container
 		.also-at-stop-container {
 			background: #DEDEDE;
-			border: 1px solid #000;
+			border: 2px solid #000;
+			border-radius: 5px;
 			display: none;
 			font-size: 1em;
-			height: 100px;
-			padding: 10px 10px 0 10px;
+			height: auto;
+			padding: 10px;
 			text-align: left;			
 		}
 		.no-bus-predictions {
