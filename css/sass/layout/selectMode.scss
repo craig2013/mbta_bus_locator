@@ -1,11 +1,18 @@
-.route-direction {
-        margin: 0 auto 35px auto;     
+.mode-name {
+        margin: 0 auto 35px auto;
         text-align: center;
+        
+        p {
+            line-height: 1.5em;
+            margin: 0 0 5px 0;
+        }
 
         label {
             display: inline-block;
             text-align: right;
+            width: 70px;
         }
+
 
         select {
             display: inline-block;
@@ -22,4 +29,4 @@
         }
 
         @include clearfix();
-}//end .routeDirection
+}//end .routesAvailable

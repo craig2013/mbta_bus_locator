@@ -1,7 +1,9 @@
 getRouteStops.php
 testing-local-only/
 node_modules/
+.sass-cache/
 css/sass/.sass-cache/
 js/models/busRouteStopInfo.json
 NextBusXMLFeed.pdf
+mbta-realtime-api.pdf
 code.html

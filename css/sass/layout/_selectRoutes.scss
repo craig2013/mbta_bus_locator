@@ -1,33 +1,16 @@
-.routesAvailable {
-        margin: 0 0 35px 0;
-        @include media(tablet) {
-            margin: 0 auto 25px auto;
-            width: 580px;        
-        }
-        @include media(mediumDesktop) {
-            margin: 0 auto 25px auto;
-            width: 580px;
-        }         
-        @include media(largeDesktop) {
-            margin: 0 auto 25px auto;
-            width: 580px;
-        } 
-
-        .info {
+.routes-available {
+        margin: 0 auto 35px auto;
+        text-align: center;
+        
+        p {
+            line-height: 1.5em;
             margin: 0 0 5px 0;
-            p {
-                line-height: 1.5em;
-            }
         }
 
         label {
             display: inline-block;
             text-align: right;
-            width: 60px;
-        }
-
-        p {
-            text-align: left;
+            width: 70px;        
         }
 
         select {
@@ -42,26 +25,7 @@
             @include media (largeDesktop) {
                 width: 320px;
             }
-        }
-
-        button {
-            @extend .btn; 
-            @extend .btn-default;
-            float: left;
-            margin: 5px 0 0 27px;
-            @include media (tablet) {
-                float: none;
-                width: 165px !important; 
-            }
-            @include media (mediumDesktop) {
-                float: none;
-                width: 165px !important; 
-            }
-            @include media (largeDesktop) {
-                float: none;
-                width: 165px !important; 
-            }                
-        }        
+        } 
 
         @include clearfix();
 }//end .routesAvailable

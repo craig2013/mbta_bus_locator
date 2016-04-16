@@ -33,7 +33,8 @@ require.config( {
             deps: [ 'jquery', 'underscore' ],
             exports: 'Backbone'
         }
-    }
+    },
+    urlArgs: 'bust=' + Date.now()
 } );
 
 require( [

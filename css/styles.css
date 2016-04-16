@@ -96,17 +96,17 @@ a {
   line-height: 1.42857143;
   padding: 6px 12px; }
 
-.btn, body .container .content .routeInfo .routesAvailable button, body .container .content .routeInfo .routeDirection button, body .container .content .routeInfo .routeStops button {
+.btn {
   border: 1px solid transparent;
   border-radius: 4px;
   cursor: pointer;
   display: inline-block;
   font-size: 1em;
   padding: 6px 12px; }
-  .btn:hover, body .container .content .routeInfo .routesAvailable button:hover, body .container .content .routeInfo .routeDirection button:hover, body .container .content .routeInfo .routeStops button:hover {
+  .btn:hover {
     background-color: #ccc; }
 
-.btn-default, body .container .content .routeInfo .routesAvailable button, body .container .content .routeInfo .routeDirection button, body .container .content .routeInfo .routeStops button {
+.btn-default {
   background-color: #fff;
   border-color: #ccc;
   color: #000; }
@@ -510,212 +510,154 @@ body {
       @media (min-width: 1200px) {
         body .container .content {
           width: 100%; } }
-      body .container .content .routeInfo {
-        margin: 20px 0 0 0; }
-        body .container .content .routeInfo .routesAvailable {
-          margin: 0 0 35px 0;
-          /* Small devices (tablets, >= 768px and <= 991px) */
-          /* Medium devices (desktops, >= 992px and <= 1100px) */
-          /* Large devices (large desktops, 1200px and up) */
+      body .container .content .route-info {
+        margin: 20px 0 0 0;
+        width: 100%;
+        /* Small devices (tablets, >= 768px and <= 991px) */
+        /* Medium devices (desktops, >= 992px and <= 1100px) */
+        /* Large devices (large desktops, 1200px and up) */ }
+        @media (min-width: 768px) and (max-width: 991px) {
+          body .container .content .route-info {
+            width: 100%; } }
+        @media (min-width: 992px) and (max-width: 1100px) {
+          body .container .content .route-info {
+            width: 100%; } }
+        @media (min-width: 1200px) {
+          body .container .content .route-info {
+            width: 100%; } }
+        body .container .content .route-info .mode-name {
+          margin: 0 auto 35px auto;
+          text-align: center;
           *zoom: 1; }
-          @media (min-width: 768px) and (max-width: 991px) {
-            body .container .content .routeInfo .routesAvailable {
-              margin: 0 auto 25px auto;
-              width: 580px; } }
-          @media (min-width: 992px) and (max-width: 1100px) {
-            body .container .content .routeInfo .routesAvailable {
-              margin: 0 auto 25px auto;
-              width: 580px; } }
-          @media (min-width: 1200px) {
-            body .container .content .routeInfo .routesAvailable {
-              margin: 0 auto 25px auto;
-              width: 580px; } }
-          body .container .content .routeInfo .routesAvailable .info {
+          body .container .content .route-info .mode-name p {
+            line-height: 1.5em;
             margin: 0 0 5px 0; }
-            body .container .content .routeInfo .routesAvailable .info p {
-              line-height: 1.5em; }
-          body .container .content .routeInfo .routesAvailable label {
+          body .container .content .route-info .mode-name label {
             display: inline-block;
             text-align: right;
-            width: 60px; }
-          body .container .content .routeInfo .routesAvailable p {
-            text-align: left; }
-          body .container .content .routeInfo .routesAvailable select {
+            width: 70px; }
+          body .container .content .route-info .mode-name select {
             display: inline-block;
             width: 280px;
             /* Small devices (tablets, >= 768px and <= 991px) */
             /* Medium devices (desktops, >= 992px and <= 1100px) */
             /* Large devices (large desktops, 1200px and up) */ }
             @media (min-width: 768px) and (max-width: 991px) {
-              body .container .content .routeInfo .routesAvailable select {
+              body .container .content .route-info .mode-name select {
                 width: 320px; } }
             @media (min-width: 992px) and (max-width: 1100px) {
-              body .container .content .routeInfo .routesAvailable select {
+              body .container .content .route-info .mode-name select {
                 width: 320px; } }
             @media (min-width: 1200px) {
-              body .container .content .routeInfo .routesAvailable select {
+              body .container .content .route-info .mode-name select {
                 width: 320px; } }
-          body .container .content .routeInfo .routesAvailable button {
-            float: left;
-            margin: 5px 0 0 27px;
-            /* Small devices (tablets, >= 768px and <= 991px) */
-            /* Medium devices (desktops, >= 992px and <= 1100px) */
-            /* Large devices (large desktops, 1200px and up) */ }
-            @media (min-width: 768px) and (max-width: 991px) {
-              body .container .content .routeInfo .routesAvailable button {
-                float: none;
-                width: 165px !important; } }
-            @media (min-width: 992px) and (max-width: 1100px) {
-              body .container .content .routeInfo .routesAvailable button {
-                float: none;
-                width: 165px !important; } }
-            @media (min-width: 1200px) {
-              body .container .content .routeInfo .routesAvailable button {
-                float: none;
-                width: 165px !important; } }
-          body .container .content .routeInfo .routesAvailable:before, body .container .content .routeInfo .routesAvailable:after {
+          body .container .content .route-info .mode-name:before, body .container .content .route-info .mode-name:after {
             content: " ";
             display: table; }
-          body .container .content .routeInfo .routesAvailable:after {
+          body .container .content .route-info .mode-name:after {
             clear: both;
             display: block;
             font-size: 0;
             height: 0;
             visibility: hidden; }
-        body .container .content .routeInfo .routeDirection {
-          margin: 0 0 35px 0;
-          /* Small devices (tablets, >= 768px and <= 991px) */
-          /* Medium devices (desktops, >= 992px and <= 1100px) */
-          /* Large devices (large desktops, 1200px and up) */
+        body .container .content .route-info .routes-available {
+          margin: 0 auto 35px auto;
+          text-align: center;
           *zoom: 1; }
-          @media (min-width: 768px) and (max-width: 991px) {
-            body .container .content .routeInfo .routeDirection {
-              margin: 0 auto 25px auto;
-              width: 580px; } }
-          @media (min-width: 992px) and (max-width: 1100px) {
-            body .container .content .routeInfo .routeDirection {
-              margin: 0 auto 25px auto;
-              width: 580px; } }
-          @media (min-width: 1200px) {
-            body .container .content .routeInfo .routeDirection {
-              margin: 0 auto 25px auto;
-              width: 580px; } }
-          body .container .content .routeInfo .routeDirection label {
+          body .container .content .route-info .routes-available p {
+            line-height: 1.5em;
+            margin: 0 0 5px 0; }
+          body .container .content .route-info .routes-available label {
             display: inline-block;
             text-align: right;
-            width: 60px; }
-          body .container .content .routeInfo .routeDirection p {
-            text-align: left; }
-          body .container .content .routeInfo .routeDirection select {
+            width: 70px; }
+          body .container .content .route-info .routes-available select {
             display: inline-block;
             width: 280px;
             /* Small devices (tablets, >= 768px and <= 991px) */
             /* Medium devices (desktops, >= 992px and <= 1100px) */
             /* Large devices (large desktops, 1200px and up) */ }
             @media (min-width: 768px) and (max-width: 991px) {
-              body .container .content .routeInfo .routeDirection select {
+              body .container .content .route-info .routes-available select {
                 width: 320px; } }
             @media (min-width: 992px) and (max-width: 1100px) {
-              body .container .content .routeInfo .routeDirection select {
+              body .container .content .route-info .routes-available select {
                 width: 320px; } }
             @media (min-width: 1200px) {
-              body .container .content .routeInfo .routeDirection select {
+              body .container .content .route-info .routes-available select {
                 width: 320px; } }
-          body .container .content .routeInfo .routeDirection button {
-            float: left;
-            margin: 5px 0 0 27px;
-            /* Small devices (tablets, >= 768px and <= 991px) */
-            /* Medium devices (desktops, >= 992px and <= 1100px) */
-            /* Large devices (large desktops, 1200px and up) */ }
-            @media (min-width: 768px) and (max-width: 991px) {
-              body .container .content .routeInfo .routeDirection button {
-                float: none;
-                width: 165px !important; } }
-            @media (min-width: 992px) and (max-width: 1100px) {
-              body .container .content .routeInfo .routeDirection button {
-                float: none;
-                width: 165px !important; } }
-            @media (min-width: 1200px) {
-              body .container .content .routeInfo .routeDirection button {
-                float: none;
-                width: 165px !important; } }
-          body .container .content .routeInfo .routeDirection:before, body .container .content .routeInfo .routeDirection:after {
+          body .container .content .route-info .routes-available:before, body .container .content .route-info .routes-available:after {
             content: " ";
             display: table; }
-          body .container .content .routeInfo .routeDirection:after {
+          body .container .content .route-info .routes-available:after {
             clear: both;
             display: block;
             font-size: 0;
             height: 0;
             visibility: hidden; }
-        body .container .content .routeInfo .routeStops {
-          margin: 0 0 25px 0;
-          /* Small devices (tablets, >= 768px and <= 991px) */
-          /* Medium devices (desktops, >= 992px and <= 1100px) */
-          /* Large devices (large desktops, 1200px and up) */
+        body .container .content .route-info .route-direction {
+          margin: 0 auto 35px auto;
+          text-align: center;
           *zoom: 1; }
-          @media (min-width: 768px) and (max-width: 991px) {
-            body .container .content .routeInfo .routeStops {
-              margin: 0 auto 25px auto;
-              width: 580px; } }
-          @media (min-width: 992px) and (max-width: 1100px) {
-            body .container .content .routeInfo .routeStops {
-              margin: 0 auto 25px auto;
-              width: 580px; } }
-          @media (min-width: 1200px) {
-            body .container .content .routeInfo .routeStops {
-              margin: 0 auto 25px auto;
-              width: 580px; } }
-          body .container .content .routeInfo .routeStops label {
+          body .container .content .route-info .route-direction label {
             display: inline-block;
-            text-align: right;
-            width: 60px; }
-          body .container .content .routeInfo .routeStops p {
-            text-align: left; }
-          body .container .content .routeInfo .routeStops select {
+            text-align: right; }
+          body .container .content .route-info .route-direction select {
             display: inline-block;
             width: 280px;
             /* Small devices (tablets, >= 768px and <= 991px) */
             /* Medium devices (desktops, >= 992px and <= 1100px) */
             /* Large devices (large desktops, 1200px and up) */ }
             @media (min-width: 768px) and (max-width: 991px) {
-              body .container .content .routeInfo .routeStops select {
+              body .container .content .route-info .route-direction select {
                 width: 320px; } }
             @media (min-width: 992px) and (max-width: 1100px) {
-              body .container .content .routeInfo .routeStops select {
+              body .container .content .route-info .route-direction select {
                 width: 320px; } }
             @media (min-width: 1200px) {
-              body .container .content .routeInfo .routeStops select {
+              body .container .content .route-info .route-direction select {
                 width: 320px; } }
-          body .container .content .routeInfo .routeStops button {
-            float: left;
-            margin: 5px 0 0 27px;
-            /* Small devices (tablets, >= 768px and <= 991px) */
-            /* Medium devices (desktops, >= 992px and <= 1100px) */
-            /* Large devices (large desktops, 1200px and up) */ }
-            @media (min-width: 768px) and (max-width: 991px) {
-              body .container .content .routeInfo .routeStops button {
-                float: none;
-                width: 165px !important; } }
-            @media (min-width: 992px) and (max-width: 1100px) {
-              body .container .content .routeInfo .routeStops button {
-                float: none;
-                width: 165px !important; } }
-            @media (min-width: 1200px) {
-              body .container .content .routeInfo .routeStops button {
-                float: none;
-                width: 165px !important; } }
-          body .container .content .routeInfo .routeStops:before, body .container .content .routeInfo .routeStops:after {
+          body .container .content .route-info .route-direction:before, body .container .content .route-info .route-direction:after {
             content: " ";
             display: table; }
-          body .container .content .routeInfo .routeStops:after {
+          body .container .content .route-info .route-direction:after {
             clear: both;
             display: block;
             font-size: 0;
             height: 0;
             visibility: hidden; }
-        body .container .content .routeInfo .routeStops,
-        body .container .content .routeInfo .routeDirection {
+        body .container .content .route-info .route-stops {
+          margin: 0 auto 25px auto;
+          *zoom: 1; }
+          body .container .content .route-info .route-stops label {
+            display: inline-block;
+            text-align: right; }
+          body .container .content .route-info .route-stops select {
+            display: inline-block;
+            width: 280px;
+            /* Small devices (tablets, >= 768px and <= 991px) */
+            /* Medium devices (desktops, >= 992px and <= 1100px) */
+            /* Large devices (large desktops, 1200px and up) */ }
+            @media (min-width: 768px) and (max-width: 991px) {
+              body .container .content .route-info .route-stops select {
+                width: 320px; } }
+            @media (min-width: 992px) and (max-width: 1100px) {
+              body .container .content .route-info .route-stops select {
+                width: 320px; } }
+            @media (min-width: 1200px) {
+              body .container .content .route-info .route-stops select {
+                width: 320px; } }
+          body .container .content .route-info .route-stops:before, body .container .content .route-info .route-stops:after {
+            content: " ";
+            display: table; }
+          body .container .content .route-info .route-stops:after {
+            clear: both;
+            display: block;
+            font-size: 0;
+            height: 0;
+            visibility: hidden; }
+        body .container .content .route-info .route-stops,
+        body .container .content .route-info .route-direction {
           display: none; }
       body .container .content .bus-countdown-container {
         display: block;

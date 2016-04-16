@@ -37,15 +37,26 @@ body {
                 width: 100%; 
             }
 
-            .routeInfo {
+            .route-info {
                     margin: 20px 0 0 0;
-
+                    width: 100%;
+                    @include media (tablet) {
+                        width: 100%;
+                    }
+                    @include media (mediumDesktop) { 
+                        width: 100%;
+                    }
+                    @include media (largeDesktop) {
+                        width: 100%; 
+                    }
+                    
+                    @import "layout/selectMode";
                     @import "layout/selectRoutes";
                     @import "layout/selectDirection";
                     @import "layout/selectStop";
 
-                    .routeStops, 
-                    .routeDirection { 
+                    .route-stops, 
+                    .route-direction { 
                         display: none;
                     }                    
             }

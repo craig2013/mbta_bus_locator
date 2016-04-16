@@ -6,7 +6,7 @@
     <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-	<title>MBTA Bus Locator</title>
+	<title>MBTA Tracker</title>
 	<meta name="description" content="Get MBTA bus times for your stop."/>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
 	<script src="/js/libs/modernizr/modernizr.js"></script>
@@ -15,36 +15,20 @@
     <body>
 	<div class="container">
 		<header>
-			<h1>MBTA Bus Locator</h1>
+			<h1>MBTA Tracker</h1>
 		</header>
 		<main>
 			<div class="loading">Loading...</div>
 			<div class="content">
-				<p>Find out when the next bus is coming at your stop by selecting a route, direction, and then the stop.</p>
-				<form class="routeInfo">
-					<div class="routesAvailable">
-						<div class="info">
-							<p>Select a route first from the list of routes:</p>
-						</div>
-						<label  for="route_select chosen-select">Routes:</label>
-						<select class="form"  id="route_select" name="route_select">
-							<option value="0" selected="selected">Select a route</option>
+				<p>Find out when the next bus, subway, or commuter line train is coming to your stop.</p>
+				<form class="route-info">
+					<div class="mode-type">
+						<p>Select a transportation mode:</p>
+						<label  for="route-select chosen-select">Mode:</label>
+						<select class="form"  id="route-select" name="route-select">
+							<option value="0" selected="selected">Select a mode</option>
 						</select>								
-					</div>
-					<div class="routeDirection">
-						<p>Select a direction you are headed in from the list:</p>
-						<label for="direction_select chosen-select">Direction:</label> 
-						<select class="form" id="direction_select" name="direction_select">
-							<option value="0">Select a direction</option>
-						</select>
-					</div>						
-					<div class="routeStops">
-						<p>Select the stop you are currently at:</p>
-						<label  for="stop_select chosen-select">Stops:</label>
-						<select class="form" id="stop_select" name="stop_select">
-							<option value="0">Select a stop</option>
-						</select>      
-					</div>									
+					</div>											
 				</form> <!-- /.routeInfo -->
 				<div class="bus-countdown-container">
 					<h1 class="bus-countdown-title">Bus Arival Time(s):</h1>
@@ -70,6 +54,9 @@
 			</div>   
 		</footer>
 	</div><!-- /.container -->
-	<script data-main="/js/main" src="/js/libs/require-js/require.js"></script>	
+	<script src="/js/libs/require-js/require.js"></script>
+	<script>
+		require(['/js/main.js?bust='+Date.now()]);
+	</script>		
     </body>
 </html> 

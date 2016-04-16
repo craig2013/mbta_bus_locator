@@ -7,9 +7,9 @@ define( [
 
     'use strict';
 
-    var busRoutesModel = Backbone.Model.extend( {
-        urlRoot: '../../app/'
+    var modeType = Backbone.Model.extend( {
+        urlRoot: '../../app/?queryType=routes'
     } );
 
-    return busRoutesModel;
+    return modeType;
 } );
