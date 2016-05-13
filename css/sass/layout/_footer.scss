@@ -1,6 +1,6 @@
 footer {
             display: block;
-            margin: 0 auto;
+            margin: 30px auto 0 auto;
             width: 100%;
             @include media (tablet) {
                 width: 730px;
@@ -10,17 +10,13 @@ footer {
             }
             @include media (largeDesktop) {
                 width: 940px; 
-            }            
-            .about {
+            }          
+            div {
+                margin: 10px 0;
+            }
+            .disclaimer {
                 p {
                     margin: 10px 0;
-                    .faq-link {
-                        font-weight: bold;
-                        text-decoration: underline;
-                        &:hover {
-                            text-decoration: none;
-                        }
-                    }
                 }
             }
 

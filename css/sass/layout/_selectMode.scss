@@ -1,0 +1,46 @@
+.mode-type {
+        display: inline-block;
+        margin: 0 auto 35px auto;
+        text-align: center;
+        p {
+            line-height: 1.5em;
+            margin: 0 0 5px 0;
+        }
+
+        label {
+            display: inline-block;
+            text-align: right;
+            width: $predictions-form-label-size;
+        }
+
+
+        select {
+            display: inline-block;
+            width: $screen-mobile-dropdown !important;
+            @include media (tablet) {
+                width: $screen-sm-dropdown;
+            }
+            @include media (mediumDesktop) {
+                width: $screen-md-dropdown;
+            }
+            @include media (largeDesktop) {
+                width: $screen-lg-dropdown;
+            }    
+        }
+
+        .chosen-container {
+            text-align: left;
+            width: $screen-mobile-dropdown !important;
+            @include media (tablet) {
+                width: $screen-sm-dropdown;
+            }
+            @include media (mediumDesktop) {
+                width: $screen-md-dropdown;
+            }
+            @include media (largeDesktop) {
+                width: $screen-lg-dropdown;
+            }                
+        }
+
+        @include clearfix();
+}//end .routesAvailable

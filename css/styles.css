@@ -134,6 +134,10 @@ h6 {
 .loading {
   text-align: center; }
 
+.map-marker-label {
+  background: #fff;
+  width: 100px; }
+
 /* @group Base */
 .chosen-container {
   position: relative;
@@ -489,12 +493,102 @@ body {
   font-family: arial, helvetica, sans-serif;
   font-size: 0.85em; }
   body .container {
-    margin: 10px 0 0 0; }
-    body .container header {
-      margin: 0 auto 15px auto;
-      text-align: center; }
+    margin: 0; }
+    body .container header .header {
+      border-bottom-color: #e7e7e7;
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      height: 60px;
+      vertical-align: middle;
+      width: 100%;
+      /* Small devices (tablets, >= 768px and <= 991px) */
+      /* Medium devices (desktops, >= 992px and <= 1100px) */
+      /* Large devices (large desktops, 1200px and up) */ }
+      @media (min-width: 768px) and (max-width: 991px) {
+        body .container header .header {
+          height: 40px;
+          line-height: 40px;
+          width: 100%; } }
+      @media (min-width: 992px) and (max-width: 1199px) {
+        body .container header .header {
+          height: 40px;
+          line-height: 40px;
+          width: 100%; } }
+      @media (min-width: 1200px) {
+        body .container header .header {
+          height: 40px;
+          line-height: 40px;
+          width: 100%; } }
+      body .container header .header .header-title {
+        display: block;
+        margin: 0 0 10px 0;
+        text-align: left;
+        width: 100%;
+        /* Small devices (tablets, >= 768px and <= 991px) */
+        /* Medium devices (desktops, >= 992px and <= 1100px) */
+        /* Large devices (large desktops, 1200px and up) */ }
+        @media (min-width: 768px) and (max-width: 991px) {
+          body .container header .header .header-title {
+            display: inline-block;
+            margin: 0;
+            width: 25%; } }
+        @media (min-width: 992px) and (max-width: 1199px) {
+          body .container header .header .header-title {
+            display: inline-block;
+            margin: 0;
+            width: 20%; } }
+        @media (min-width: 1200px) {
+          body .container header .header .header-title {
+            display: inline-block;
+            margin: 0;
+            width: 20%; } }
+        body .container header .header .header-title h1 {
+          margin: 0; }
+      body .container header .header nav {
+        display: block;
+        width: 100%;
+        /* Small devices (tablets, >= 768px and <= 991px) */
+        /* Medium devices (desktops, >= 992px and <= 1100px) */
+        /* Large devices (large desktops, 1200px and up) */ }
+        @media (min-width: 768px) and (max-width: 991px) {
+          body .container header .header nav {
+            display: inline-block;
+            width: 65%; } }
+        @media (min-width: 992px) and (max-width: 1199px) {
+          body .container header .header nav {
+            display: inline-block;
+            width: 65%; } }
+        @media (min-width: 1200px) {
+          body .container header .header nav {
+            display: inline-block;
+            width: 75%; } }
+        body .container header .header nav .main-nav {
+          display: block;
+          /* Small devices (tablets, >= 768px and <= 991px) */
+          /* Medium devices (desktops, >= 992px and <= 1100px) */
+          /* Large devices (large desktops, 1200px and up) */ }
+          @media (min-width: 768px) and (max-width: 991px) {
+            body .container header .header nav .main-nav {
+              display: inline-block; } }
+          @media (min-width: 992px) and (max-width: 1199px) {
+            body .container header .header nav .main-nav {
+              display: inline-block; } }
+          @media (min-width: 1200px) {
+            body .container header .header nav .main-nav {
+              display: inline-block; } }
+          body .container header .header nav .main-nav li {
+            display: inline-block;
+            list-style: none;
+            padding: 0 0 0 15px; }
+            body .container header .header nav .main-nav li:first-child {
+              padding: 0; }
+    body .container .browser-message {
+      display: none; }
+      body .container .browser-message.ie9 {
+        display: block;
+        margin: 0 auto;
+        text-align: center; }
     body .container .content {
-      display: none;
       margin: 0 auto;
       text-align: center;
       width: 100%;
@@ -504,253 +598,335 @@ body {
       @media (min-width: 768px) and (max-width: 991px) {
         body .container .content {
           width: 100%; } }
-      @media (min-width: 992px) and (max-width: 1100px) {
+      @media (min-width: 992px) and (max-width: 1199px) {
         body .container .content {
           width: 100%; } }
       @media (min-width: 1200px) {
         body .container .content {
           width: 100%; } }
-      body .container .content .route-info {
-        margin: 20px 0 0 0;
-        width: 100%;
-        /* Small devices (tablets, >= 768px and <= 991px) */
-        /* Medium devices (desktops, >= 992px and <= 1100px) */
-        /* Large devices (large desktops, 1200px and up) */ }
-        @media (min-width: 768px) and (max-width: 991px) {
-          body .container .content .route-info {
-            width: 100%; } }
-        @media (min-width: 992px) and (max-width: 1100px) {
-          body .container .content .route-info {
-            width: 100%; } }
-        @media (min-width: 1200px) {
-          body .container .content .route-info {
-            width: 100%; } }
-        body .container .content .route-info .mode-name {
-          margin: 0 auto 35px auto;
-          text-align: center;
-          *zoom: 1; }
-          body .container .content .route-info .mode-name p {
-            line-height: 1.5em;
-            margin: 0 0 5px 0; }
-          body .container .content .route-info .mode-name label {
-            display: inline-block;
-            text-align: right;
-            width: 70px; }
-          body .container .content .route-info .mode-name select {
-            display: inline-block;
-            width: 280px;
-            /* Small devices (tablets, >= 768px and <= 991px) */
-            /* Medium devices (desktops, >= 992px and <= 1100px) */
-            /* Large devices (large desktops, 1200px and up) */ }
-            @media (min-width: 768px) and (max-width: 991px) {
-              body .container .content .route-info .mode-name select {
-                width: 320px; } }
-            @media (min-width: 992px) and (max-width: 1100px) {
-              body .container .content .route-info .mode-name select {
-                width: 320px; } }
-            @media (min-width: 1200px) {
-              body .container .content .route-info .mode-name select {
-                width: 320px; } }
-          body .container .content .route-info .mode-name:before, body .container .content .route-info .mode-name:after {
-            content: " ";
-            display: table; }
-          body .container .content .route-info .mode-name:after {
-            clear: both;
-            display: block;
-            font-size: 0;
-            height: 0;
-            visibility: hidden; }
-        body .container .content .route-info .routes-available {
-          margin: 0 auto 35px auto;
-          text-align: center;
-          *zoom: 1; }
-          body .container .content .route-info .routes-available p {
-            line-height: 1.5em;
-            margin: 0 0 5px 0; }
-          body .container .content .route-info .routes-available label {
-            display: inline-block;
-            text-align: right;
-            width: 70px; }
-          body .container .content .route-info .routes-available select {
-            display: inline-block;
-            width: 280px;
-            /* Small devices (tablets, >= 768px and <= 991px) */
-            /* Medium devices (desktops, >= 992px and <= 1100px) */
-            /* Large devices (large desktops, 1200px and up) */ }
-            @media (min-width: 768px) and (max-width: 991px) {
-              body .container .content .route-info .routes-available select {
-                width: 320px; } }
-            @media (min-width: 992px) and (max-width: 1100px) {
-              body .container .content .route-info .routes-available select {
-                width: 320px; } }
-            @media (min-width: 1200px) {
-              body .container .content .route-info .routes-available select {
-                width: 320px; } }
-          body .container .content .route-info .routes-available:before, body .container .content .route-info .routes-available:after {
-            content: " ";
-            display: table; }
-          body .container .content .route-info .routes-available:after {
-            clear: both;
-            display: block;
-            font-size: 0;
-            height: 0;
-            visibility: hidden; }
-        body .container .content .route-info .route-direction {
-          margin: 0 auto 35px auto;
-          text-align: center;
-          *zoom: 1; }
-          body .container .content .route-info .route-direction label {
-            display: inline-block;
-            text-align: right; }
-          body .container .content .route-info .route-direction select {
-            display: inline-block;
-            width: 280px;
-            /* Small devices (tablets, >= 768px and <= 991px) */
-            /* Medium devices (desktops, >= 992px and <= 1100px) */
-            /* Large devices (large desktops, 1200px and up) */ }
-            @media (min-width: 768px) and (max-width: 991px) {
-              body .container .content .route-info .route-direction select {
-                width: 320px; } }
-            @media (min-width: 992px) and (max-width: 1100px) {
-              body .container .content .route-info .route-direction select {
-                width: 320px; } }
-            @media (min-width: 1200px) {
-              body .container .content .route-info .route-direction select {
-                width: 320px; } }
-          body .container .content .route-info .route-direction:before, body .container .content .route-info .route-direction:after {
-            content: " ";
-            display: table; }
-          body .container .content .route-info .route-direction:after {
-            clear: both;
-            display: block;
-            font-size: 0;
-            height: 0;
-            visibility: hidden; }
-        body .container .content .route-info .route-stops {
-          margin: 0 auto 25px auto;
-          *zoom: 1; }
-          body .container .content .route-info .route-stops label {
-            display: inline-block;
-            text-align: right; }
-          body .container .content .route-info .route-stops select {
-            display: inline-block;
-            width: 280px;
-            /* Small devices (tablets, >= 768px and <= 991px) */
-            /* Medium devices (desktops, >= 992px and <= 1100px) */
-            /* Large devices (large desktops, 1200px and up) */ }
-            @media (min-width: 768px) and (max-width: 991px) {
-              body .container .content .route-info .route-stops select {
-                width: 320px; } }
-            @media (min-width: 992px) and (max-width: 1100px) {
-              body .container .content .route-info .route-stops select {
-                width: 320px; } }
-            @media (min-width: 1200px) {
-              body .container .content .route-info .route-stops select {
-                width: 320px; } }
-          body .container .content .route-info .route-stops:before, body .container .content .route-info .route-stops:after {
-            content: " ";
-            display: table; }
-          body .container .content .route-info .route-stops:after {
-            clear: both;
-            display: block;
-            font-size: 0;
-            height: 0;
-            visibility: hidden; }
-        body .container .content .route-info .route-stops,
-        body .container .content .route-info .route-direction {
-          display: none; }
-      body .container .content .bus-countdown-container {
-        display: block;
-        *zoom: 1; }
-        body .container .content .bus-countdown-container .bus-countdown-title {
-          display: none; }
-        body .container .content .bus-countdown-container .bus-stop-container {
-          margin: 10px 15px;
+      body .container .content.predictions {
+        display: none; }
+        body .container .content.predictions .route-info {
+          margin: 20px 0 0 0;
+          width: 100%;
           /* Small devices (tablets, >= 768px and <= 991px) */
           /* Medium devices (desktops, >= 992px and <= 1100px) */
           /* Large devices (large desktops, 1200px and up) */ }
           @media (min-width: 768px) and (max-width: 991px) {
-            body .container .content .bus-countdown-container .bus-stop-container {
-              margin: 0 10px 15px 10px;
-              width: 600px; } }
-          @media (min-width: 992px) and (max-width: 1100px) {
-            body .container .content .bus-countdown-container .bus-stop-container {
-              margin: 0 10px 15px 10px;
-              width: 600px; } }
+            body .container .content.predictions .route-info {
+              width: 100%; } }
+          @media (min-width: 992px) and (max-width: 1199px) {
+            body .container .content.predictions .route-info {
+              width: 100%; } }
           @media (min-width: 1200px) {
-            body .container .content .bus-countdown-container .bus-stop-container {
-              margin: 0 auto 15px auto;
-              width: 600px; } }
-          body .container .content .bus-countdown-container .bus-stop-container .selected-route-container {
-            background: #337AB7;
-            border: 2px solid #000;
-            border-radius: 5px;
-            display: none;
-            line-height: 1.5;
-            margin: 0 0 10px 0;
-            padding: 10px 0 0 0; }
-            body .container .content .bus-countdown-container .bus-stop-container .selected-route-container .bus-times {
-              line-height: 1;
-              margin: 0 0 10px 0; }
-              body .container .content .bus-countdown-container .bus-stop-container .selected-route-container .bus-times .bus-time {
-                font-size: 1.5em; }
-                body .container .content .bus-countdown-container .bus-stop-container .selected-route-container .bus-times .bus-time .arriving {
-                  font-weight: bold; }
-              body .container .content .bus-countdown-container .bus-stop-container .selected-route-container .bus-times .bus-time.next-bus-time {
-                font-size: 2.5em;
-                font-weight: bold; }
-            body .container .content .bus-countdown-container .bus-stop-container .selected-route-container .map-text {
-              display: none;
+            body .container .content.predictions .route-info {
+              width: 100%; } }
+          body .container .content.predictions .route-info .mode-type {
+            display: inline-block;
+            margin: 0 auto 35px auto;
+            text-align: center;
+            *zoom: 1; }
+            body .container .content.predictions .route-info .mode-type p {
+              line-height: 1.5em;
+              margin: 0 0 5px 0; }
+            body .container .content.predictions .route-info .mode-type label {
+              display: inline-block;
+              text-align: right;
+              width: 70px; }
+            body .container .content.predictions .route-info .mode-type select {
+              display: inline-block;
+              width: 280px !important;
               /* Small devices (tablets, >= 768px and <= 991px) */
               /* Medium devices (desktops, >= 992px and <= 1100px) */
               /* Large devices (large desktops, 1200px and up) */ }
               @media (min-width: 768px) and (max-width: 991px) {
-                body .container .content .bus-countdown-container .bus-stop-container .selected-route-container .map-text {
-                  display: block;
-                  margin: 20px 0; } }
-              @media (min-width: 992px) and (max-width: 1100px) {
-                body .container .content .bus-countdown-container .bus-stop-container .selected-route-container .map-text {
-                  display: block;
-                  margin: 20px 0; } }
+                body .container .content.predictions .route-info .mode-type select {
+                  width: 320px; } }
+              @media (min-width: 992px) and (max-width: 1199px) {
+                body .container .content.predictions .route-info .mode-type select {
+                  width: 320px; } }
               @media (min-width: 1200px) {
-                body .container .content .bus-countdown-container .bus-stop-container .selected-route-container .map-text {
-                  display: block;
-                  margin: 20px 0; } }
-            body .container .content .bus-countdown-container .bus-stop-container .selected-route-container .no-bus-predictions {
+                body .container .content.predictions .route-info .mode-type select {
+                  width: 320px; } }
+            body .container .content.predictions .route-info .mode-type .chosen-container {
+              text-align: left;
+              width: 280px !important;
+              /* Small devices (tablets, >= 768px and <= 991px) */
+              /* Medium devices (desktops, >= 992px and <= 1100px) */
+              /* Large devices (large desktops, 1200px and up) */ }
+              @media (min-width: 768px) and (max-width: 991px) {
+                body .container .content.predictions .route-info .mode-type .chosen-container {
+                  width: 320px; } }
+              @media (min-width: 992px) and (max-width: 1199px) {
+                body .container .content.predictions .route-info .mode-type .chosen-container {
+                  width: 320px; } }
+              @media (min-width: 1200px) {
+                body .container .content.predictions .route-info .mode-type .chosen-container {
+                  width: 320px; } }
+            body .container .content.predictions .route-info .mode-type:before, body .container .content.predictions .route-info .mode-type:after {
+              content: " ";
+              display: table; }
+            body .container .content.predictions .route-info .mode-type:after {
+              clear: both;
+              display: block;
+              font-size: 0;
+              height: 0;
+              visibility: hidden; }
+          body .container .content.predictions .route-info .routes-available {
+            display: none;
+            margin: 0 auto 35px auto;
+            text-align: center;
+            *zoom: 1; }
+            body .container .content.predictions .route-info .routes-available p {
+              line-height: 1.5em;
+              margin: 0 0 5px 0; }
+            body .container .content.predictions .route-info .routes-available label {
+              display: inline-block;
+              text-align: right;
+              width: 70px; }
+            body .container .content.predictions .route-info .routes-available select {
+              display: inline-block;
+              width: 280px !important;
+              /* Small devices (tablets, >= 768px and <= 991px) */
+              /* Medium devices (desktops, >= 992px and <= 1100px) */
+              /* Large devices (large desktops, 1200px and up) */ }
+              @media (min-width: 768px) and (max-width: 991px) {
+                body .container .content.predictions .route-info .routes-available select {
+                  width: 320px; } }
+              @media (min-width: 992px) and (max-width: 1199px) {
+                body .container .content.predictions .route-info .routes-available select {
+                  width: 320px; } }
+              @media (min-width: 1200px) {
+                body .container .content.predictions .route-info .routes-available select {
+                  width: 320px; } }
+            body .container .content.predictions .route-info .routes-available .chosen-container {
+              text-align: left;
+              width: 280px !important;
+              /* Small devices (tablets, >= 768px and <= 991px) */
+              /* Medium devices (desktops, >= 992px and <= 1100px) */
+              /* Large devices (large desktops, 1200px and up) */ }
+              @media (min-width: 768px) and (max-width: 991px) {
+                body .container .content.predictions .route-info .routes-available .chosen-container {
+                  width: 320px; } }
+              @media (min-width: 992px) and (max-width: 1199px) {
+                body .container .content.predictions .route-info .routes-available .chosen-container {
+                  width: 320px; } }
+              @media (min-width: 1200px) {
+                body .container .content.predictions .route-info .routes-available .chosen-container {
+                  width: 320px; } }
+            body .container .content.predictions .route-info .routes-available:before, body .container .content.predictions .route-info .routes-available:after {
+              content: " ";
+              display: table; }
+            body .container .content.predictions .route-info .routes-available:after {
+              clear: both;
+              display: block;
+              font-size: 0;
+              height: 0;
+              visibility: hidden; }
+          body .container .content.predictions .route-info .route-direction {
+            display: none;
+            margin: 0 auto 35px auto;
+            text-align: center;
+            *zoom: 1; }
+            body .container .content.predictions .route-info .route-direction label {
+              display: inline-block;
+              text-align: right;
+              width: 70px; }
+            body .container .content.predictions .route-info .route-direction select {
+              display: inline-block;
+              width: 280px !important;
+              /* Small devices (tablets, >= 768px and <= 991px) */
+              /* Medium devices (desktops, >= 992px and <= 1100px) */
+              /* Large devices (large desktops, 1200px and up) */ }
+              @media (min-width: 768px) and (max-width: 991px) {
+                body .container .content.predictions .route-info .route-direction select {
+                  width: 320px; } }
+              @media (min-width: 992px) and (max-width: 1199px) {
+                body .container .content.predictions .route-info .route-direction select {
+                  width: 320px; } }
+              @media (min-width: 1200px) {
+                body .container .content.predictions .route-info .route-direction select {
+                  width: 320px; } }
+            body .container .content.predictions .route-info .route-direction .chosen-container {
+              text-align: left;
+              width: 280px !important;
+              /* Small devices (tablets, >= 768px and <= 991px) */
+              /* Medium devices (desktops, >= 992px and <= 1100px) */
+              /* Large devices (large desktops, 1200px and up) */ }
+              @media (min-width: 768px) and (max-width: 991px) {
+                body .container .content.predictions .route-info .route-direction .chosen-container {
+                  width: 320px; } }
+              @media (min-width: 992px) and (max-width: 1199px) {
+                body .container .content.predictions .route-info .route-direction .chosen-container {
+                  width: 320px; } }
+              @media (min-width: 1200px) {
+                body .container .content.predictions .route-info .route-direction .chosen-container {
+                  width: 320px; } }
+            body .container .content.predictions .route-info .route-direction:before, body .container .content.predictions .route-info .route-direction:after {
+              content: " ";
+              display: table; }
+            body .container .content.predictions .route-info .route-direction:after {
+              clear: both;
+              display: block;
+              font-size: 0;
+              height: 0;
+              visibility: hidden; }
+          body .container .content.predictions .route-info .route-stops {
+            display: none;
+            margin: 0 auto 25px auto;
+            *zoom: 1; }
+            body .container .content.predictions .route-info .route-stops label {
+              display: inline-block;
+              text-align: right;
+              width: 70px; }
+            body .container .content.predictions .route-info .route-stops select {
+              display: inline-block;
+              width: 280px !important;
+              /* Small devices (tablets, >= 768px and <= 991px) */
+              /* Medium devices (desktops, >= 992px and <= 1100px) */
+              /* Large devices (large desktops, 1200px and up) */ }
+              @media (min-width: 768px) and (max-width: 991px) {
+                body .container .content.predictions .route-info .route-stops select {
+                  width: 320px; } }
+              @media (min-width: 992px) and (max-width: 1199px) {
+                body .container .content.predictions .route-info .route-stops select {
+                  width: 320px; } }
+              @media (min-width: 1200px) {
+                body .container .content.predictions .route-info .route-stops select {
+                  width: 320px; } }
+            body .container .content.predictions .route-info .route-stops .chosen-container {
+              text-align: left;
+              width: 280px !important;
+              /* Small devices (tablets, >= 768px and <= 991px) */
+              /* Medium devices (desktops, >= 992px and <= 1100px) */
+              /* Large devices (large desktops, 1200px and up) */ }
+              @media (min-width: 768px) and (max-width: 991px) {
+                body .container .content.predictions .route-info .route-stops .chosen-container {
+                  width: 320px; } }
+              @media (min-width: 992px) and (max-width: 1199px) {
+                body .container .content.predictions .route-info .route-stops .chosen-container {
+                  width: 320px; } }
+              @media (min-width: 1200px) {
+                body .container .content.predictions .route-info .route-stops .chosen-container {
+                  width: 320px; } }
+            body .container .content.predictions .route-info .route-stops:before, body .container .content.predictions .route-info .route-stops:after {
+              content: " ";
+              display: table; }
+            body .container .content.predictions .route-info .route-stops:after {
+              clear: both;
+              display: block;
+              font-size: 0;
+              height: 0;
+              visibility: hidden; }
+          body .container .content.predictions .route-info .route-stops,
+          body .container .content.predictions .route-info .route-direction {
+            display: none; }
+        body .container .content.predictions .predictions-container {
+          display: none;
+          margin: 0 auto;
+          width: 375px;
+          /* Small devices (tablets, >= 768px and <= 991px) */
+          /* Medium devices (desktops, >= 992px and <= 1100px) */
+          /* Large devices (large desktops, 1200px and up) */ }
+          @media (min-width: 768px) and (max-width: 991px) {
+            body .container .content.predictions .predictions-container {
+              width: 600px; } }
+          @media (min-width: 992px) and (max-width: 1199px) {
+            body .container .content.predictions .predictions-container {
+              width: 600px; } }
+          @media (min-width: 1200px) {
+            body .container .content.predictions .predictions-container {
+              width: 600px; } }
+          body .container .content.predictions .predictions-container p {
+            margin: 0 0 10px 0; }
+          body .container .content.predictions .predictions-container .predictions-header {
+            display: block;
+            width: 100%;
+            *zoom: 1; }
+            body .container .content.predictions .predictions-container .predictions-header:before, body .container .content.predictions .predictions-container .predictions-header:after {
+              content: " ";
+              display: table; }
+            body .container .content.predictions .predictions-container .predictions-header:after {
+              clear: both;
+              display: block;
+              font-size: 0;
+              height: 0;
+              visibility: hidden; }
+          body .container .content.predictions .predictions-container .boat-predictions,
+          body .container .content.predictions .predictions-container .bus-predictions,
+          body .container .content.predictions .predictions-container .commuter-rail-predictions,
+          body .container .content.predictions .predictions-container .subway-predictions {
+            border: 2px solid #e7e7e7;
+            border-radius: 3px;
+            min-height: 125px; }
+            body .container .content.predictions .predictions-container .boat-predictions .show-map-link,
+            body .container .content.predictions .predictions-container .bus-predictions .show-map-link,
+            body .container .content.predictions .predictions-container .commuter-rail-predictions .show-map-link,
+            body .container .content.predictions .predictions-container .subway-predictions .show-map-link {
+              display: block;
+              margin: 10px 5px 0 0;
+              text-align: right; }
+            body .container .content.predictions .predictions-container .boat-predictions .hide-map-link,
+            body .container .content.predictions .predictions-container .bus-predictions .hide-map-link,
+            body .container .content.predictions .predictions-container .commuter-rail-predictions .hide-map-link,
+            body .container .content.predictions .predictions-container .subway-predictions .hide-map-link {
               display: none;
+              margin: 10px 5px 0 0;
+              text-align: right; }
+            body .container .content.predictions .predictions-container .boat-predictions .next-vehicle,
+            body .container .content.predictions .predictions-container .bus-predictions .next-vehicle,
+            body .container .content.predictions .predictions-container .commuter-rail-predictions .next-vehicle,
+            body .container .content.predictions .predictions-container .subway-predictions .next-vehicle {
+              font-size: 2.5em;
+              font-weight: bold;
+              margin: 5px 0; }
+            body .container .content.predictions .predictions-container .boat-predictions .later-vehicle,
+            body .container .content.predictions .predictions-container .bus-predictions .later-vehicle,
+            body .container .content.predictions .predictions-container .commuter-rail-predictions .later-vehicle,
+            body .container .content.predictions .predictions-container .subway-predictions .later-vehicle {
               font-size: 1.5em;
-              font-weight: bold; }
-            body .container .content .bus-countdown-container .bus-stop-container .selected-route-container .disclaimer-text {
-              display: none; }
-            body .container .content .bus-countdown-container .bus-stop-container .selected-route-container .bus-schedule {
-              font-weight: bold; }
-          body .container .content .bus-countdown-container .bus-stop-container .also-at-stop-container {
-            background: #DEDEDE;
-            border: 2px solid #000;
-            border-radius: 5px;
-            display: none;
-            font-size: 1em;
-            height: auto;
-            padding: 10px;
-            text-align: left; }
-          body .container .content .bus-countdown-container .bus-stop-container .no-bus-predictions {
-            display: none;
-            font-size: 1.5em;
-            font-weight: bold; }
-        body .container .content .bus-countdown-container:before, body .container .content .bus-countdown-container:after {
-          content: " ";
-          display: table; }
-        body .container .content .bus-countdown-container:after {
-          clear: both;
-          display: block;
-          font-size: 0;
-          height: 0;
-          visibility: hidden; }
+              margin: 5px 0; }
+        body .container .content.predictions .map-container {
+          display: none;
+          margin: 10px auto 0 auto;
+          text-align: center; }
+          body .container .content.predictions .map-container #map {
+            height: 400px;
+            margin: 0 auto;
+            width: 600px; }
+            body .container .content.predictions .map-container #map .map-marker-label {
+              background: #fff;
+              width: 200px; }
+      body .container .content.faq {
+        display: block; }
+        body .container .content.faq .questions {
+          margin: 0 auto;
+          /* Small devices (tablets, >= 768px and <= 991px) */
+          /* Medium devices (desktops, >= 992px and <= 1100px) */
+          /* Large devices (large desktops, 1200px and up) */ }
+          @media (min-width: 768px) and (max-width: 991px) {
+            body .container .content.faq .questions {
+              width: 450px; } }
+          @media (min-width: 992px) and (max-width: 1199px) {
+            body .container .content.faq .questions {
+              width: 450px; } }
+          @media (min-width: 1200px) {
+            body .container .content.faq .questions {
+              width: 450px; } }
+          body .container .content.faq .questions .question-container {
+            margin: 0 0 10px 0; }
+            body .container .content.faq .questions .question-container .question {
+              font-weight: bold;
+              margin: 0 0 10px 0; }
+            body .container .content.faq .questions .question-container .answer p {
+              margin: 0 0 15px 0; }
+      body .container .content.about {
+        display: block; }
     body .container footer {
       display: none; }
     body .container footer {
       display: block;
-      margin: 0 auto;
+      margin: 30px auto 0 auto;
       width: 100%;
       /* Small devices (tablets, >= 768px and <= 991px) */
       /* Medium devices (desktops, >= 992px and <= 1100px) */
@@ -759,19 +935,16 @@ body {
       @media (min-width: 768px) and (max-width: 991px) {
         body .container footer {
           width: 730px; } }
-      @media (min-width: 992px) and (max-width: 1100px) {
+      @media (min-width: 992px) and (max-width: 1199px) {
         body .container footer {
           width: 850px; } }
       @media (min-width: 1200px) {
         body .container footer {
           width: 940px; } }
-      body .container footer .about p {
+      body .container footer div {
         margin: 10px 0; }
-        body .container footer .about p .faq-link {
-          font-weight: bold;
-          text-decoration: underline; }
-          body .container footer .about p .faq-link:hover {
-            text-decoration: none; }
+      body .container footer .disclaimer p {
+        margin: 10px 0; }
       body .container footer:before, body .container footer:after {
         content: " ";
         display: table; }
@@ -781,26 +954,5 @@ body {
         font-size: 0;
         height: 0;
         visibility: hidden; }
-  body .container.faq .content {
-    display: block;
-    /* Small devices (tablets, >= 768px and <= 991px) */
-    /* Medium devices (desktops, >= 992px and <= 1100px) */
-    /* Large devices (large desktops, 1200px and up) */ }
-    @media (min-width: 768px) and (max-width: 991px) {
-      body .container.faq .content {
-        width: 450px; } }
-    @media (min-width: 992px) and (max-width: 1100px) {
-      body .container.faq .content {
-        width: 450px; } }
-    @media (min-width: 1200px) {
-      body .container.faq .content {
-        width: 450px; } }
-    body .container.faq .content .questions .question-container {
-      margin: 0 0 10px 0; }
-      body .container.faq .content .questions .question-container .question {
-        font-weight: bold;
-        margin: 0 0 10px 0; }
-      body .container.faq .content .questions .question-container .answer p {
-        margin: 0 0 15px 0; }
 
 /*# sourceMappingURL=styles.css.map */

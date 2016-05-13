@@ -1,0 +1,85 @@
+header {
+    .header {
+        border-bottom-color: #e7e7e7; 
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        height: 60px;
+        vertical-align: middle;
+        width: 100%;
+        @include media(tablet) {
+            height: 40px;
+            line-height: 40px;
+            width: 100%;
+        }
+        @include media(mediumDesktop) {
+            height: 40px;
+            line-height: 40px;
+            width: 100%;
+        }         
+        @include media(largeDesktop) {
+            height: 40px;
+            line-height: 40px;
+            width: 100%;
+        }     
+        .header-title {
+            display: block;
+            margin: 0 0 10px 0;
+            text-align: left;
+            width: 100%;
+            @include media(tablet) {
+                display: inline-block;
+                margin: 0;
+                width: 25%;
+            }
+            @include media(mediumDesktop) {
+                display: inline-block;
+                margin: 0;
+                width: 20%;
+            }         
+            @include media(largeDesktop) {
+                display: inline-block;
+                margin: 0;
+                width: 20%;
+            }   
+            h1 {
+                margin: 0;
+            }      
+        }
+        nav {
+            display: block;
+                width: 100%;
+                @include media(tablet) {
+                    display: inline-block;
+                    width: 65%;
+                }
+                @include media(mediumDesktop) {
+                    display: inline-block;
+                    width: 65%;
+                }         
+                @include media(largeDesktop) {
+                    display: inline-block;
+                    width: 75%;
+                }         
+            .main-nav {
+                display: block;
+                            @include media(tablet) {
+                                display: inline-block;
+                            }
+                            @include media(mediumDesktop) {
+                                display: inline-block;
+                            }         
+                            @include media(largeDesktop) {
+                                display: inline-block;
+                            }             
+                li {
+                    &:first-child {
+                        padding: 0;
+                    }
+                    display: inline-block;
+                    list-style: none;
+                    padding: 0 0 0 15px;                                
+                }
+            }
+        }        
+    }
+} 

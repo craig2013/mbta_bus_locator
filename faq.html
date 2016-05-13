@@ -6,20 +6,32 @@
     <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-	<title>MBTA Bus Locator</title>
+	<title>MBTA Tracker - FAQ</title>
 	<meta name="description" content="Get MBTA bus times for your stop."/>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-	<script src="/js/libs/modernizr-2.8.3.js"></script>
+	<script src="/js/libs/modernizr/modernizr.js"></script>
 	<link rel="stylesheet" href="/css/styles.css"/>
     </head> 
     <body>
-	<div class="container faq">
+	<div class="container">
 		<header>
-			<h1>Frequently Asked question-containers</h1>
-			<hr/>
+			<div class="header">
+				<div class="header-title">
+					<h1><a href="/">MBTA Tracker</a></h1>
+				</div>
+				<nav>
+					<ul class="main-nav">
+						<li><a href="/">Home</a></li>
+						<li><a href="faq.html">FAQ</a></li>
+						<li><a href="about.html">About</a></li>
+						<li><a hrref="contact.html">Contact</a></li>
+					</ul>
+				</nav>				
+			</div>
 		</header>
 		<main>
-			<div class="content">
+			<div class="content faq">
+				<h1>MBTA Tracker - Frequently Asked Questiosn</h1>
 				<div class="questions">
 					<div class="question-container">
 						<div class="question">
@@ -75,13 +87,17 @@
 							that bus route for predictions so you will also see those other bus routes.
 						</div>
 					</div>
+					<div class="question-container">
+						<div class="question">
+							Do I need to refresh the page for updates on my stop?
+						</div>
+						<div class="answer">
+							No, the stop you have selected will update automatically every 20 seconds.  
+						</div>
+					</div>					
 				</div>
 			</div> <!-- /.content -->
 		</main>
 	</div><!-- /.container -->
-
-
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
-	<script>window.jQuery || document.write('<script src="/js/libs/jquery-2.1.4.js"><\/script>')</script>
     </body>
 </html> 

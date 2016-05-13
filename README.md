@@ -1,7 +1,16 @@
-#MBTA Bus Locator
- - Uses the XML feeds from NextBus (http://www.nextbus.com/) to display MBTA bus predictions.  
+#MBTA Tracker
+(Formley MBTA Bus Locator)
+ - Uses the feeds from the [MBTA Realtime API](http://realtime.mbta.com/Portal/) for predictions.
 
 ##Version History
+
+######Version 4.0.0
+- Changed name from MBTA Bus Tracker to MBTA Tracker
+- Switched to using the MBTA Realtime API instead of Nextbus.
+- Expanded tracking to commuter rail, and subway.
+- Reorganized models, collections, views, templates and added utility functions.
+- Moved map view.
+- Added vehicle label markers to map.
 
 ######Version 3.2.0
 - Added more route information for the also at stop display.

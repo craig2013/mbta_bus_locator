@@ -1,4 +1,5 @@
 .routes-available {
+        display:  none;
         margin: 0 auto 35px auto;
         text-align: center;
         
@@ -10,22 +11,36 @@
         label {
             display: inline-block;
             text-align: right;
-            width: 70px;        
+            width: $predictions-form-label-size;        
         }
 
         select {
             display: inline-block;
-            width: 280px;
+            width: $screen-mobile-dropdown !important;
             @include media (tablet) {
-                width: 320px;
+                width: $screen-sm-dropdown;
             }
             @include media (mediumDesktop) {
-                width: 320px;
+                width: $screen-md-dropdown;
             }
             @include media (largeDesktop) {
-                width: 320px;
-            }
+                width: $screen-lg-dropdown;
+            }    
         } 
+
+        .chosen-container {
+            text-align: left;
+            width: $screen-mobile-dropdown !important;
+            @include media (tablet) {
+                width: $screen-sm-dropdown;
+            }
+            @include media (mediumDesktop) {
+                width: $screen-md-dropdown;
+            }
+            @include media (largeDesktop) {
+                width: $screen-lg-dropdown;
+            }                
+        }        
 
         @include clearfix();
 }//end .routesAvailable

@@ -1,0 +1,51 @@
+.predictions-container {
+	display: none;
+	margin: 0 auto;
+	width: 375px;
+	@include media(tablet) {
+		width: 600px;
+	}
+	@include media(mediumDesktop) {
+		width: 600px;
+	}         
+	@include media(largeDesktop) {
+		width: 600px;
+	} 	
+	p {
+		margin: 0 0 10px 0;
+	}
+
+	.predictions-header {
+		display: block;
+		width: 100%;
+		@include clearfix();
+	}
+
+	.boat-predictions,
+	.bus-predictions,
+	.commuter-rail-predictions,
+	.subway-predictions {
+		border: 2px solid #e7e7e7;
+		border-radius: 3px;
+		min-height: 125px;
+		.show-map-link {
+			display: block;
+			margin: 10px 5px 0 0;
+			text-align: right;			
+		}		
+		.hide-map-link {
+			display: none;
+			margin: 10px 5px 0 0;
+			text-align: right;			
+		}		
+		.next-vehicle {
+			font-size: 2.5em;
+			font-weight: bold;
+			margin: 5px 0;
+		}
+		.later-vehicle {
+			font-size: 1.5em;
+			margin: 5px 0;
+		}
+	} 
+}

@@ -39,6 +39,9 @@ module.exports = function(grunt) {
 
 		sass: {
 			dist: {
+				options: {
+					quiet: false
+				},
 				files: {
 					'css/styles.css' : 'css/sass/styles.scss'
 				}

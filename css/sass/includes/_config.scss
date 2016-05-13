@@ -8,14 +8,28 @@ $image-path: '../images/';
 $global-transition-duration: .3s;
 
 //media query variables
-//screen min variables
+//screen size min variables
 $screen-sm-min: 768px;
 $screen-md-min: 992px;
 $screen-lg-min: 1200px;
 
-//screen max variables
+//screen size max variables
 $screen-sm-max: $screen-md-min - 1;
-$screen-md-max: $screen-lg-min - 100;
+$screen-md-max: $screen-lg-min - 1;
 
+//predictions form label size
+$predictions-form-label-size: 70px;
 
+//select dropdown sizes
+//smart phone and smaller
+$screen-mobile-dropdown: 280px;
+//tablet
+$screen-sm-dropdown: 320px;
+//medium screen
+$screen-md-dropdown: 320px;
+//large screen
+$screen-lg-dropdown: 320px;
+
+// @debug ($screen-md-min - 1); 
+// @debug ($screen-lg-min - 1); 
 

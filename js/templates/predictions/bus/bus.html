@@ -1,0 +1,27 @@
+<div class="predictions-header">
+	<h1 class="predictions-title">Bus Predictions </h1>
+</div>
+<div class="bus-predictions">
+		<a href="#" class="show-map-link">Show Map</a>
+		<a href="#" class="hide-map-link">Hide Map</a>
+		<% if (predictions !== null){ %>
+			<% if ( predictions.length >= 1 ) { %>	
+				<% _.each(predictions, function(p, i) { %>
+					<% if ( i === 0 ) { %><div class="next-vehicle"><% } else { %><div class="later-vehicle"><% } %>
+						<%  if ( convertTime(p.pre_away) > 1 ) { %>
+							<%= convertTime(p.pre_away) %> min
+						<% } else if ((convertTime(p.pre_away) === 1) && (i===0)) { %>
+							Your bus is arriving.
+						<% } else if ((convertTime(p.pre_away) === 0) && (i===0)) { %>
+							Your bus is boarding.
+						<% } %>
+					</div>
+				<% }); %>
+				<% if ( typeof alert === "string" ) { %>
+					<h2>Alert: <%= alert %></h2>
+				<% } %>
+			<% } %>
+		<% } else if ( (predictions === null) && (typeof alert === "string") ) { %>
+			<h2><%= alert %></h2>
+		<% } %>
+</div>

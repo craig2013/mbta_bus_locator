@@ -48,6 +48,8 @@ class Curl
 		$ch = curl_init();
 		$this->setURL($url, $queryType, $properties);
 		$responseURL = $this->getURL();
+
+		//echo $responseURL."<br/>";
 		
 		curl_setopt($ch, CURLOPT_URL, $responseURL);
 		curl_exec($ch);

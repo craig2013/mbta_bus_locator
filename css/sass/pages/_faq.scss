@@ -1,6 +1,7 @@
-.container.faq {
-	.content {
-		display: block;
+&.faq {
+	display: block;
+	.questions {
+		margin: 0 auto;
 		@include media(tablet) {
 			width: 450px;
 		}
@@ -9,20 +10,18 @@
 		}         
 		@include media(largeDesktop) {
 			width: 450px;
-		} 
-		.questions {
-			.question-container {
+		} 		
+		.question-container {
+			margin: 0 0 10px 0;
+			.question {
+				font-weight: bold;
 				margin: 0 0 10px 0;
-				.question {
-					font-weight: bold;
-					margin: 0 0 10px 0;
-				}
-				.answer {
-					p {
-						margin: 0 0 15px 0;
-					}
+			}
+			.answer {
+				p {
+					margin: 0 0 15px 0;
 				}
 			}
 		}
-	}
+	}	
 }

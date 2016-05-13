@@ -31,8 +31,8 @@ if ( $queryString === null ) {
 $curl = new Curl();
 
 $curl->getResponse(
-	$config->getUrl(),
-	$queryType,
-	$options
-);
+		$config->getUrl(),
+		$queryType,
+		$options
+	);
 ?>

@@ -1,0 +1,7 @@
+<% _.each(direction, function(d) { %>
+	<% if (d.text !== null) { %>
+		<option value="<%= d.value %>"><%= d.text %></option>
+	<% } else { %>
+		<option value="<%= d.value %>"><%= d.value %></option>
+	<% } %>
+<% }); %>

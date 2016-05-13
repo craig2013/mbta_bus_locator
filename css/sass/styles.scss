@@ -17,13 +17,17 @@ body {
     font-family: arial, helvetica, sans-serif;
     font-size: 0.85em;
     .container {    
-        margin: 10px 0 0 0;
-        header {
-            margin: 0 auto 15px auto; 
-            text-align: center;
-        } 
-        .content {
+        margin: 0;
+        @import "layout/header";
+        .browser-message {
             display: none;
+            &.ie9 {
+                display: block;
+                margin: 0 auto;
+                text-align: center;
+            }
+        }
+        .content {
             margin: 0 auto;
             text-align: center;
             width: 100%;
@@ -36,39 +40,13 @@ body {
             @include media (largeDesktop) {
                 width: 100%; 
             }
-
-            .route-info {
-                    margin: 20px 0 0 0;
-                    width: 100%;
-                    @include media (tablet) {
-                        width: 100%;
-                    }
-                    @include media (mediumDesktop) { 
-                        width: 100%;
-                    }
-                    @include media (largeDesktop) {
-                        width: 100%; 
-                    }
-                    
-                    @import "layout/selectMode";
-                    @import "layout/selectRoutes";
-                    @import "layout/selectDirection";
-                    @import "layout/selectStop";
-
-                    .route-stops, 
-                    .route-direction { 
-                        display: none;
-                    }                    
-            }
-
-            @import "layout/countDown";
-
+            @import "pages/predictions";
+            @import "pages/faq";
+            @import "pages/about";
         }//end .content
         footer {
             display: none;
         }
         @import "layout/footer";
     }//end .container
-
-    @import "pages/faq";   
 }

@@ -1,0 +1,14 @@
+.map-container {
+    display: none;
+    margin: 10px auto 0 auto;
+    text-align: center;
+    #map {
+        height: 400px;
+        margin: 0 auto;
+        width: 600px;        
+        .map-marker-label {
+            background: #fff;
+            width: 200px;
+        }   
+    }
+}  
