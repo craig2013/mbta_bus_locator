@@ -23,7 +23,7 @@ define( [
 
     "use strict";
 
-    var predictionsView = Backbone.View.extend( {
+    var mapView = Backbone.View.extend( {
         el: ".map-container",
 
         initialize: function () {
@@ -141,5 +141,5 @@ define( [
         }
     } );
 
-    return predictionsView;
+    return mapView;
 } );
