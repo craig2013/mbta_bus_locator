@@ -1,6 +1,6 @@
 #MBTA Tracker
 (Formley MBTA Bus Locator)
- - Uses the feeds from the [MBTA Realtime API](http://realtime.mbta.com/Portal/) for predictions.
+ - Uses the feeds from the <a href="http://realtime.mbta.com/Portal/" target="_blank">MBTA Realtime API</a> for predictions.
 
 ##Version History
 
