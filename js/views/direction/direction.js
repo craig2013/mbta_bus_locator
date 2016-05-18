@@ -8,7 +8,7 @@ define( [
     "models/stops/stops",
     "collections/stops/stops",
     "text!templates/direction/direction.html"
-], function ( $, chosen, _, Backbone, generalUtility, stopsModel, stopsCollection, directionsTemplate) {
+], function ( $, chosen, _, Backbone, generalUtility, stopsModel, stopsCollection, directionsTemplate ) {
 
     "use strict";
 
@@ -47,19 +47,15 @@ define( [
                     if ( typeof directionModel !== "undefined" ) {
                         for ( var i = 0; i < directionModel.length; i++ ) {
                             if ( Backbone.app.defaults.modeType === "bus" ) {
-                                data.direction.push(
-                                    {
-                                        text: directionModel[i].direction_name + " - " + directionModel[i].stop.pop().stop_name,
-                                        value: directionModel[i].direction_name
-                                    }
-                                );
+                                data.direction.push( {
+                                    text: directionModel[ i ].direction_name + " - " + directionModel[ i ].stop.pop().stop_name,
+                                    value: directionModel[ i ].direction_name
+                                } );
                             } else {
-                                data.direction.push(
-                                    {
-                                        text: null,
-                                        value: directionModel[i].direction_name
-                                    }
-                                );                                
+                                data.direction.push( {
+                                    text: null,
+                                    value: directionModel[ i ].direction_name
+                                } );
                             }
 
                         }
@@ -72,17 +68,17 @@ define( [
 
                 if ( Backbone.app.defaults.direction !== null ) {
                     this.$directionSelect.val(
-                            generalUtility.titleCase(
-                                generalUtility.urlDecode(
-                                    Backbone.app.defaults.direction
-                                )
+                        generalUtility.titleCase(
+                            generalUtility.urlDecode(
+                                Backbone.app.defaults.direction
                             )
-                    ).trigger("chosen:updated");
+                        )
+                    ).trigger( "chosen:updated" );
                 } else {
-                    this.$directionSelect.val("0").trigger("chosen:updated");
-                }                
+                    this.$directionSelect.val( "0" ).trigger( "chosen:updated" );
+                }
 
-               this.$directionSelect.chosen( {
+                this.$directionSelect.chosen( {
                     no_results_text: "Nothing found.",
                     width: "25%"
                 } );
@@ -95,16 +91,16 @@ define( [
             "change #direction-select": "showStops"
         },
 
-        showStops: function(e) {
-            var direction = $("#direction-select").chosen().val();
+        showStops: function ( e ) {
+            var direction = $( "#direction-select" ).chosen().val();
 
-            direction = generalUtility.urlEncode(direction);
+            direction = generalUtility.urlEncode( direction );
 
             Backbone.app.defaults.direction = direction;
 
-            Backbone.app.router.navigate("mode/" + Backbone.app.defaults.mode + "/route/" + Backbone.app.defaults.route + "/direction/" + direction, {
+            Backbone.app.router.navigate( "mode/" + Backbone.app.defaults.mode + "/route/" + Backbone.app.defaults.route + "/direction/" + direction, {
                 trigger: true
-            });
+            } );
         },
 
         close: function () {

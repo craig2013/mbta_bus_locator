@@ -40,26 +40,32 @@ define( [
                         route: routeModel.attributes.mode
                     };
 
-                    data.route = _.chain(data.route)
-                                        .filter(function(item) { return item.mode_name !== "Boat" }) //No predictions for commuter boat at this time.
-                                        .uniq(function(item) { return item.mode_name; })
-                                        .sortBy(function(item) { return item.mode_name; })
-                                        .value();
+                    data.route = _.chain( data.route )
+                        .filter( function ( item ) {
+                            return item.mode_name !== "Boat"
+                        } ) //No predictions for commuter boat at this time.
+                        .uniq( function ( item ) {
+                            return item.mode_name;
+                        } )
+                        .sortBy( function ( item ) {
+                            return item.mode_name;
+                        } )
+                        .value();
 
                     var modeTemplate = _.template( modesTemplate );
 
                     this.$modeSelect.append( modeTemplate( data ) );
                 }
-                
+
                 if ( Backbone.app.defaults.mode !== null ) {
                     this.$modeSelect.val(
-                            generalUtility.titleCase(generalUtility.urlDecode(Backbone.app.defaults.mode))
-                    ).trigger("chosen:updated");
+                        generalUtility.titleCase( generalUtility.urlDecode( Backbone.app.defaults.mode ) )
+                    ).trigger( "chosen:updated" );
                 } else {
-                    this.$modeSelect.val("0").trigger("chosen:updated");
+                    this.$modeSelect.val( "0" ).trigger( "chosen:updated" );
                 }
 
-               this.$modeSelect.chosen( {
+                this.$modeSelect.chosen( {
                     no_results_text: "Nothing found.",
                     width: "25%"
                 } );
@@ -74,25 +80,25 @@ define( [
             "change #mode-select": "showRoutes"
         },
 
-        showRoutes: function(e) {
-            var mode = $("#mode-select").chosen().val();
-            mode = generalUtility.urlEncode(mode);
+        showRoutes: function ( e ) {
+            var mode = $( "#mode-select" ).chosen().val();
+            mode = generalUtility.urlEncode( mode );
 
-            if ( (mode !== "0") && (mode === "bus" || mode === "commuter+rail" || mode === "subway") ) {          
+            if ( ( mode !== "0" ) && ( mode === "bus" || mode === "commuter+rail" || mode === "subway" ) ) {
                 Backbone.app.defaults.mode = mode;
 
                 Backbone.app.router.navigate( 'mode/' + mode, {
                     trigger: true
-                } );                    
+                } );
             }
         },
 
-        openViews: function(mode) {
+        openViews: function ( mode ) {
 
         },
 
         close: function () {
-            this.$modeSelect.val("0").trigger("chosen:updated");
+            this.$modeSelect.val( "0" ).trigger( "chosen:updated" );
 
             this.$el.unbind();
 

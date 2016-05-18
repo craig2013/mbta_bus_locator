@@ -22,7 +22,7 @@ define( [
 
         initialize: function () {
             clearTimeout( Backbone.app.defaultSettings.predictionsTimer );
-            Backbone.app.defaultSettings.predictionsTimer = null; 
+            Backbone.app.defaultSettings.predictionsTimer = null;
 
             this.fetchPredictions();
 
@@ -34,52 +34,52 @@ define( [
                 predictions: null,
                 alert: null
             };
-            var mode = generalUtility.urlDecode(Backbone.app.defaults.mode);
+            var mode = generalUtility.urlDecode( Backbone.app.defaults.mode );
             var predictionsModel = predictionsCollection.models[ 0 ];
-            var routeText = $("#route_select_chosen .chosen-single").text();
+            var routeText = $( "#route_select_chosen .chosen-single" ).text();
             var self = this;
             var showMapLink = true;
             var template = null;
 
-            if ( typeof predictionsModel === "object" ) {      
+            if ( typeof predictionsModel === "object" ) {
                 if ( typeof predictionsModel.attributes.mode !== "undefined" ) {
-                    var predictionModel = predictionsModel.attributes.mode[0].route;
-                    
-                    predictionModel = generalUtility.sortRoutes(predictionModel);
+                    var predictionModel = predictionsModel.attributes.mode[ 0 ].route;
+
+                    predictionModel = generalUtility.sortRoutes( predictionModel );
 
                     Backbone.app.defaults.routeText = routeText;
 
                     data.predictions = predictionModel;
 
-                    _.extend(data, generalUtility, Backbone.app.defaults);
+                    _.extend( data, generalUtility, Backbone.app.defaults );
 
                     if ( predictionsModel.attributes.alert_headers.length >= 1 ) {
-                        data.alert = predictionsModel.attributes.alert_headers[0].header_text;
+                        data.alert = predictionsModel.attributes.alert_headers[ 0 ].header_text;
                     }
-                } else if (typeof predictionsModel.attributes.alert_headers !== "undefined") {
+                } else if ( typeof predictionsModel.attributes.alert_headers !== "undefined" ) {
                     if ( predictionsModel.attributes.alert_headers.length >= 1 ) {
-                        data.alert = predictionsModel.attributes.alert_headers[0].header_text;
+                        data.alert = predictionsModel.attributes.alert_headers[ 0 ].header_text;
                     } else {
                         data.alert = "Currently no predictions available.";
                         showMapLink = false;
                     }
                 }
 
-                switch(mode) {
-                    case "boat":
-                        template = _.template( boatTemplate );
+                switch ( mode ) {
+                case "boat":
+                    template = _.template( boatTemplate );
                     break
-                    case "bus":
-                        template = _.template( busTemplate );
+                case "bus":
+                    template = _.template( busTemplate );
                     break;
-                    case "commuter rail":
-                        template = _.template( commuterRailTemplate );
+                case "commuter rail":
+                    template = _.template( commuterRailTemplate );
                     break;
-                    case "subway":
-                        template = _.template( subwayTemplate );
+                case "subway":
+                    template = _.template( subwayTemplate );
                     break;
-                    default:
-                        alert("No template found.  Please try a  different mode.");
+                default:
+                    alert( "No template found.  Please try a  different mode." );
                     break;
                 }
 
@@ -87,10 +87,10 @@ define( [
                     this.$el.html( template( data ) );
 
                     if ( !showMapLink ) {
-                        this.$el.find(".show-map-link").hide();
+                        this.$el.find( ".show-map-link" ).hide();
                     }
 
-                    $( ".container main .content .predictions-container" ).show();                    
+                    $( ".container main .content .predictions-container" ).show();
                 }
 
             }
@@ -103,41 +103,45 @@ define( [
             "click .hide-map-link": "hideMap"
         },
 
-        showMap: function(e) {
+        showMap: function ( e ) {
             e.preventDefault();
             var mode = Backbone.app.defaults.mode;
             var route = Backbone.app.defaults.route;
             var direction = Backbone.app.defaults.direction;
             var stop = Backbone.app.defaults.stop;
 
-            this.$el.find(".hide-map-link").css({display: "block"});
-            this.$el.find(".show-map-link").hide();            
+            this.$el.find( ".hide-map-link" ).css( {
+                display: "block"
+            } );
+            this.$el.find( ".show-map-link" ).hide();
 
-            Backbone.app.router.navigate("mode/" + mode + "/route/" + route + "/direction/" + direction + "/stop/" + stop + "/map",{
+            Backbone.app.router.navigate( "mode/" + mode + "/route/" + route + "/direction/" + direction + "/stop/" + stop + "/map", {
                 trigger: true
-            });
+            } );
         },
 
-        hideMap: function(e) {
+        hideMap: function ( e ) {
             e.preventDefault();
             var mode = Backbone.app.defaults.mode;
             var route = Backbone.app.defaults.route;
             var direction = Backbone.app.defaults.direction;
             var stop = Backbone.app.defaults.stop;
 
-            this.$el.find(".hide-map-link").hide();
-            this.$el.find(".show-map-link").css({display: "block"});
+            this.$el.find( ".hide-map-link" ).hide();
+            this.$el.find( ".show-map-link" ).css( {
+                display: "block"
+            } );
 
-            Backbone.app.router.navigate("mode/" + mode + "/route/" + route + "/direction/" + direction + "/stop/" + stop, {
+            Backbone.app.router.navigate( "mode/" + mode + "/route/" + route + "/direction/" + direction + "/stop/" + stop, {
                 trigger: true
-            });
+            } );
         },
 
-        fetchPredictions: function() {
+        fetchPredictions: function () {
             var self = this;
             var stop = generalUtility.titleCase(
                 encodeURIComponent(
-                    generalUtility.urlDecode(Backbone.app.defaults.stop)
+                    generalUtility.urlDecode( Backbone.app.defaults.stop )
                 )
             );
 
@@ -149,15 +153,15 @@ define( [
                     "queryValue": stop
                 }
             } );
-            
-            Backbone.app.defaultSettings.predictionsTimer = setTimeout(function() {
+
+            Backbone.app.defaultSettings.predictionsTimer = setTimeout( function () {
                 self.fetchPredictions();
-            }, Backbone.app.defaultSettings.refreshPredictionsTime);
+            }, Backbone.app.defaultSettings.refreshPredictionsTime );
         },
 
         close: function () {
             clearTimeout( Backbone.app.defaultSettings.predictionsTimer );
-            Backbone.app.defaultSettings.predictionsTimer = null; 
+            Backbone.app.defaultSettings.predictionsTimer = null;
 
             predictionsCollection.reset();
             this.stopListening( predictionsCollection );

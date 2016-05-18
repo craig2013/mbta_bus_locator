@@ -8,7 +8,7 @@ define( [
     "utility/general/utility",
     "utility/map/map",
     "models/routes/routes",
-    "models/stops/stops",    
+    "models/stops/stops",
     "models/predictions/predictions",
     "models/vehicles/vehicles",
     "collections/routes/routes",
@@ -28,7 +28,7 @@ define( [
 
         initialize: function () {
             clearTimeout( Backbone.app.defaultSettings.mapTimer );
-            Backbone.app.defaultSettings.mapTimer = null; 
+            Backbone.app.defaultSettings.mapTimer = null;
 
             this.fetchVehicleLocations();
 
@@ -36,27 +36,27 @@ define( [
         },
 
         render: function () {
-            var vehicleLocationModel = vehiclesCollection.models[0];
-            var stopsModel = stopsCollection.models[0];
+            var vehicleLocationModel = vehiclesCollection.models[ 0 ];
+            var stopsModel = stopsCollection.models[ 0 ];
 
-            if (  (typeof stopsModel === "object") && (typeof vehicleLocationModel === "object") ) {
-                if ( (typeof stopsModel.attributes !== "undefined") && (typeof vehicleLocationModel.attributes.error === "undefined") ) {
+            if ( ( typeof stopsModel === "object" ) && ( typeof vehicleLocationModel === "object" ) ) {
+                if ( ( typeof stopsModel.attributes !== "undefined" ) && ( typeof vehicleLocationModel.attributes.error === "undefined" ) ) {
                     if ( !Backbone.app.defaults.mapLoaded ) {
                         var centerMap = {};
                         var direction = Backbone.app.defaults.direction;
-                        var lat = stopsModel.attributes.direction[0].stop[0].stop_lat;
-                        var lng = stopsModel.attributes.direction[0].stop[0].stop_lon;
+                        var lat = stopsModel.attributes.direction[ 0 ].stop[ 0 ].stop_lat;
+                        var lng = stopsModel.attributes.direction[ 0 ].stop[ 0 ].stop_lon;
                         var map = {};
                         var mapElement = {};
                         var mapOptions = {};
-                        var stops = stopsCollection.models[0].attributes.direction[0].stop;
+                        var stops = stopsCollection.models[ 0 ].attributes.direction[ 0 ].stop;
                         var template = _.template( mapsTemplate );
 
                         this.$el.html( template() );
 
-                        mapElement =  document.getElementById("map");
+                        mapElement = document.getElementById( "map" );
 
-                        centerMap = new google.maps.LatLng(lat, lng);
+                        centerMap = new google.maps.LatLng( lat, lng );
 
                         mapOptions = {
                             zoom: 12,
@@ -64,47 +64,49 @@ define( [
                             mapTypeId: google.maps.MapTypeId.ROADMAP
                         }
 
-                        map = new google.maps.Map(mapElement, mapOptions);
+                        map = new google.maps.Map( mapElement, mapOptions );
 
-                        mapUtility.plotRouteStops(stops, map);
+                        mapUtility.plotRouteStops( stops, map );
 
-                        mapUtility.setVehicleLocations(vehicleLocationModel, map, markerLabel);
+                        mapUtility.setVehicleLocations( vehicleLocationModel, map, markerLabel );
 
-                        google.maps.event.addListenerOnce(map, "tilesloaded", function() {
-                            $(".show-map-link").hide();
-                            $(".hide-map-link").css({display: "block"});                              
-                            Backbone.app.defaults.mapLoaded = true; 
-                        });
+                        google.maps.event.addListenerOnce( map, "tilesloaded", function () {
+                            $( ".show-map-link" ).hide();
+                            $( ".hide-map-link" ).css( {
+                                display: "block"
+                            } );
+                            Backbone.app.defaults.mapLoaded = true;
+                        } );
                     } else if ( Backbone.app.defaults.mapLoaded ) {
-                        mapUtility.updateVehicleLocations(vehicleLocationModel, map, markerLabel);
+                        mapUtility.updateVehicleLocations( vehicleLocationModel, map, markerLabel );
                     }
 
-                    google.maps.event.addDomListener(window, "resize", function() {
+                    google.maps.event.addDomListener( window, "resize", function () {
                         var center = map.getCenter();
-                        google.maps.event.trigger(map, "resize");
-                        map.setCenter(center);
-                    });                    
+                        google.maps.event.trigger( map, "resize" );
+                        map.setCenter( center );
+                    } );
 
-                    this.$("#map").show(); 
-           
+                    this.$( "#map" ).show();
+
                     this.$el.show();
                 } else {
-                    alert(vehicleLocationModel.attributes.error.message);
+                    alert( vehicleLocationModel.attributes.error.message );
                 }
 
             }
-            
+
             return this;
         },
 
-        fetchVehicleLocations: function() {
+        fetchVehicleLocations: function () {
             var route = Backbone.app.defaults.route;
             var self = this;
 
-            route = route.replace("cr-", "CR-"); // For commuter rail routes.
+            route = route.replace( "cr-", "CR-" ); // For commuter rail routes.
 
-            route = generalUtility.titleCase(route);
-            
+            route = generalUtility.titleCase( route );
+
             vehiclesCollection.fetch( {
                 reset: true,
                 data: {
@@ -114,23 +116,25 @@ define( [
                 }
             } );
 
-            Backbone.app.defaultSettings.mapTimer = setTimeout(function() {
+            Backbone.app.defaultSettings.mapTimer = setTimeout( function () {
                 self.fetchVehicleLocations();
-            }, Backbone.app.defaultSettings.refreshPredictionsTime);
+            }, Backbone.app.defaultSettings.refreshPredictionsTime );
         },
 
 
         close: function () {
             clearTimeout( Backbone.app.defaultSettings.mapTimer );
-            Backbone.app.defaultSettings.mapTimer = null; 
+            Backbone.app.defaultSettings.mapTimer = null;
 
-            Backbone.app.defaults.mapLoaded = false; 
+            Backbone.app.defaults.mapLoaded = false;
 
             vehiclesCollection.reset();
             this.stopListening( vehiclesCollection );
 
-            $(".hide-map-link").hide();
-            $(".show-map-link").css({display: "block"});
+            $( ".hide-map-link" ).hide();
+            $( ".show-map-link" ).css( {
+                display: "block"
+            } );
 
             this.$el.unbind();
             this.$el.hide();

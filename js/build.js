@@ -1,12 +1,10 @@
-({
+( {
     appDir: "./",
     baseUrl: "./",
     dir: "dist",
-    modules: [
-        {
-            name: "main"
-        }
-    ],
+    modules: [ {
+        name: "main"
+    } ],
     fileExclusionRegExp: /^(r|build)\.js$/,
     optimizeCss: "standard",
     removeCombined: true,
@@ -35,4 +33,4 @@
             exports: "Backbone"
         }
     }
-});
+} );

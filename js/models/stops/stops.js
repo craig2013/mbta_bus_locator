@@ -1,6 +1,6 @@
 //Stops model
 define( [
-   "jquery",
+    "jquery",
     "underscore",
     "backbone"
 ], function ( $, _, backbone ) {

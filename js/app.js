@@ -3,7 +3,7 @@ define( [
 ], function ( router ) {
 
     "use strict";
-    
+
     var initialize = function () {
         router.initialize();
     };

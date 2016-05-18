@@ -40,7 +40,7 @@ require.config( {
             exports: "Backbone"
         },
         backboneRouterFiler: {
-            deps: ["backbone"],
+            deps: [ "backbone" ],
             exports: "backboneRouterFiler"
         }
     },
@@ -67,11 +67,11 @@ require( [
             vehicles: []
         };
 
-        Backbone.app.defaultSettings  = {
+        Backbone.app.defaultSettings = {
             mapTimer: null,
             predictionsTimer: null,
             refreshPredictionsTime: 20000
         };
 
         app.initialize();
-} );
+    } );

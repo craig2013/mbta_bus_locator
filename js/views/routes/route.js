@@ -41,15 +41,15 @@ define( [
                         route: routeModel.attributes.mode
                     }
 
-                    data.route = _.filter(data.route, function(item, key) {
-                            return item.mode_name.toLowerCase() === generalUtility.urlDecode(Backbone.app.defaults.mode);
-                    });     
+                    data.route = _.filter( data.route, function ( item, key ) {
+                        return item.mode_name.toLowerCase() === generalUtility.urlDecode( Backbone.app.defaults.mode );
+                    } );
 
-                   data.route = generalUtility.concatArray(data, "route");
+                    data.route = generalUtility.concatArray( data, "route" );
 
-                    data.route = _.sortBy(data.route, function(item, key) {
-                        return  item.route_name;
-                    });                    
+                    data.route = _.sortBy( data.route, function ( item, key ) {
+                        return item.route_name;
+                    } );
 
                     var routeTemplate = _.template( routesTemplate );
 
@@ -58,17 +58,17 @@ define( [
 
                 if ( Backbone.app.defaults.route !== null ) {
                     this.$routeSelect.val(
-                            generalUtility.titleCase(
-                                generalUtility.urlDecode(
-                                    Backbone.app.defaults.route
-                                )
+                        generalUtility.titleCase(
+                            generalUtility.urlDecode(
+                                Backbone.app.defaults.route
                             )
-                    ).trigger("chosen:updated");
+                        )
+                    ).trigger( "chosen:updated" );
                 } else {
-                    this.$routeSelect.val("0").trigger("chosen:updated");
-                }                
+                    this.$routeSelect.val( "0" ).trigger( "chosen:updated" );
+                }
 
-               this.$routeSelect.chosen( {
+                this.$routeSelect.chosen( {
                     no_results_text: "Nothing found.",
                     width: "25%"
                 } );
@@ -81,16 +81,16 @@ define( [
             "change #route-select": "showDirection"
         },
 
-        showDirection: function(e) {
-            var route = $("#route-select").chosen().val();
-            
-            route = generalUtility.urlEncode(route);
+        showDirection: function ( e ) {
+            var route = $( "#route-select" ).chosen().val();
+
+            route = generalUtility.urlEncode( route );
 
             Backbone.app.defaults.route = route;
 
-            Backbone.app.router.navigate("mode/" + Backbone.app.defaults.mode + "/route/" + route,{
+            Backbone.app.router.navigate( "mode/" + Backbone.app.defaults.mode + "/route/" + route, {
                 trigger: true
-            });
+            } );
         },
 
         close: function () {
@@ -98,7 +98,7 @@ define( [
                 this.$routeSelect.find( 'option:gt(0)' ).remove();
             }
 
-             this.stopListening( routesCollection );
+            this.stopListening( routesCollection );
 
             this.$el.unbind();
             this.$el.hide();
