@@ -1,5 +1,5 @@
 //Map utility functions
-define([], function() {
+define(function() {
 	"use strict";
 
 	return {

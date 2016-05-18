@@ -5,26 +5,38 @@
 	<a href="#" class="show-map-link">Show Map</a>
 	<a href="#" class="hide-map-link">Hide Map</a>
 	<% if ( predictions !== null ) { %>
-		<% if ( predictions.length >= 1 ) { %>
+	<% //console.log(predictions); %>
+		<% if ( Array.isArray(predictions) ) { %>
 			<% _.each(predictions, function(p, i) { %>
-				<% if ( i === 0 ) { %><div class="next-vehicle"><% } else { %><div class="later-vehicle"><% } %>
-					<%  if ( convertTime(p.pre_away) > 1 ) { %>
-						<% if (predictions.length === 1) { %>
-							Your next train will arive in 
-							<%= convertTime(p.pre_away) %> min.
-						<% } else { %>
-							<%= convertTime(p.pre_away) %> min
+				<% if ( Array.isArray(p.direction) ) { %>
+					<% _.each(p.direction, function(d, j) { %>
+						<% if ( d.direction_name.toLowerCase() === Backbone.app.defaults.direction ) { %>
+							<% if ( Array.isArray(d.trip) ) { %>
+								<% _.each(d.trip, function(t, k) { %>
+									<% if ( i === 0 ) { %>
+										<div class="next-vehicle">
+									<% } else { %>
+										<div class="later-vehicle">
+									<% } %>
+									<%  if ( convertTime(t.pre_away) > 1 ) { %>
+										<% if (t.length === 1) { %>
+											Your next train will arive in 
+											<%= convertTime(t.pre_away) %> min.
+										<% } else { %>
+											<%= convertTime(t.pre_away) %> min
+										<% } %>
+									<% } else if ((convertTime(t.pre_away) === 1) && (k===0)) { %>
+										Your train is arriving.
+									<% } else if ((convertTime(t.pre_away) === 0) && (k===0)) { %>
+										Your train is boarding.
+									<% } %>										
+									</div>
+								<% }); %>
+							<% } %>
 						<% } %>
-					<% } else if ((convertTime(p.pre_away) === 1) && (i===0)) { %>
-						Your train is arriving.
-					<% } else if ((convertTime(p.pre_away) === 0) && (i===0)) { %>
-						Your train is boarding.
-					<% } %>
-				</div>
+					<% }); %>
+				<% } %>
 			<% }); %>
-			<% if ( typeof alert === "string" ) { %>
-				<h2>Alert: <%= alert %></h2>
-			<% } %>
 		<% } %>
 	<% } else if ( (predictions === null) && (typeof alert === "string") ) { %>
 		<h2><%= alert %></h2>

@@ -27,7 +27,6 @@ define( [
         },
 
         render: function () {
-
             var routeModel = routesCollection.models[ 0 ];
             var self = this;
 
@@ -86,6 +85,10 @@ define( [
                     trigger: true
                 } );                    
             }
+        },
+
+        openViews: function(mode) {
+
         },
 
         close: function () {

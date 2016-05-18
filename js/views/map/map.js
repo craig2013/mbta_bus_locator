@@ -71,6 +71,8 @@ define( [
                         mapUtility.setVehicleLocations(vehicleLocationModel, map, markerLabel);
 
                         google.maps.event.addListenerOnce(map, "tilesloaded", function() {
+                            $(".show-map-link").hide();
+                            $(".hide-map-link").css({display: "block"});                              
                             Backbone.app.defaults.mapLoaded = true; 
                         });
                     } else if ( Backbone.app.defaults.mapLoaded ) {
@@ -84,8 +86,7 @@ define( [
                     });                    
 
                     this.$("#map").show(); 
-                    $(".show-map-link").hide();
-                    $(".hide-map-link").css({display: "block"});             
+           
                     this.$el.show();
                 } else {
                     alert(vehicleLocationModel.attributes.error.message);
@@ -104,8 +105,7 @@ define( [
 
             route = generalUtility.titleCase(route);
             
-            generalUtility.countdown(self, {refreshVehicles: true});
-            /*vehiclesCollection.fetch( {
+            vehiclesCollection.fetch( {
                 reset: true,
                 data: {
                     "queryType": "vehiclesbyroute",
@@ -114,11 +114,9 @@ define( [
                 }
             } );
 
-            */
-
-            /*Backbone.app.defaultSettings.mapTimer = setTimeout(function() {
+            Backbone.app.defaultSettings.mapTimer = setTimeout(function() {
                 self.fetchVehicleLocations();
-            }, Backbone.app.defaultSettings.refreshPredictionsTime);*/
+            }, Backbone.app.defaultSettings.refreshPredictionsTime);
         },
 
 

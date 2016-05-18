@@ -3,25 +3,7 @@ define([
     "jquery",
     "underscore",
     "backbone",
-    "utility/router/router",
-    "models/routes/routes",
-    "models/stops/stops",
-    "models/predictions/predictions",
-    "models/vehicles/vehicles",
-    "collections/routes/routes",
-    "collections/stops/stops",
-    "collections/predictions/predictions",
-    "collections/vehicles/vehicles",
-    "views/mode/mode",
-    "views/routes/route",
-    "views/direction/direction",
-    "views/stops/stops",
-    "views/predictions/predictions",
-    "views/map/map"
-], function($, _, Backbone, utility, 
-	routesModel, stopsModel, predictionsModel, vehiclesModel,
-	routesCollection, stopsCollection, predictionsCollection, vehiclesCollection,
-	modeView, routesView, directionsView, stopsView, predictionsView, mapsView) {
+], function($, _, Backbone) {
 
 	"use strict";
 
@@ -31,9 +13,8 @@ define([
 	        *
 	        * @param closeViews {Array} A list of views to close if open.
 	        *
-	        * @return The views that are suposed to remain open.
 	        **/
-	        closeOpenViews: function(closeViews) {
+	        closeViews: function(closeViews) {
 	            for ( var i = 0; i < arguments.length; i++ ) {
 	                var viewToClose = arguments[i];
 	                if ( this.hasOwnProperty(viewToClose) ) {
@@ -44,14 +25,26 @@ define([
 	                }
 	            }
 	            
-	        },	
-	        /*
+	        },
+	        /**
+	         * This functon will open views passed into it from the router if a view is bookmarked and a user arives via the bookmark.
 	         * 
-	         * TODO: rewrite this part using deferreds and/or promises.
+	         * @param  {Array} (openViews) An array of objects that lists the property of the view, property name, router method to be called, and the view.
 	         * 
 	         */
 	        openViews: function(openViews) {
-	        	
-	       }
+	        	for ( var i = 0; i < arguments.length; i++ ) {
+	        		var property = arguments[i].property;
+	        		var propertyName = arguments[i].propertyName;
+	       		var routeMethodName = arguments[i].routeMethodName;
+	       		var view = arguments[i].view;
+	       		if ( (typeof property !== "undefined") && (!this[view]) ) {
+	       			Backbone.app.defaults[propertyName] = property;
+	       			if ( typeof this[routeMethodName] === "function" ) {
+	       				this[routeMethodName]();
+	       			}
+	       		}
+	        	}
+	        }
 	}
 });

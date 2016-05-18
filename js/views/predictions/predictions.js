@@ -43,8 +43,8 @@ define( [
 
             if ( typeof predictionsModel === "object" ) {      
                 if ( typeof predictionsModel.attributes.mode !== "undefined" ) {
-                    var predictionModel = predictionsModel.attributes.mode[0].route[0].direction[0].trip;
-
+                    var predictionModel = predictionsModel.attributes.mode[0].route;
+                    
                     predictionModel = generalUtility.sortRoutes(predictionModel);
 
                     Backbone.app.defaults.routeText = routeText;
@@ -105,7 +105,7 @@ define( [
 
         showMap: function(e) {
             e.preventDefault();
-            var mode = Backbone.app.defaults.modeType;
+            var mode = Backbone.app.defaults.mode;
             var route = Backbone.app.defaults.route;
             var direction = Backbone.app.defaults.direction;
             var stop = Backbone.app.defaults.stop;
@@ -120,7 +120,7 @@ define( [
 
         hideMap: function(e) {
             e.preventDefault();
-            var mode = Backbone.app.defaults.modeType;
+            var mode = Backbone.app.defaults.mode;
             var route = Backbone.app.defaults.route;
             var direction = Backbone.app.defaults.direction;
             var stop = Backbone.app.defaults.stop;
@@ -135,7 +135,11 @@ define( [
 
         fetchPredictions: function() {
             var self = this;
-            var stop = generalUtility.titleCase(encodeURIComponent(generalUtility.urlDecode(Backbone.app.defaults.stop)));
+            var stop = generalUtility.titleCase(
+                encodeURIComponent(
+                    generalUtility.urlDecode(Backbone.app.defaults.stop)
+                )
+            );
 
             predictionsCollection.fetch( {
                 reset: true,

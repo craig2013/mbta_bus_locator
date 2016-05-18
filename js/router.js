@@ -3,7 +3,7 @@ define( [
     "jquery",
     "underscore",
     "backbone",
-    "marionette",
+    "utility/general/utility",
     "utility/router/router",
     "models/routes/routes",
     "models/stops/stops",
@@ -19,95 +19,17 @@ define( [
     "views/stops/stops",
     "views/predictions/predictions",
     "views/map/map"
-], function ( $, _, Backbone, marionette, routerUtility, 
+], function ( $, _, Backbone, generalUtility, routerUtility, 
     routesModel, stopsModel, predictionsModel, vehiclesModel,
     routesCollection, stopsCollection, predictionsCollection, vehiclesCollection,
     modesView, routesView, directionsView, stopsView, predictionsView, mapsView ) {
 
     "use strict";
 
-    var initialize = function () {
+    var initialize = function () {      
         var mbtaRouter = new router();
 
-        Backbone.app.router = mbtaRouter;
-        //homeRoute: No transpotation mode selected.
-        mbtaRouter.on( "route:homeRoute", function () {
-            routerUtility.closeOpenViews.apply(this, ["mapView", "predictionView","stopView","directionView","routeView"]);
-
-            if ( this.modeView ) {
-                this.modeView.close();
-            }
-
-            this.modeView = new modesView( {
-                model: routesCollection
-            } );
-            this.modeView.render();
-        } );
-
-        //modeTypeSelected: Transportation mode selected.
-        mbtaRouter.on( "route:modeTypeSelected", function( mode ) {
-            routerUtility.closeOpenViews.apply(this, ["mapView", "predictionView","stopView", "directionView", "routeView"]);
-
-            routerUtility.openViews.apply(this, [{view: "mode", property:mode}]);
-
-            this.routeView = new routesView({
-                model: routesCollection
-            });
-
-            this.routeView.render();
-        });
-
-        mbtaRouter.on( "route:routeSelected", function( mode, route ) {
-            routerUtility.closeOpenViews.apply(this, ["mapView", "predictionView","stopView", "directionView"]);
-
-            routerUtility.openViews.apply(this, [{mode:mode}, {route:route}]);
-
-            this.directionView = new directionsView({
-                model: stopsCollection
-            });
-
-            this.directionView.render();
-        });
-
-        mbtaRouter.on( "route:directionSelected", function( mode, route, direction ) {
-            routerUtility.closeOpenViews.apply(this, ["mapView", "predictionView","stopView"]);
-
-            routerUtility.openViews.apply(this, [{mode:mode}, {route:route}, {direction: direction}]);
-
-            this.stopView = new stopsView({
-                model: stopsCollection
-            });
-
-            this.stopView.render();
-        });       
-
-        mbtaRouter.on( "route:stopSelected", function( mode, route, direction, stop ) {
-            routerUtility.closeOpenViews.apply(this, ["mapView"]);
-
-            routerUtility.openViews.apply(this, [{mode:mode}, {route:route}, {direction: direction}, {stop: stop}]);
-
-            this.predictionView = new predictionsView({
-                model: predictionsCollection
-            });
-
-            this.predictionView.render();
-        });        
-
-        mbtaRouter.on( "route:showMap", function( mode, route, direction, stop ) {
-            var viewsToOpen = [
-                {
-                    property: mode,
-                    viewObject:map
-                }
-            ];
-            routerUtility.openViews.apply(this, [{mode:mode}, {route:route}, {direction: direction}, {stop: stop}, {predictions: ""}]);
-
-            this.mapView = new mapsView({
-                model: predictionsCollection
-            });
-
-            this.mapView.render();
-        });         
+        Backbone.app.router = mbtaRouter; 
 
         Backbone.history.start();
     };
@@ -120,6 +42,86 @@ define( [
             "mode/:mode/route/:route/direction/:direction(/)": "directionSelected",
             "mode/:mode/route/:route/direction/:direction/stop/:stop(/)": "stopSelected",
             "mode/:mode/route/:route/direction/:direction/stop/:stop/map(/)": "showMap"
+        },
+        homeRoute: function() {
+            routerUtility.closeViews.apply(this, ["mapView", "predictionView","stopView","directionView","routeView", "modeView"]);
+
+            this.modeView = new modesView( {
+                model: routesCollection
+            } );
+            this.modeView.render();            
+        },
+        modeTypeSelected: function( mode ) {
+            routerUtility.closeViews.apply(this, ["mapView", "predictionView","stopView", "directionView", "routeView"]);
+
+            routerUtility.openViews.apply(this, [{property: mode, propertyName: "mode", routeMethodName: "homeRoute", view: "modeView"}]);
+
+            this.routeView = new routesView({
+                model: routesCollection
+            });
+            
+            this.routeView.render();         
+        },
+        routeSelected: function( mode, route ) {
+            routerUtility.closeViews.apply(this, ["mapView", "predictionView","stopView", "directionView"]);
+
+            routerUtility.openViews.apply(this, [
+                {property: mode, propertyName: "mode", routeMethodName: "homeRoute", view: "modeView"},
+                {property: route, propertyName: "route", routeMethodName: "modeTypeSelected", view: "routeView"}
+            ]);   
+
+            this.directionView = new directionsView({
+                model: stopsCollection
+            });
+
+            this.directionView.render();           
+        },
+        directionSelected: function( mode, route, direction ) {
+            routerUtility.closeViews.apply(this, ["mapView", "predictionView","stopView"]);
+
+            routerUtility.openViews.apply(this, [
+                {property: mode, propertyName: "mode", routeMethodName: "homeRoute", view: "modeView"},
+                {property: route, propertyName: "route", routeMethodName: "modeTypeSelected", view: "routeView"},
+                {property: direction, propertyName: "direction", routeMethodName: "routeSelected", view: "directionView"}
+            ]);   
+
+            this.stopView = new stopsView({
+                model: stopsCollection
+            });
+
+            this.stopView.render();            
+        },
+        stopSelected: function( mode, route, direction, stop ) {
+            routerUtility.closeViews.apply(this, ["mapView"]);
+
+            routerUtility.openViews.apply(this, [
+                {property: mode, propertyName: "mode", routeMethodName: "homeRoute", view: "modeView"},
+                {property: route, propertyName: "route", routeMethodName: "modeTypeSelected", view: "routeView"},
+                {property: direction, propertyName: "direction", routeMethodName: "routeSelected", view: "directionView"},
+                {property: stop, propertyName: "stop", routeMethodName: "directionSelected", view: "stopView"},
+                {property: stop, propertyName: "stop", routeMethodName: "stopSelected", view: "predictionView"}
+            ]);               
+
+            this.predictionView = new predictionsView({
+                model: predictionsCollection
+            });
+
+            this.predictionView.render();            
+        },
+        showMap: function( mode, route, direction, stop ) {
+            routerUtility.openViews.apply(this, [
+                {property: mode, propertyName: "mode", routeMethodName: "homeRoute", view: "modeView"},
+                {property: route, propertyName: "route", routeMethodName: "modeTypeSelected", view: "routeView"},
+                {property: direction, propertyName: "direction", routeMethodName: "routeSelected", view: "directionView"},
+                {property: stop, propertyName: "stop", routeMethodName: "directionSelected", view: "stopView"},
+                {property: stop, propertyName: "stop", routeMethodName: "stopSelected", view: "predictionView"}
+            ]);      
+
+            this.mapView = new mapsView({
+                model: predictionsCollection
+            });
+
+            this.mapView.render();            
         }
     } );
 
