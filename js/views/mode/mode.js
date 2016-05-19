@@ -59,7 +59,7 @@ define( [
 
                 if ( Backbone.app.defaults.mode !== null ) {
                     this.$modeSelect.val(
-                        generalUtility.titleCase( generalUtility.urlDecode( Backbone.app.defaults.mode ) )
+                        generalUtility.urlDecode( Backbone.app.defaults.mode )
                     ).trigger( "chosen:updated" );
                 } else {
                     this.$modeSelect.val( "0" ).trigger( "chosen:updated" );

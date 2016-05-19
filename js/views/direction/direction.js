@@ -68,10 +68,8 @@ define( [
 
                 if ( Backbone.app.defaults.direction !== null ) {
                     this.$directionSelect.val(
-                        generalUtility.titleCase(
-                            generalUtility.urlDecode(
-                                Backbone.app.defaults.direction
-                            )
+                        generalUtility.urlDecode(
+                            Backbone.app.defaults.direction
                         )
                     ).trigger( "chosen:updated" );
                 } else {

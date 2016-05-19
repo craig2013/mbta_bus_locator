@@ -1,13 +1,13 @@
 ( {
-    appDir: "./",
-    baseUrl: "./",
+    appDir: ".",
+    baseUrl: ".",
     dir: "dist",
     modules: [ {
         name: "main"
     } ],
     fileExclusionRegExp: /^(r|build)\.js$/,
     optimizeCss: "standard",
-    removeCombined: true,
+    removeCombined: false,
     paths: {
         async: "libs/require-js/plugins/async/async",
         markerlabel: "libs/google-maps/markerwithlabel-amd",
@@ -16,7 +16,7 @@
         backbone: "libs/backbone/backbone",
         chosen: "libs/jquery/plugins/chosen/chosen",
         text: "text",
-        templates: "templates"
+        templates: "templates/"
     },
     shim: {
         jquery: {

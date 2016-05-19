@@ -28,9 +28,11 @@
 							<% }); %>
 						<% } %>
 					<% } %>
+					<% if ( predictions.length > 1 ) { %>
+						<hr/>
+					<% } %>
 				<% } else if ( pre.route_name !== Backbone.app.defaults.route ) { %>
-					<% if ( i === 1 ) { %>
-					<hr/>
+					<% if ( i === 0 ) { %>
 					<div class="bus-predictions-sub-header">Predictions for other routes at this stop:</div>
 					<% } %>
 					<% if ( Array.isArray(pre.direction) ) { %>
@@ -39,10 +41,12 @@
 								<div class="later-vehicle">
 								<% if ( convertTime(t.pre_away) > 1 ) { %>
 									<%= convertTime(t.pre_away) %>
+									min (<%= pre.route_name %> <%= t.trip_headsign %>)
 								<% } else if ( (convertTime(t.pre_away) > 0) || (convertTime(t.pre_away) === 1) ) { %>
 									Arriving
+									min (<%= pre.route_name %> <%= t.trip_headsign %>)
 								<% } %>
-								 min (<%= pre.route_name %> <%= t.trip_headsign %>)
+								 
 								</div>												
 							<% }); %>
 						<% } %>

@@ -58,10 +58,8 @@ define( [
 
                 if ( Backbone.app.defaults.route !== null ) {
                     this.$routeSelect.val(
-                        generalUtility.titleCase(
-                            generalUtility.urlDecode(
-                                Backbone.app.defaults.route
-                            )
+                        generalUtility.urlDecode(
+                            Backbone.app.defaults.route
                         )
                     ).trigger( "chosen:updated" );
                 } else {

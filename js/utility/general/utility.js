@@ -63,6 +63,24 @@ define( function () {
 
             return array
         },
+        /**
+         * Sort predictions from array.
+         * 
+         * @param  {Array} [array] The predictions array.
+         * @param  {String} [selectedRoute] The selected route nmber.
+         * @return {Array} [array] The predictions array sorted.
+         */
+        sortPredictions: function(array, selectedRoute) {
+            if ( Array.isArray(array) ) {
+                if ( array[0].route_name !== Backbone.app.defaults.route ) {
+                    array.sort(function(a, b) {
+                        return parseInt(b.route_name) - parseInt(a.route_name);
+                    });
+                }
+            }
+
+            return array;
+        },
 
         /**
          * Capitalize ther first letters of all words in a string passed in.
@@ -86,7 +104,7 @@ define( function () {
          */
         urlEncode: function ( str ) {
             try {
-                var newStr = str.replace( /(\s)/g, "+" ).replace( /(\\)/g, "%5C" ).replace( /(\/)/g, "%2" ).replace( /(\&)/g, "&amp;" ).toLowerCase();
+                var newStr = str.replace( /(\s)/g, "+" ).replace( /(\\)/g, "%5C" ).replace( /(\/)/g, "%2F" ).replace( /(\&)/g, "&amp;" ).toLowerCase();
 
                 return newStr;
             } catch ( e ) {
@@ -104,7 +122,7 @@ define( function () {
          */
         urlDecode: function ( str ) {
             try {
-                var newStr = str.replace( /(\+)/g, " " ).replace( /(%5C)/g, "\\" ).replace( /(%2)/g, "/" ).replace( /(&amp;)/g, "&" ).toLowerCase();
+                var newStr = str.replace( /(\+)/g, " " ).replace( /(%5C)/g, "\\" ).replace( /(%2f)/g, "/" ).replace( /(&amp;)/g, "&" ).toLowerCase();
 
                 return newStr;
             } catch ( e ) {

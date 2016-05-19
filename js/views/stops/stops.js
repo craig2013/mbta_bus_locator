@@ -57,17 +57,16 @@ define( [
                     this.$stopsSelect.append( stopTemplate( data ) );
                 }
 
-                if ( Backbone.app.defaults.stop !== null ) {
+                if ( Backbone.app.defaults.stop !== null ) {                  
                     this.$stopsSelect.val(
-                        generalUtility.titleCase(
                             generalUtility.urlDecode( Backbone.app.defaults.stop )
-                        )
                     ).trigger( "chosen:updated" );
                 } else {
                     this.$stopsSelect.val( "0" ).trigger( "chosen:updated" );
                 }
 
                 this.$stopsSelect.chosen( {
+                    search_contains: true,
                     no_results_text: "Nothing found.",
                     width: "25%"
                 } );
@@ -81,16 +80,19 @@ define( [
         },
 
         showCountDown: function ( e ) {
+            var direction = Backbone.app.defaults.direction;
+            var mode = Backbone.app.defaults.mode;
+            var route = Backbone.app.defaults.route;
             var stop = generalUtility.urlEncode( $( "#stop-select" ).chosen().val() );
 
-            //console.log("stop: " + stop);
-
-            //console.log("Backbone.app.defaults.modeType: " + Backbone.app.defaults.modeType);
+            console.log("direction: " + direction);
+            console.log("mode: " + mode);
+            console.log("route: " + route);
+            console.log("stop: " + stop);
 
             Backbone.app.defaults.stop = stop;
 
-            //TODO: fix this here before posting.  Encode and Decode url parameters.  Place in individual variables first before loading in route.
-            //Make sure all functions that change route work like this.
+
 
             Backbone.app.router.navigate( "mode/" + Backbone.app.defaults.mode + "/route/" + Backbone.app.defaults.route + "/direction/" + Backbone.app.defaults.direction + "/stop/" + stop, {
                 trigger: true
