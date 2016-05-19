@@ -85,16 +85,9 @@ define( [
             var route = Backbone.app.defaults.route;
             var stop = generalUtility.urlEncode( $( "#stop-select" ).chosen().val() );
 
-            console.log("direction: " + direction);
-            console.log("mode: " + mode);
-            console.log("route: " + route);
-            console.log("stop: " + stop);
-
             Backbone.app.defaults.stop = stop;
 
-
-
-            Backbone.app.router.navigate( "mode/" + Backbone.app.defaults.mode + "/route/" + Backbone.app.defaults.route + "/direction/" + Backbone.app.defaults.direction + "/stop/" + stop, {
+            Backbone.app.router.navigate( "mode/" + mode + "/route/" + route + "/direction/" + direction + "/stop/" + stop, {
                 trigger: true
             } )
         },
