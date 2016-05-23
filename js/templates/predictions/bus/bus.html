@@ -7,50 +7,43 @@
 	<% if ( predictions !== null ) { %>
 		<% if ( Array.isArray(predictions) ) { %>
 			<% _.each(predictions, function(pre, i) { %>
-				<% if ( pre.route_name === Backbone.app.defaults.route ) { %>
+				<% if ( (i === 0) ) { %>
+					<% if ( Array.isArray(pre[0]) ) { %>
 					<div class="bus-predictions-sub-header">Predictions for route <%= pre.route_name %>:</div>
-					<% if ( Array.isArray(pre.direction) ) { %>
-						<% if ( Array.isArray(pre.direction[0].trip) ) { %>
-							<% _.each(pre.direction[0].trip, function(t, j) { %>		
-								<% if ( j === 0 ) { %>
-									<div class="next-vehicle">
-								<% } else { %>
-									<div class="later-vehicle">
-								<% } %>
-								<%  if ( convertTime(t.pre_away) > 1 ) { %>
-									<%= convertTime(t.pre_away) %> min
-								<% } else if ( (convertTime(t.pre_away) === 1) && (i===0) ) { %>
-									Your bus is arriving.
-								<% } else if ( (convertTime(t.pre_away) === 0) && (i===0) ) { %>
-									Your bus is boarding.
-								<% } %>
-								</div>												
-							<% }); %>
+					<% _.each(pre[0], function(p, j) { %>
+						<% if ( j === 0 ) { %>
+							<div class="next-vehicle">
+						<% } else { %>
+							<div class="later-vehicle">
 						<% } %>
-					<% } %>
-					<% if ( predictions.length > 1 ) { %>
+			                                <%  if ( convertTime(p.pre_away) >= 1 ) { %>
+			                                    <%= convertTime(p.pre_away) %> min
+			                                <% } else if ( ((p.pre_away > "10" ) && (p.pre_away <= "50")) && (i===0) ) { %>
+			                                    Your bus is arriving.
+			                                <% } else if ( (p.pre_away <= "10") && (i===0) ) { %>
+			                                    Your bus is boarding.
+			                                <% } %>	
+			                                </div>					
+					<% }); %>
+					<% } else { %>	
+						<div class="bus-predictions-sub-header">Currently no predictions for your selected route.</div>
+					<% } %>				
+				<% } else if ( i === 1 ) { %>
+					<% if ( pre.length ) { %>
 						<hr/>
-					<% } %>
-				<% } else if ( pre.route_name !== Backbone.app.defaults.route ) { %>
-					<% if ( i === 0 ) { %>
-					<div class="bus-predictions-sub-header">Predictions for other routes at this stop:</div>
-					<% } %>
-					<% if ( Array.isArray(pre.direction) ) { %>
-						<% if ( Array.isArray(pre.direction[0].trip) ) { %>
-							<% _.each(pre.direction[0].trip, function(t, j) { %>
-								<div class="later-vehicle">
-								<% if ( convertTime(t.pre_away) > 1 ) { %>
-									<%= convertTime(t.pre_away) %>
-									min (<%= pre.route_name %> <%= t.trip_headsign %>)
-								<% } else if ( (convertTime(t.pre_away) > 0) || (convertTime(t.pre_away) === 1) ) { %>
-									Arriving
-									min (<%= pre.route_name %> <%= t.trip_headsign %>)
-								<% } %>
-								 
-								</div>												
-							<% }); %>
-						<% } %>
-					<% } %>					
+	                        			<div class="bus-predictions-sub-header">Predictions for other routes at this stop:</div>
+	                        			<% _.each(pre, function(p, j) { %>
+	                        				<div class="later-vehicle">
+					                                <% if ( convertTime(p.pre_away) >= 1 ) { %>
+					                                    <%= convertTime(p.pre_away) %>
+					                                    min (Route <%= p.route_name %>, <%= p.trip_headsign %>)
+					                                <% } else if ( (p.pre_away > "5" ) || (p.pre_away <= "50") ) { %>
+					                                    Arriving
+					                                    (Route <%= p.route_name %>, <%= p.trip_headsign %>)
+					                                <% } %>                        					
+	                        				</div>
+	                        			<% }); %>       
+	                        		<% } %>             			
 				<% } %>
 			<% }); %>
 			<% if ( typeof alert === "string" ) { %>

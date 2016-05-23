@@ -48,7 +48,11 @@ define( [
                     data.route = generalUtility.concatArray( data, "route" );
 
                     data.route = _.sortBy( data.route, function ( item, key ) {
-                        return item.route_name;
+                        if ( isNaN( item.route_name.substring( 0, 2 ) ) ) { //Sort by route name if route name is a word.
+                            return item.route_name;
+                        } else { //Sort by route id if route name is a number.
+                            return item.route_id.length;
+                        }
                     } );
 
                     var routeTemplate = _.template( routesTemplate );
