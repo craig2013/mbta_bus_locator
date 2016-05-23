@@ -52,33 +52,82 @@ define( function () {
         },
 
         /**
-         * Sort routes from routes array.
+         * Sort the order of the predictions in the predictions array.
+         *
          * @param  {Array} (array) The array to be sorted.
          * @return {Array} The sorted array.
          */
-        sortRoutes: function ( array ) {
-            array.sort( function ( a, b ) {
-                return parseFloat( a.pre_away ) - parseFloat( b.pre_away );
-            } );
+        sortPredictionOrder: function ( array ) {
+            /**
+             *
+             * TODO: Add route name to other routes to display more information about route.
+             *
+             */
+            var result = [];
 
-            return array
+            if ( Array.isArray( array ) ) {
+                var otherRoutes = [];
+                var selectedRoute = [];
+
+                for ( var i = 0; i < array.length; i++ ) {
+                    if ( array[ i ].route_id === Backbone.app.defaults.route ) {
+                        selectedRoute.push(
+                            array[ i ].direction[ 0 ].trip
+                        );
+                    } else {
+                        var item = array[ i ].direction[ 0 ].trip;
+
+                        for ( var j = 0; j < item.length; j++ ) {
+                            item[ j ][ "route_name" ] = array[ i ].route_name;
+                            otherRoutes.push( item[ j ] );
+                        }
+                    }
+                }
+
+                otherRoutes = _.flatten( otherRoutes );
+
+                otherRoutes.sort( function ( a, b ) {
+                    return parseInt( a.pre_away ) - parseInt( b.pre_away );
+                } );
+
+                selectedRoute.sort( function ( a, b ) {
+                    return parseInt( a.pre_away ) - parseInt( b.pre_away );
+                } );
+
+                result.push( selectedRoute );
+                result.push( otherRoutes );
+
+            }
+
+            return result;
         },
         /**
-         * Sort predictions from array.
-         * 
+         * Sort the order of routes in the predictions array.
+         *
          * @param  {Array} [array] The predictions array.
          * @param  {String} [selectedRoute] The selected route nmber.
          * @return {Array} [array] The predictions array sorted.
          */
-        sortPredictions: function(array, selectedRoute) {
-            if ( Array.isArray(array) ) {
-                if ( array[0].route_name !== Backbone.app.defaults.route ) {
-                    array.sort(function(a, b) {
-                        return parseInt(b.route_name) - parseInt(a.route_name);
-                    });
+        sortPredictionRoutes: function ( array, selectedRoute ) {
+            if ( Array.isArray( array ) ) {
+                if ( array[ 0 ].route_id !== Backbone.app.defaults.route ) {
+                    var indexOfSelectedRoute = null;
+                    var newArray = [];
+                    var selectedRoute = _.find( array, function ( item ) {
+                        return item.route_id === Backbone.app.defaults.route;
+                    } );
+
+                    indexOfSelectedRoute = array.indexOf( selectedRoute );
+
+                    if ( indexOfSelectedRoute > -1 ) {
+                        array.splice( indexOfSelectedRoute, 1 );
+                    }
+
+                    array.sort( function ( a, b ) {
+                        return parseInt( b.route_id ) - parseInt( a.route_id );
+                    } );
                 }
             }
-
             return array;
         },
 

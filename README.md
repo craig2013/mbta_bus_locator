@@ -4,6 +4,10 @@
 
 ##Version History
 
+######Version 4.1.0
+- Fixed sorting of routes in routes drop down for select a route.
+- Fixed sorting for bus predictions with multiple routes at a stop.
+
 ######Version 4.0.0
 - Changed name from MBTA Bus Tracker to MBTA Tracker
 - Switched to using the MBTA Realtime API instead of Nextbus.

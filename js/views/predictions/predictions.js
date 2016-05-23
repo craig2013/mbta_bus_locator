@@ -45,10 +45,11 @@ define( [
                 if ( typeof predictionsModel.attributes.mode !== "undefined" ) {
                     var predictionModel = predictionsModel.attributes.mode[ 0 ].route;
 
-                    //predictionModel = ( Backbone.app.defaults.mode === "bus" ) ? generalUtility.sortPredictions( predictionModel, routeText ) : predictionModel;
                     if ( Backbone.app.defaults.mode === "bus" ) {
-                        predictionModel = generalUtility.sortPredictions( predictionModel, routeText );
-                    } 
+                        predictionModel = generalUtility.sortPredictionRoutes( predictionModel, routeText );
+                        predictionModel = generalUtility.sortPredictionOrder( predictionModel );
+                    }
+
 
                     Backbone.app.defaults.routeText = routeText;
 
