@@ -873,6 +873,17 @@ body {
               display: none;
               margin: 10px 5px 0 0;
               text-align: right; }
+            body .container .content.predictions .predictions-container .boat-predictions .predictions-sub-header,
+            body .container .content.predictions .predictions-container .bus-predictions .predictions-sub-header,
+            body .container .content.predictions .predictions-container .commuter-rail-predictions .predictions-sub-header,
+            body .container .content.predictions .predictions-container .subway-predictions .predictions-sub-header {
+              font-size: 1em;
+              font-weight: bold; }
+            body .container .content.predictions .predictions-container .boat-predictions hr,
+            body .container .content.predictions .predictions-container .bus-predictions hr,
+            body .container .content.predictions .predictions-container .commuter-rail-predictions hr,
+            body .container .content.predictions .predictions-container .subway-predictions hr {
+              width: 85%; }
             body .container .content.predictions .predictions-container .boat-predictions .next-vehicle,
             body .container .content.predictions .predictions-container .bus-predictions .next-vehicle,
             body .container .content.predictions .predictions-container .commuter-rail-predictions .next-vehicle,
@@ -886,11 +897,6 @@ body {
             body .container .content.predictions .predictions-container .subway-predictions .later-vehicle {
               font-size: 1.5em;
               margin: 5px 0; }
-          body .container .content.predictions .predictions-container .bus-predictions .bus-predictions-sub-header {
-            font-size: 1em;
-            font-weight: bold; }
-          body .container .content.predictions .predictions-container .bus-predictions hr {
-            width: 85%; }
         body .container .content.predictions .map-container {
           display: none;
           margin: 10px auto 0 auto;

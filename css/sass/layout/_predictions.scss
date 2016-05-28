@@ -37,7 +37,14 @@
 			display: none;
 			margin: 10px 5px 0 0;
 			text-align: right;			
-		}		
+		}
+		.predictions-sub-header {
+			font-size: 1em;
+			font-weight: bold;			
+		}	
+		hr {
+			width: 85%;
+		}	
 		.next-vehicle {
 			font-size: 2.5em;
 			font-weight: bold;
@@ -48,14 +55,4 @@
 			margin: 5px 0;
 		}
 	}
-
-	.bus-predictions {
-		.bus-predictions-sub-header {
-			font-size: 1em;
-			font-weight: bold;
-		}
-		hr {
-			width: 85%;
-		}
-	} 
 }

@@ -52,86 +52,6 @@ define( function () {
         },
 
         /**
-         * Sort the order of the predictions in the predictions array.
-         *
-         * @param  {Array} (array) The array to be sorted.
-         * @return {Array} The sorted array.
-         */
-        sortPredictionOrder: function ( array ) {
-            /**
-             *
-             * TODO: Add route name to other routes to display more information about route.
-             *
-             */
-            var result = [];
-
-            if ( Array.isArray( array ) ) {
-                var otherRoutes = [];
-                var selectedRoute = [];
-
-                for ( var i = 0; i < array.length; i++ ) {
-                    if ( array[ i ].route_id === Backbone.app.defaults.route ) {
-                        selectedRoute.push(
-                            array[ i ].direction[ 0 ].trip
-                        );
-                    } else {
-                        var item = array[ i ].direction[ 0 ].trip;
-
-                        for ( var j = 0; j < item.length; j++ ) {
-                            item[ j ][ "route_name" ] = array[ i ].route_name;
-                            otherRoutes.push( item[ j ] );
-                        }
-                    }
-                }
-
-                otherRoutes = _.flatten( otherRoutes );
-
-                otherRoutes.sort( function ( a, b ) {
-                    return parseInt( a.pre_away ) - parseInt( b.pre_away );
-                } );
-
-                selectedRoute.sort( function ( a, b ) {
-                    return parseInt( a.pre_away ) - parseInt( b.pre_away );
-                } );
-
-                result.push( selectedRoute );
-                result.push( otherRoutes );
-
-            }
-
-            return result;
-        },
-        /**
-         * Sort the order of routes in the predictions array.
-         *
-         * @param  {Array} [array] The predictions array.
-         * @param  {String} [selectedRoute] The selected route nmber.
-         * @return {Array} [array] The predictions array sorted.
-         */
-        sortPredictionRoutes: function ( array, selectedRoute ) {
-            if ( Array.isArray( array ) ) {
-                if ( array[ 0 ].route_id !== Backbone.app.defaults.route ) {
-                    var indexOfSelectedRoute = null;
-                    var newArray = [];
-                    var selectedRoute = _.find( array, function ( item ) {
-                        return item.route_id === Backbone.app.defaults.route;
-                    } );
-
-                    indexOfSelectedRoute = array.indexOf( selectedRoute );
-
-                    if ( indexOfSelectedRoute > -1 ) {
-                        array.splice( indexOfSelectedRoute, 1 );
-                    }
-
-                    array.sort( function ( a, b ) {
-                        return parseInt( b.route_id ) - parseInt( a.route_id );
-                    } );
-                }
-            }
-            return array;
-        },
-
-        /**
          * Capitalize ther first letters of all words in a string passed in.
          *
          * @param {String} [str] The string to format.
@@ -171,7 +91,7 @@ define( function () {
          */
         urlDecode: function ( str ) {
             try {
-                var newStr = str.replace( /(\+)/g, " " ).replace( /(%5C)/g, "\\" ).replace( /(%2f)/g, "/" ).replace( /(&amp;)/g, "&" ).toLowerCase();
+                var newStr = str.replace( /(\+)/g, " " ).replace( /(%5C)/g, "\\" ).replace( /(%2f)/g, "/" ).replace( /(&amp;)/g, "&" );
 
                 return newStr;
             } catch ( e ) {

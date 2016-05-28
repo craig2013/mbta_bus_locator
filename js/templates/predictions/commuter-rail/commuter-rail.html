@@ -5,38 +5,49 @@
 	<a href="#" class="show-map-link">Show Map</a>
 	<a href="#" class="hide-map-link">Hide Map</a>
 	<% if ( predictions !== null ) { %>
-	<% //console.log(predictions); %>
 		<% if ( Array.isArray(predictions) ) { %>
-			<% _.each(predictions, function(p, i) { %>
-				<% if ( Array.isArray(p.direction) ) { %>
-					<% _.each(p.direction, function(d, j) { %>
-						<% if ( d.direction_name.toLowerCase() === Backbone.app.defaults.direction ) { %>
-							<% if ( Array.isArray(d.trip) ) { %>
-								<% _.each(d.trip, function(t, k) { %>
-									<% if ( i === 0 ) { %>
-										<div class="next-vehicle">
-									<% } else { %>
-										<div class="later-vehicle">
-									<% } %>
-									<%  if ( convertTime(t.pre_away) > 1 ) { %>
-										<% if (t.length === 1) { %>
-											Your next train will arive in 
-											<%= convertTime(t.pre_away) %> min.
-										<% } else { %>
-											<%= convertTime(t.pre_away) %> min
-										<% } %>
-									<% } else if ((convertTime(t.pre_away) === 1) && (k===0)) { %>
-										Your train is arriving.
-									<% } else if ((convertTime(t.pre_away) === 0) && (k===0)) { %>
-										Your train is boarding.
-									<% } %>										
-									</div>
-								<% }); %>
-							<% } %>
+			<% _.each(predictions, function(pre, i) { %>
+				<% if ( (i === 0) ) { %>
+					<% if ( Array.isArray(pre[i]) || (typeof pre === "object") ) { %>
+					<% _.each(pre, function(p, j) { %>				
+						<% if ( j === 0 ) { %>
+							<div class="predictions-sub-header">Predictions for <%= p.route_name %>:</div>
+							<div class="next-vehicle">
+						<% } else { %>
+							<div class="later-vehicle">
 						<% } %>
+
+			                                <%  if ( convertTime(p.pre_away) >= 1 ) { %>
+			                                    <%= convertTime(p.pre_away) %> min
+			                                <% } else if ( ( convertTime(p.pre_away) < 1 ) ) { %>
+			                                    Your train is arriving.
+			                                 <% } %>	
+			                                </div>					
 					<% }); %>
+					<% } else { %>	
+						<div class="predictions-sub-header">Currently no predictions for your selected route.</div>
+					<% } %>				
+				<% } else if ( i === 1 ) { %>
+					<% if ( pre.length ) { %>
+						<hr/>
+	                        			<div class="predictions-sub-header">Predictions for other routes at this stop:</div>
+	                        			<% _.each(pre, function(p, j) { %>
+	                        				<div class="later-vehicle">
+					                                <% if ( convertTime(p.pre_away) >= 1 ) { %>
+					                                    <%= convertTime(p.pre_away) %>
+					                                    min (<%= p.route_name %>, <%= p.trip_headsign %>)
+					                                <% } else if ( ( convertTime(p.pre_away) < 1) ) { %>
+					                                    Arriving
+					                                    (Route <%= p.route_name %>, <%= p.trip_headsign %>)
+					                                <% } %>                        					
+	                        				</div>
+	                        			<% }); %>       
+	                        		<% } %>             			
 				<% } %>
 			<% }); %>
+			<% if ( typeof alert === "string" ) { %>
+				<h2>Alert: <%= alert %></h2>
+			<% } %>			
 		<% } %>
 	<% } else if ( (predictions === null) && (typeof alert === "string") ) { %>
 		<h2><%= alert %></h2>

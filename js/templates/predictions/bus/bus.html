@@ -8,36 +8,36 @@
 		<% if ( Array.isArray(predictions) ) { %>
 			<% _.each(predictions, function(pre, i) { %>
 				<% if ( (i === 0) ) { %>
-					<% if ( Array.isArray(pre[0]) ) { %>
-					<div class="bus-predictions-sub-header">Predictions for route <%= pre.route_name %>:</div>
-					<% _.each(pre[0], function(p, j) { %>
-						<% if ( j === 0 ) { %>
-							<div class="next-vehicle">
-						<% } else { %>
-							<div class="later-vehicle">
+					<% if ( Array.isArray(pre) ) { %>
+						<% if (pre.length) { %>
+							<% _.each(pre, function(p, j) { %>
+								<% if ( j === 0 ) { %>
+									<div class="predictions-sub-header">Predictions for route <%= p.route_name %>:</div>
+									<div class="next-vehicle">
+								<% } else { %>
+									<div class="later-vehicle">
+								<% } %>
+					                                <%  if ( convertTime(p.pre_away) >= 1 ) { %>
+					                                    <%= convertTime(p.pre_away) %> min
+					                                <% } else if ( ( convertTime(p.pre_away) < 1 ) ) { %>
+					                                    Your bus is arriving.
+					                                 <% } %>	
+					                                </div>					
+							<% }); %>
+						<% } else { %>	
+							<div class="predictions-sub-header">Currently no predictions for your selected route.</div>
 						<% } %>
-			                                <%  if ( convertTime(p.pre_away) >= 1 ) { %>
-			                                    <%= convertTime(p.pre_away) %> min
-			                                <% } else if ( ((p.pre_away > "10" ) && (p.pre_away <= "50")) && (i===0) ) { %>
-			                                    Your bus is arriving.
-			                                <% } else if ( (p.pre_away <= "10") && (i===0) ) { %>
-			                                    Your bus is boarding.
-			                                <% } %>	
-			                                </div>					
-					<% }); %>
-					<% } else { %>	
-						<div class="bus-predictions-sub-header">Currently no predictions for your selected route.</div>
 					<% } %>				
 				<% } else if ( i === 1 ) { %>
 					<% if ( pre.length ) { %>
 						<hr/>
-	                        			<div class="bus-predictions-sub-header">Predictions for other routes at this stop:</div>
+	                        			<div class="predictions-sub-header">Predictions for other routes at this stop:</div>
 	                        			<% _.each(pre, function(p, j) { %>
 	                        				<div class="later-vehicle">
 					                                <% if ( convertTime(p.pre_away) >= 1 ) { %>
 					                                    <%= convertTime(p.pre_away) %>
 					                                    min (Route <%= p.route_name %>, <%= p.trip_headsign %>)
-					                                <% } else if ( (p.pre_away > "5" ) || (p.pre_away <= "50") ) { %>
+					                                <% } else if ( ( convertTime(p.pre_away) < 1) ) { %>
 					                                    Arriving
 					                                    (Route <%= p.route_name %>, <%= p.trip_headsign %>)
 					                                <% } %>                        					

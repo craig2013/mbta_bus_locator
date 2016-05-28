@@ -4,7 +4,7 @@
 
 ##Version History
 
-######Version 4.1.0
+######Version 4.0.1
 - Fixed sorting of routes in routes drop down for select a route.
 - Fixed sorting for bus predictions with multiple routes at a stop.
 

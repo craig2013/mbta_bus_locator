@@ -4,26 +4,26 @@
 <div class="subway-predictions">
 	<a href="#" class="show-map-link">Show Map</a>
 	<a href="#" class="hide-map-link">Hide Map</a>
-	<% //console.log(predictions); %>
 	<% if ( predictions !== null ) { %>
-		<% if ( predictions !== null ) { %>
-			<% if ( Array.isArray(predictions[0].direction) ){ %>
-				<% if ( Array.isArray(predictions[0].direction[0].trip) ) { %>		
-					<% _.each(predictions[0].direction[0].trip, function(p, i) { %>
-						<% if ( i === 0 ) { %><div class="next-vehicle"><% } else { %><div class="later-vehicle"><% } %>
-							<%  if ( convertTime(p.pre_away) > 1 ) { %>
-								<%= convertTime(p.pre_away) %> min
-							<% } else if ((convertTime(p.pre_away) === 1) && (i===0)) { %>
-								Your train is arriving.
-							<% } else if ((convertTime(p.pre_away) === 0) && (i===0)) { %>
-								Your train is boarding.
-							<% } %>
-						</div>
-					<% }); %>
-					<% if ( typeof alert === "string" ) { %>
-						<h2>Alert: <%= alert %></h2>
-					<% } %>
-				<% } %>
+		<% if ( Array.isArray(predictions) ){ %>	
+			<% _.each(predictions[0], function(pre, i) { %>
+				<% if ( i === 0 ) { %>
+					<div class="predictions-sub-header">Predictions for <%= pre.route_name %>:</div>
+					<div class="next-vehicle">
+				<% } else if ( i >= 1 ) { %>
+					<div class="later-vehicle">
+				<% }%>
+				<%  if ( convertTime(pre.pre_away) >= 1 ) { %>
+					<%= convertTime(pre.pre_away) %> min
+				<% } else if ( (convertTime(pre.pre_away) < 1) ) { %>
+					Your train is arriving.
+				<% } else if ( (convertTime(pre.pre_away) === 0) ) { %>
+					Your train is boarding.
+				<% } %>				
+				</div>
+			<% }); %>
+			<% if ( typeof alert === "string" ) { %>
+				<h2>Alert: <%= alert %></h2>
 			<% } %>
 		<% } %>
 	<% } else if ( (predictions === null) && (typeof alert === "string") ) { %>
