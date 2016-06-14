@@ -40,60 +40,93 @@ define( [
             var stopsModel = stopsCollection.models[ 0 ];
 
             if ( ( typeof stopsModel === "object" ) && ( typeof vehicleLocationModel === "object" ) ) {
-                if ( ( typeof stopsModel.attributes !== "undefined" ) && ( typeof vehicleLocationModel.attributes.error === "undefined" ) ) {
-                    if ( !Backbone.app.defaults.mapLoaded ) {
-                        var centerMap = {};
-                        var direction = Backbone.app.defaults.direction;
-                        var lat = stopsModel.attributes.direction[ 0 ].stop[ 0 ].stop_lat;
-                        var lng = stopsModel.attributes.direction[ 0 ].stop[ 0 ].stop_lon;
-                        var map = {};
-                        var mapElement = {};
-                        var mapOptions = {};
-                        var stops = stopsCollection.models[ 0 ].attributes.direction[ 0 ].stop;
-                        var template = _.template( mapsTemplate );
+                if ( !Backbone.app.defaults.mapLoaded ) {
+                    var centerMap = {};
+                    var direction = Backbone.app.defaults.direction;
+                    var kmlOptions = {};
+                    var kmlURL = null;
+                    var lat = stopsModel.attributes.direction[ 0 ].stop[ 0 ].stop_lat;
+                    var lng = stopsModel.attributes.direction[ 0 ].stop[ 0 ].stop_lon;
+                    var map = {};
+                    var mapElement = {};
+                    var mapOptions = {};
+                    var routeId = Backbone.app.defaults.route;
+                    var routeLayer = null;
+                    var stops = stopsCollection.models[ 0 ].attributes.direction[ 0 ].stop;
+                    var template = _.template( mapsTemplate );
 
-                        this.$el.html( template() );
+                    this.$el.html( template() );
 
-                        mapElement = document.getElementById( "map" );
+                    mapElement = document.getElementById( "map" );
 
-                        centerMap = new google.maps.LatLng( lat, lng );
+                    centerMap = new google.maps.LatLng( lat, lng );
 
-                        mapOptions = {
-                            zoom: 12,
-                            center: centerMap,
-                            mapTypeId: google.maps.MapTypeId.ROADMAP
-                        }
-
-                        map = new google.maps.Map( mapElement, mapOptions );
-
-                        mapUtility.plotRouteStops( stops, map );
-
-                        mapUtility.setVehicleLocations( vehicleLocationModel, map, markerLabel );
-
-                        google.maps.event.addListenerOnce( map, "tilesloaded", function () {
-                            $( ".show-map-link" ).hide();
-                            $( ".hide-map-link" ).css( {
-                                display: "block"
-                            } );
-                            Backbone.app.defaults.mapLoaded = true;
-                        } );
-                    } else if ( Backbone.app.defaults.mapLoaded ) {
-                        mapUtility.updateVehicleLocations( vehicleLocationModel, map, markerLabel );
+                    mapOptions = {
+                        zoom: 12,
+                        center: centerMap,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
                     }
 
-                    google.maps.event.addDomListener( window, "resize", function () {
-                        var center = map.getCenter();
-                        google.maps.event.trigger( map, "resize" );
-                        map.setCenter( center );
-                    } );
+                    map = new google.maps.Map( mapElement, mapOptions );
 
-                    this.$( "#map" ).show();
+                    mapUtility.plotRouteStops( stops, map );
 
-                    this.$el.show();
-                } else {
-                    alert( vehicleLocationModel.attributes.error.message );
+                    mapUtility.setVehicleLocations( vehicleLocationModel, map, markerLabel );
+
+                   kmlURL = "http://mbta-tracker.stromannet.com/kml/" + routeId + ".kml?bust="+Date.now();
+                   kmlOptions = {
+                        url: kmlURL,
+                        suppressInfoWindows: true,
+                        preserveViewport: true,
+                        map: map
+                    };
+                    routeLayer = new google.maps.KmlLayer(kmlOptions);         
+
+                    google.maps.event.addListenerOnce(map, "tilesloaded", function() {
+                        console.log("Map has completed loading.");
+                        Backbone.app.defaults.mapLoaded = true;
+
+                
+                        $( "#map" ).show();                         
+                    });
+
+;      
+                    google.maps.event.addListener(map, 'click', function (event) {
+                        var e = event.latLng;
+
+                        var lat = e.lat();
+                        lat = lat.toFixed(6);
+
+                        var lng = e.lng();
+                        lng.toFixed(6);
+
+                        console.log("Latitude: " + lat + "  Longitude: " + lng);
+                    });
+                
+
+                } else if ( Backbone.app.defaults.mapLoaded ) {
+                    mapUtility.updateVehicleLocations( vehicleLocationModel, map, markerLabel );
                 }
 
+               /* google.maps.event.addDomListener( window, "resize", function () {
+                    var center = map.getCenter();
+                    google.maps.event.trigger( map, "resize" );
+                    map.setCenter( center );
+                } );*/
+
+                /*if ( Backbone.app.defaults.mapLoaded ) {
+                    $( ".show-map-link" ).hide();
+                    $( ".hide-map-link" ).css( {
+                        display: "block"
+                    } );
+                }*/
+
+                //this.$( "#map" ).show();
+                $( ".show-map-link" ).hide();
+                $( ".hide-map-link" ).css( {
+                    display: "block"
+                } )
+                this.$el.show();
             }
 
             return this;

@@ -4,6 +4,9 @@
 
 ##Version History
 
+######Version 4.1.1
+- Added map overlay of routes using the MBTA GTFS files and a Python script I created to read the files and get all the coordinates for a route and create the KML file for a route.
+
 ######Version 4.0.1
 - Fixed sorting of routes in routes drop down for select a route.
 - Fixed sorting for bus predictions with multiple routes at a stop.
