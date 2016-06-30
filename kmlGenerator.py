@@ -4,14 +4,14 @@ import csv # imports the csv module
 import collections #imports the collections modules
 from lxml import etree # imports lxml module for creating xml files
 
-# routesFile = "MBTA_GTFS/routes.txt"
-# tripsFile = "MBTA_GTFS/trips.txt"
-# shapesFile = "MBTA_GTFS/shapes.txt"
+routesFile = "MBTA_GTFS/routes.txt"
+tripsFile = "MBTA_GTFS/trips.txt"
+shapesFile = "MBTA_GTFS/shapes.txt"
 
 #GTFS files 
-routesFile = raw_input("Enter a path for the routes file: ")
-tripsFile = raw_input("Enter a path for the trips file: ")
-shapesFile = raw_input("Enter a path for the shapes file: ")
+# routesFile = raw_input("Enter a path for the routes file: ")
+# tripsFile = raw_input("Enter a path for the trips file: ")
+# shapesFile = raw_input("Enter a path for the shapes file: ")
 
 #Gets all the shape id's from the trips file for a particular route.
 def getShapeIds(tripsFile, currentRoute):
@@ -52,28 +52,32 @@ def findCoordinates(shapeId):
 
 
 #Write the xml to the kml file for a particular route.
-def writeFiles(currentRoute, shapeIds, kmlFile):
+def writeFiles(currentRoute, currentRouteColor, shapeIds, kmlFile):
 	print("Inside writeFiles function.")
 	print("currentRoute: " + currentRoute) #Show current route for status update.
 	result = ""
-
+	print currentRouteColor
 	root = etree.Element("kml")
 	root.set("xmlns", "http://www.opengis.net/kml/2.2")
 	document = etree.SubElement(root, "Document")
 	style = etree.SubElement(document, "Style")
-	style.set("id", "transBluePoly")
+	style.set("id", "routeColor")
 	lineStyle = etree.SubElement(style,"LineStyle")
+	etree.SubElement(lineStyle, "color").text = currentRouteColor + "ff" # These last two letters represent the alpha opacity.  The range is 00 -> ff.
 	etree.SubElement(lineStyle, "width").text = "1.5"
 	polyStyle = etree.SubElement(style, "PolyStyle")
-	etree.SubElement(polyStyle, "color").text = "7dff0000"
+	# Old color to be used: #"7dff0000"
+	polyStyleColor = etree.SubElement(polyStyle, "color").text = currentRouteColor + "ff"
 	folder  = etree.SubElement(document, "Folder")
 	etree.SubElement(folder, "name").text = currentRoute
 	etree.SubElement(folder, "description").text = "Coordinates for route " + currentRoute
 
+	print shapeIds
+
 	# Find coordinates for a route shape id.
 	for shape in shapeIds:
 		coords = []
-		coordsString = "\n"		
+		coordsString = "\n"
 		
 		coords = findCoordinates(shape)
 		
@@ -82,7 +86,7 @@ def writeFiles(currentRoute, shapeIds, kmlFile):
 		
 		placeMark = etree.SubElement(folder, "Placemark")
 		etree.SubElement(placeMark, "name").text = "Current shape id: " + shape
-		etree.SubElement(placeMark, "styleUrl").text = "#transBluePoly"
+		etree.SubElement(placeMark, "styleUrl").text = "#routeColor"
 		etree.SubElement(placeMark, "description").text = "Coordinates for " + shape + " shape id."
 		etree.SubElement(placeMark, "visibility").text = "1"
 		lineString = etree.SubElement(placeMark, "LineString")
@@ -103,27 +107,32 @@ def createFiles(matchedIds):
 	data = matchedIds["data"]
 	for a in data:
 		currentRoute = a["routeId"]
+		currentRouteColor = a["routeColor"]
 		shapeIds = a["shapeIds"]
+		print("currentRouteColor: " + currentRouteColor)
 		kmlFile = open("kml/" + currentRoute.lower() + ".kml", "w+")
-		writeFiles(currentRoute, shapeIds, kmlFile)
+		writeFiles(currentRoute, currentRouteColor, shapeIds, kmlFile)
 
 
 # Main funciton to begin.
 matchedIds = {"data": []} # Matched shape ids with routes.
 routesRowCount = 1 # Counter for routes file row.
+routeColor = ""
 
 # Read routes from routes file into array.
 with open(routesFile, "rb") as r:
  	routesReader = csv.reader(r)
  	for routesRow in routesReader:
  		currentRoute = routesRow[0]
+ 		currentRouteColor = routesRow[7]
  		if currentRoute != "route_id" :
  			print("currentRoute: " + currentRoute) # Show current route that's being processed.
 	 		items = {}
 	 		shapeIds = getShapeIds(tripsFile, currentRoute) 
-	 		items = {"routeId": None, "shapeIds": None}
+	 		items = {"routeId": None, "shapeIds": None, "routeColor": None}
 	 		items["shapeIds"] = shapeIds
 	 		items["routeId"] = currentRoute
+	 		items["routeColor"] = currentRouteColor
 			matchedIds["data"].append(items)
 			routesRowCount += 1
 

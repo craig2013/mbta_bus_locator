@@ -604,6 +604,23 @@ body {
       @media (min-width: 1200px) {
         body .container .content {
           width: 100%; } }
+      body .container .content .instructions {
+        line-height: 1.5em;
+        margin: 10px auto;
+        text-align: center;
+        width: 350px;
+        /* Small devices (tablets, >= 768px and <= 991px) */
+        /* Medium devices (desktops, >= 992px and <= 1100px) */
+        /* Large devices (large desktops, 1200px and up) */ }
+        @media (min-width: 768px) and (max-width: 991px) {
+          body .container .content .instructions {
+            width: 550px; } }
+        @media (min-width: 992px) and (max-width: 1199px) {
+          body .container .content .instructions {
+            width: 650px; } }
+        @media (min-width: 1200px) {
+          body .container .content .instructions {
+            width: 750px; } }
       body .container .content.predictions {
         display: none; }
         body .container .content.predictions .route-info {

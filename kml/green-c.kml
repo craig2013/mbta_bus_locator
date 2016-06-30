@@ -1,12 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <Style id="transBluePoly">
+    <Style id="routeColor">
       <LineStyle>
+        <color>427B1Dff</color>
         <width>1.5</width>
       </LineStyle>
       <PolyStyle>
-        <color>7dff0000</color>
+        <color>427B1Dff</color>
       </PolyStyle>
     </Style>
     <Folder>
@@ -14,7 +15,7 @@
       <description>Coordinates for route Green-C</description>
       <Placemark>
         <name>Current shape id: 830_0004</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 830_0004 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -287,7 +288,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 830_0003</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 830_0003 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -560,7 +561,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 831_0009</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 831_0009 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -783,7 +784,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 831_0008</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 831_0008 shape id.</description>
         <visibility>1</visibility>
         <LineString>

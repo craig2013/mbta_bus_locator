@@ -5,14 +5,13 @@ define( [
     "underscore",
     "backbone",
     "utility/general/utility",
-    "models/predictions/predictions",
-    "collections/predictions/predictions",
+    "utility/predictions/predictions",
+    "utility/models/models",
     "text!templates/predictions/boat/boat.html",
     "text!templates/predictions/bus/bus.html",
     "text!templates/predictions/commuter-rail/commuter-rail.html",
     "text!templates/predictions/subway/subway.html"
-], function ( $, chosen, _, Backbone, generalUtility,
-    predictionsModel, predictionsCollection,
+], function ( $, chosen, _, Backbone, generalUtility, predictionsUtility, modelUtility,
     boatTemplate, busTemplate, commuterRailTemplate, subwayTemplate ) {
 
     "use strict";
@@ -20,38 +19,35 @@ define( [
     var predictionsView = Backbone.View.extend( {
         el: ".predictions-container",
 
-        initialize: function () {
-            clearTimeout( Backbone.app.defaultSettings.predictionsTimer );
-            Backbone.app.defaultSettings.predictionsTimer = null;
+        initialize: function ( options ) {
+            var self = this;
+            this.options = options;
 
-            this.fetchPredictions();
-
-            this.listenTo( predictionsCollection, "sync", this.render );
+            this.listenTo( modelUtility.predictionsCollection, "sync", this.render );
         },
 
         render: function () {
-            var data = {
-                predictions: null,
-                alert: null
-            };
-            var mode = generalUtility.urlDecode( Backbone.app.defaults.mode );
-            var predictionsModel = predictionsCollection.models[ 0 ];
-            var routeText = $( "#route_select_chosen .chosen-single" ).text();
+            var predictionsModel = modelUtility.predictionsCollection.models[ 0 ];
             var self = this;
-            var showMapLink = true;
-            var template = null;
 
             if ( typeof predictionsModel === "object" ) {
                 if ( typeof predictionsModel.attributes.mode !== "undefined" ) {
-                    var predictionModel = predictionsModel.attributes.mode[ 0 ].route;
 
-                    if ( Backbone.app.defaults.mode === "bus" ) {
-                        predictionModel = generalUtility.sortPredictionRoutes( predictionModel, routeText );
-                        predictionModel = generalUtility.sortPredictionOrder( predictionModel );
-                    }
+                    var data = {
+                        predictions: null,
+                        alert: null
+                    };
+                    var predictionModel = {};
+                    var routeText = $( "#route_select_chosen .chosen-single" ).text();
+                    var template = null;
 
+                    this.direction = Backbone.app.defaults.direction;
+                    this.mode = Backbone.app.defaults.mode;
+                    this.route = Backbone.app.defaults.route;
+                    this.stop = Backbone.app.defaults.stop;
 
-                    Backbone.app.defaults.routeText = routeText;
+                    predictionModel = predictionsUtility.getPredictionsByStop( predictionsModel.attributes.mode[ 0 ].route );
+
 
                     data.predictions = predictionModel;
 
@@ -65,18 +61,17 @@ define( [
                         data.alert = predictionsModel.attributes.alert_headers[ 0 ].header_text;
                     } else {
                         data.alert = "Currently no predictions available.";
-                        showMapLink = false;
                     }
                 }
 
-                switch ( mode ) {
+                switch ( this.mode ) {
                 case "boat":
                     template = _.template( boatTemplate );
                     break
                 case "bus":
                     template = _.template( busTemplate );
                     break;
-                case "commuter rail":
+                case "commuter+rail":
                     template = _.template( commuterRailTemplate );
                     break;
                 case "subway":
@@ -87,17 +82,32 @@ define( [
                     break;
                 }
 
+
                 if ( template !== null ) {
                     this.$el.html( template( data ) );
 
-                    if ( !showMapLink ) {
+                    if ( Backbone.app.defaults.showMap ) {
+                        this.$el.find( ".hide-map-link" ).css( {
+                            display: "block"
+                        } );
                         this.$el.find( ".show-map-link" ).hide();
+                    } else {
+                        this.$el.find( ".hide-map-link" ).hide();
+                        this.$el.find( ".show-map-link" ).css( {
+                            display: "block"
+                        } );
                     }
 
                     $( ".container main .content .predictions-container" ).show();
                 }
 
             }
+
+            // Fetch new predictions if map is not being shown.
+            if ( !( Backbone.app.defaults.showMap ) ) {
+                predictionsUtility.fetchNewPredictions( modelUtility, this.options );
+            }
+
 
             return this;
         },
@@ -109,66 +119,36 @@ define( [
 
         showMap: function ( e ) {
             e.preventDefault();
-            var mode = Backbone.app.defaults.mode;
-            var route = Backbone.app.defaults.route;
-            var direction = Backbone.app.defaults.direction;
-            var stop = Backbone.app.defaults.stop;
 
-            this.$el.find( ".hide-map-link" ).css( {
-                display: "block"
-            } );
-            this.$el.find( ".show-map-link" ).hide();
+            clearTimeout( Backbone.app.defaults.timer );
+            Backbone.app.defaults.timer = null;
 
-            Backbone.app.router.navigate( "mode/" + mode + "/route/" + route + "/direction/" + direction + "/stop/" + stop + "/map", {
+            Backbone.app.defaults.showMap = true;
+
+            Backbone.app.router.navigate( "!/" + this.mode + "/" + this.route + "/" + this.direction + "/" + this.stop + "/show-map", {
                 trigger: true
             } );
         },
 
         hideMap: function ( e ) {
             e.preventDefault();
-            var mode = Backbone.app.defaults.mode;
-            var route = Backbone.app.defaults.route;
-            var direction = Backbone.app.defaults.direction;
-            var stop = Backbone.app.defaults.stop;
 
-            this.$el.find( ".hide-map-link" ).hide();
-            this.$el.find( ".show-map-link" ).css( {
-                display: "block"
-            } );
+            clearTimeout( Backbone.app.defaults.timer );
+            Backbone.app.defaults.timer = null;
 
-            Backbone.app.router.navigate( "mode/" + mode + "/route/" + route + "/direction/" + direction + "/stop/" + stop, {
+            Backbone.app.defaults.showMap = false;
+
+            Backbone.app.router.navigate( "!/" + this.mode + "/" + this.route + "/" + this.direction + "/" + this.stop, {
                 trigger: true
             } );
         },
 
-        fetchPredictions: function () {
-            var self = this;
-            var stop = generalUtility.titleCase(
-                encodeURIComponent(
-                    generalUtility.urlDecode( Backbone.app.defaults.stop )
-                )
-            );
-
-            predictionsCollection.fetch( {
-                reset: true,
-                data: {
-                    "queryType": "predictionsbystop",
-                    "queryString": "stop",
-                    "queryValue": stop
-                }
-            } );
-
-            Backbone.app.defaultSettings.predictionsTimer = setTimeout( function () {
-                self.fetchPredictions();
-            }, Backbone.app.defaultSettings.refreshPredictionsTime );
-        },
-
         close: function () {
-            clearTimeout( Backbone.app.defaultSettings.predictionsTimer );
-            Backbone.app.defaultSettings.predictionsTimer = null;
+            clearTimeout( Backbone.app.defaults.timers );
+            Backbone.app.defaults.timers = null;
 
-            predictionsCollection.reset();
-            this.stopListening( predictionsCollection );
+            modelUtility.predictionsCollection.reset();
+            this.stopListening( modelUtility.predictionsCollection );
 
             this.$el.unbind();
             this.$el.hide();

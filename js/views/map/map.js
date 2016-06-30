@@ -6,41 +6,31 @@ define( [
     "backbone",
     "markerlabel",
     "utility/general/utility",
+    "utility/predictions/predictions",
     "utility/map/map",
-    "models/routes/routes",
-    "models/stops/stops",
-    "models/predictions/predictions",
-    "models/vehicles/vehicles",
-    "collections/routes/routes",
-    "collections/stops/stops",
-    "collections/predictions/predictions",
-    "collections/vehicles/vehicles",
+    "utility/models/models",
     "text!templates/map/map.html"
-], function ( $, chosen, _, Backbone, markerLabel, generalUtility, mapUtility,
-    routesModel, stopsModel, predictionsModel, vehiclesModel,
-    routesCollection, stopsCollection, predictionsCollection, vehiclesCollection,
-    mapsTemplate ) {
+], function ( $, chosen, _, Backbone, markerLabel, generalUtility, predictionsUtility, mapUtility, modelUtility, mapsTemplate ) {
 
     "use strict";
 
     var mapView = Backbone.View.extend( {
         el: ".map-container",
 
-        initialize: function () {
-            clearTimeout( Backbone.app.defaultSettings.mapTimer );
-            Backbone.app.defaultSettings.mapTimer = null;
+        initialize: function ( options ) {
+            var self = this;
+            this.options = options;
 
-            this.fetchVehicleLocations();
-
-            this.listenTo( vehiclesCollection, "sync", this.render );
+            this.listenTo( modelUtility.vehiclesCollection, "sync", this.render );
         },
 
         render: function () {
-            var vehicleLocationModel = vehiclesCollection.models[ 0 ];
-            var stopsModel = stopsCollection.models[ 0 ];
+            var self = this;
+            var stopsModel = modelUtility.stopsCollection.models[ 0 ];
+            var vehicleLocationModel = modelUtility.vehiclesCollection.models[ 0 ];
 
             if ( ( typeof stopsModel === "object" ) && ( typeof vehicleLocationModel === "object" ) ) {
-                if ( !Backbone.app.defaults.mapLoaded ) {
+                if ( !( Backbone.app.defaults.mapLoaded ) ) {
                     var centerMap = {};
                     var direction = Backbone.app.defaults.direction;
                     var kmlOptions = {};
@@ -50,9 +40,12 @@ define( [
                     var map = {};
                     var mapElement = {};
                     var mapOptions = {};
+                    var mapZoom = 0;
+                    var mode = Backbone.app.defaults.mode;
+                    var refreshTimer = Backbone.app.defaults.refreshTimer;
                     var routeId = Backbone.app.defaults.route;
                     var routeLayer = null;
-                    var stops = stopsCollection.models[ 0 ].attributes.direction[ 0 ].stop;
+                    var stops = modelUtility.stopsCollection.models[ 0 ].attributes.direction[ 0 ].stop;
                     var template = _.template( mapsTemplate );
 
                     this.$el.html( template() );
@@ -61,8 +54,15 @@ define( [
 
                     centerMap = new google.maps.LatLng( lat, lng );
 
+                    if ( mode === "bus" || mode === "subway" ) {
+                        mapZoom = 12;
+                    } else if ( mode === "commuter+rail" ) {
+                        mapZoom = 8;
+                    }
+
+
                     mapOptions = {
-                        zoom: 12,
+                        zoom: mapZoom,
                         center: centerMap,
                         mapTypeId: google.maps.MapTypeId.ROADMAP
                     }
@@ -73,96 +73,69 @@ define( [
 
                     mapUtility.setVehicleLocations( vehicleLocationModel, map, markerLabel );
 
-                   kmlURL = "http://mbta-tracker.stromannet.com/kml/" + routeId + ".kml?bust="+Date.now();
-                   kmlOptions = {
+                    kmlURL = "http://mbta-tracker.stromannet.com/kml/" + routeId + ".kml?bust=" + Date.now();
+
+                    kmlOptions = {
                         url: kmlURL,
                         suppressInfoWindows: true,
                         preserveViewport: true,
                         map: map
                     };
-                    routeLayer = new google.maps.KmlLayer(kmlOptions);         
+                    routeLayer = new google.maps.KmlLayer( kmlOptions );
 
-                    google.maps.event.addListenerOnce(map, "tilesloaded", function() {
-                        console.log("Map has completed loading.");
+                    google.maps.event.addListenerOnce( map, "tilesloaded", function () {
                         Backbone.app.defaults.mapLoaded = true;
 
-                
-                        $( "#map" ).show();                         
-                    });
 
-;      
-                    google.maps.event.addListener(map, 'click', function (event) {
+                        $( "#map" ).show();
+                    } );
+
+                    google.maps.event.addListener( map, 'click', function ( event ) {
                         var e = event.latLng;
 
                         var lat = e.lat();
-                        lat = lat.toFixed(6);
+                        lat = lat.toFixed( 6 );
 
                         var lng = e.lng();
-                        lng.toFixed(6);
+                        lng.toFixed( 6 );
 
-                        console.log("Latitude: " + lat + "  Longitude: " + lng);
-                    });
-                
+                        console.log( "Latitude: " + lat + "  Longitude: " + lng );
+                    } );
+
 
                 } else if ( Backbone.app.defaults.mapLoaded ) {
                     mapUtility.updateVehicleLocations( vehicleLocationModel, map, markerLabel );
                 }
 
-               /* google.maps.event.addDomListener( window, "resize", function () {
+                google.maps.event.addDomListener( window, "resize", function () {
                     var center = map.getCenter();
                     google.maps.event.trigger( map, "resize" );
                     map.setCenter( center );
-                } );*/
+                } );
 
-                /*if ( Backbone.app.defaults.mapLoaded ) {
-                    $( ".show-map-link" ).hide();
-                    $( ".hide-map-link" ).css( {
-                        display: "block"
-                    } );
-                }*/
-
-                //this.$( "#map" ).show();
                 $( ".show-map-link" ).hide();
                 $( ".hide-map-link" ).css( {
                     display: "block"
-                } )
+                } );
+
                 this.$el.show();
             }
+
+            predictionsUtility.fetchNewPredictions( modelUtility, this.options, true );
 
             return this;
         },
 
-        fetchVehicleLocations: function () {
-            var route = Backbone.app.defaults.route;
-            var self = this;
-
-            route = route.replace( "cr-", "CR-" ); // For commuter rail routes.
-
-            route = generalUtility.titleCase( route );
-
-            vehiclesCollection.fetch( {
-                reset: true,
-                data: {
-                    "queryType": "vehiclesbyroute",
-                    "queryString": "route",
-                    "queryValue": route
-                }
-            } );
-
-            Backbone.app.defaultSettings.mapTimer = setTimeout( function () {
-                self.fetchVehicleLocations();
-            }, Backbone.app.defaultSettings.refreshPredictionsTime );
-        },
-
 
         close: function () {
-            clearTimeout( Backbone.app.defaultSettings.mapTimer );
-            Backbone.app.defaultSettings.mapTimer = null;
+            clearTimeout( Backbone.app.defaults.timer );
+            Backbone.app.defaults.timer = null;
 
+            Backbone.app.defaults.map = null;
             Backbone.app.defaults.mapLoaded = false;
 
-            vehiclesCollection.reset();
-            this.stopListening( vehiclesCollection );
+            modelUtility.vehiclesCollection.reset();
+            this.stopListening( modelUtility.vehiclesCollection );
 
             $( ".hide-map-link" ).hide();
             $( ".show-map-link" ).css( {

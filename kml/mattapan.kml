@@ -1,12 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <Style id="transBluePoly">
+    <Style id="routeColor">
       <LineStyle>
+        <color>E12D27ff</color>
         <width>1.5</width>
       </LineStyle>
       <PolyStyle>
-        <color>7dff0000</color>
+        <color>E12D27ff</color>
       </PolyStyle>
     </Style>
     <Folder>
@@ -14,7 +15,7 @@
       <description>Coordinates for route Mattapan</description>
       <Placemark>
         <name>Current shape id: 899_0006</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 899_0006 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -152,7 +153,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 899_0005</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 899_0005 shape id.</description>
         <visibility>1</visibility>
         <LineString>

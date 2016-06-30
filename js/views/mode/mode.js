@@ -16,17 +16,11 @@ define( [
         el: ".mode-type",
 
         initialize: function () {
-            routesCollection.fetch( {
-                traditional: true,
-                data: {
-                    "queryType": "routes",
-                }
-            } );
-
-            this.listenTo( routesCollection, "sync", this.render );
+            this.render();
         },
 
         render: function () {
+            var mode = Backbone.app.defaults.mode;
             var routeModel = routesCollection.models[ 0 ];
             var self = this;
 
@@ -34,46 +28,25 @@ define( [
 
             this.$modeSelect.trigger( "chosen:updated" );
 
-            if ( typeof routeModel === "object" ) {
-                if ( this.$modeSelect.find( "option" ).length <= 1 ) {
-                    var data = {
-                        route: routeModel.attributes.mode
-                    };
+            var modeTemplate = _.template( modesTemplate );
 
-                    data.route = _.chain( data.route )
-                        .filter( function ( item ) {
-                            return item.mode_name !== "Boat"
-                        } ) //No predictions for commuter boat at this time.
-                        .uniq( function ( item ) {
-                            return item.mode_name;
-                        } )
-                        .sortBy( function ( item ) {
-                            return item.mode_name;
-                        } )
-                        .value();
+            this.$modeSelect.html( modeTemplate() );
 
-                    var modeTemplate = _.template( modesTemplate );
-
-                    this.$modeSelect.append( modeTemplate( data ) );
-                }
-
-                if ( Backbone.app.defaults.mode !== null ) {
-                    this.$modeSelect.val(
-                        generalUtility.urlDecode( Backbone.app.defaults.mode )
-                    ).trigger( "chosen:updated" );
-                } else {
-                    this.$modeSelect.val( "0" ).trigger( "chosen:updated" );
-                }
-
-                this.$modeSelect.chosen( {
-                    no_results_text: "Nothing found.",
-                    width: "25%"
-                } );
-
-                $( ".container main .loading" ).hide();
-                $( ".container main .content, .container main .content .route-info .mode-type" ).show();
-
+            if ( typeof mode === "string" ) {
+                this.$modeSelect.val(
+                    generalUtility.urlDecode( mode )
+                ).trigger( "chosen:updated" );
+            } else {
+                this.$modeSelect.val( "0" ).trigger( "chosen:updated" );
             }
+
+            this.$modeSelect.chosen( {
+                no_results_text: "Nothing found.",
+                width: "25%"
+            } );
+
+            $( ".container main .loading" ).hide();
+            $( ".container main .content, .container main .content .route-info .mode-type" ).show();
         },
 
         events: {
@@ -82,19 +55,16 @@ define( [
 
         showRoutes: function ( e ) {
             var mode = $( "#mode-select" ).chosen().val();
+
             mode = generalUtility.urlEncode( mode );
 
             if ( ( mode !== "0" ) && ( mode === "bus" || mode === "commuter+rail" || mode === "subway" ) ) {
                 Backbone.app.defaults.mode = mode;
 
-                Backbone.app.router.navigate( 'mode/' + mode, {
+                Backbone.app.router.navigate( "!/" + mode, {
                     trigger: true
                 } );
             }
-        },
-
-        openViews: function ( mode ) {
-
         },
 
         close: function () {

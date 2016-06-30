@@ -40,6 +40,21 @@ body {
             @include media (largeDesktop) {
                 width: 100%; 
             }
+            .instructions {
+                line-height: 1.5em;
+                margin: 10px auto;
+                text-align: center;
+                width: 350px;
+                @include media(tablet) {
+                    width: 550px;
+                }
+                @include media(mediumDesktop) {
+                    width: 650px;
+                }         
+                @include media(largeDesktop) {
+                    width: 750px;
+                }                 
+            }
             @import "pages/predictions";
             @import "pages/faq";
             @import "pages/about";

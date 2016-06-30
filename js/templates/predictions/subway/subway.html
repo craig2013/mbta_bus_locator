@@ -2,10 +2,10 @@
 	<h1>Subway Predictions </h1>
 </div>
 <div class="subway-predictions">
-	<a href="#" class="show-map-link">Show Map</a>
-	<a href="#" class="hide-map-link">Hide Map</a>
 	<% if ( predictions !== null ) { %>
 		<% if ( Array.isArray(predictions) ){ %>	
+			<a href="#" class="show-map-link">Show Map</a>
+			<a href="#" class="hide-map-link">Hide Map</a>		
 			<% _.each(predictions[0], function(pre, i) { %>
 				<% if ( i === 0 ) { %>
 					<div class="predictions-sub-header">Predictions for <%= pre.route_name %>:</div>

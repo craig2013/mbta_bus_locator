@@ -1,14 +1,13 @@
-//Routes view
+//Stops view
 define( [
     "jquery",
     "chosen",
     "underscore",
     "backbone",
     "utility/general/utility",
-    "models/stops/stops",
-    "collections/stops/stops",
+    "utility/models/models",
     "text!templates/stop/stop.html"
-], function ( $, chosen, _, Backbone, generalUtility, stopsModel, stopsCollection, stopsTemplate ) {
+], function ( $, chosen, _, Backbone, generalUtility, modelsUtility, stopsTemplate ) {
 
     "use strict";
 
@@ -16,29 +15,26 @@ define( [
         el: ".route-stops",
 
         initialize: function () {
-            stopsCollection.fetch( {
-                reset: true,
-                data: {
-                    "queryType": "stopsbyroute",
-                    "queryString": "route",
-                    "queryValue": generalUtility.urlDecode( Backbone.app.defaults.route )
-                }
-            } );
-
-            this.listenTo( stopsCollection, "sync", this.render );
+            this.listenTo( modelsUtility.stopsCollection, "add", this.render );
         },
 
         render: function () {
-            var stopsModel = stopsCollection.models[ 0 ];
+            //console.log("stops render: ");
+            var direction = Backbone.app.defaults.direction;
+            var stop = Backbone.app.defaults.stop;
+            var stopsModel = modelsUtility.stopsCollection.models[ 0 ];
             var self = this;
 
             this.$stopsSelect = $( "#stop-select" );
 
             this.$stopsSelect.trigger( "chosen:updated" );
 
-            if ( typeof stopsModel === "object" ) {
-                if ( this.$stopsSelect.find( "option" ).length <= 1 ) {
+            if ( this.$stopsSelect.find( "option" ).length > 1 ) {
+                this.$stopsSelect.find( 'option:gt(0)' ).remove();
+            }
 
+            if ( typeof stopsModel === "object" ) {
+                if ( ( this.$stopsSelect.find( "option" ).length <= 1 ) || ( this.$stopsSelect.find( "option" ).length === 1 ) ) {
                     var data = {
                         stops: []
                     };
@@ -46,7 +42,7 @@ define( [
 
                     if ( typeof stopModel !== "undefined" ) {
                         for ( var i = 0; i < stopModel.length; i++ ) {
-                            if ( stopModel[ i ].direction_name.toLowerCase() === Backbone.app.defaults.direction.toLowerCase() ) {
+                            if ( stopModel[ i ].direction_name.toLowerCase() === direction.toLowerCase() ) {
                                 data.stops = stopModel[ i ].stop;
                             }
                         }
@@ -57,9 +53,9 @@ define( [
                     this.$stopsSelect.append( stopTemplate( data ) );
                 }
 
-                if ( Backbone.app.defaults.stop !== null ) {                  
+                if ( Backbone.app.defaults.stop !== null ) {
                     this.$stopsSelect.val(
-                            generalUtility.urlDecode( Backbone.app.defaults.stop )
+                        generalUtility.urlDecode( stop )
                     ).trigger( "chosen:updated" );
                 } else {
                     this.$stopsSelect.val( "0" ).trigger( "chosen:updated" );
@@ -73,6 +69,8 @@ define( [
 
                 $( ".container main .content .route-info .route-stops" ).show();
             }
+
+            return this;
         },
 
         events: {
@@ -83,11 +81,13 @@ define( [
             var direction = Backbone.app.defaults.direction;
             var mode = Backbone.app.defaults.mode;
             var route = Backbone.app.defaults.route;
-            var stop = generalUtility.urlEncode( $( "#stop-select" ).chosen().val() );
+            var stop = generalUtility.urlEncode( this.$stopsSelect.chosen().val() );
+            var stopName = this.$stopsSelect.find( "option:selected" ).attr( "data-stop-name" );
 
             Backbone.app.defaults.stop = stop;
+            Backbone.app.defaults.stopName = stopName;
 
-            Backbone.app.router.navigate( "mode/" + mode + "/route/" + route + "/direction/" + direction + "/stop/" + stop, {
+            Backbone.app.router.navigate( "!/" + mode + "/" + route + "/" + direction + "/" + stop, {
                 trigger: true
             } )
         },
@@ -97,8 +97,8 @@ define( [
                 this.$stopsSelect.find( 'option:gt(0)' ).remove();
             }
 
-            stopsCollection.reset();
-            this.stopListening( stopsCollection );
+            modelsUtility.stopsCollection.reset();
+            this.stopListening( modelsUtility.stopsCollection );
 
             this.$el.unbind();
             this.$el.hide();

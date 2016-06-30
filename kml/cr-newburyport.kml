@@ -1,12 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <Style id="transBluePoly">
+    <Style id="routeColor">
       <LineStyle>
+        <color>8B118Fff</color>
         <width>1.5</width>
       </LineStyle>
       <PolyStyle>
-        <color>7dff0000</color>
+        <color>8B118Fff</color>
       </PolyStyle>
     </Style>
     <Folder>
@@ -14,7 +15,7 @@
       <description>Coordinates for route CR-Newburyport</description>
       <Placemark>
         <name>Current shape id: 9810007</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 9810007 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -867,7 +868,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 9810006</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 9810006 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -1720,7 +1721,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 9810001</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 9810001 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -2383,7 +2384,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 9810002</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 9810002 shape id.</description>
         <visibility>1</visibility>
         <LineString>

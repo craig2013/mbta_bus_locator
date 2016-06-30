@@ -2,10 +2,10 @@
 	<h1 class="predictions-title">Bus Predictions </h1>
 </div>
 <div class="bus-predictions">
-	<a href="#" class="show-map-link">Show Map</a>
-	<a href="#" class="hide-map-link">Hide Map</a>
 	<% if ( predictions !== null ) { %>
 		<% if ( Array.isArray(predictions) ) { %>
+			<a href="#" class="show-map-link">Show Map</a>
+			<a href="#" class="hide-map-link">Hide Map</a>		
 			<% _.each(predictions, function(pre, i) { %>
 				<% if ( (i === 0) ) { %>
 					<% if ( Array.isArray(pre) ) { %>

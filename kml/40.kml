@@ -1,12 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <Style id="transBluePoly">
+    <Style id="routeColor">
       <LineStyle>
+        <color>FFFF7Cff</color>
         <width>1.5</width>
       </LineStyle>
       <PolyStyle>
-        <color>7dff0000</color>
+        <color>FFFF7Cff</color>
       </PolyStyle>
     </Style>
     <Folder>
@@ -14,7 +15,7 @@
       <description>Coordinates for route 40</description>
       <Placemark>
         <name>Current shape id: 400024</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 400024 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -225,7 +226,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 400023</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 400023 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -589,7 +590,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 400026</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 400026 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -806,7 +807,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 400028</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 400028 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -1117,7 +1118,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 400027</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 400027 shape id.</description>
         <visibility>1</visibility>
         <LineString>

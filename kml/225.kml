@@ -1,12 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <Style id="transBluePoly">
+    <Style id="routeColor">
       <LineStyle>
+        <color>FFFF7Cff</color>
         <width>1.5</width>
       </LineStyle>
       <PolyStyle>
-        <color>7dff0000</color>
+        <color>FFFF7Cff</color>
       </PolyStyle>
     </Style>
     <Folder>
@@ -14,7 +15,7 @@
       <description>Coordinates for route 225</description>
       <Placemark>
         <name>Current shape id: 2250053</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 2250053 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -222,7 +223,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 2250059</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 2250059 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -490,7 +491,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 2250052</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 2250052 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -746,7 +747,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 2250054</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 2250054 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -1067,7 +1068,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 2250057</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 2250057 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -1206,7 +1207,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 2250058</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 2250058 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -1359,7 +1360,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 2250056</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 2250056 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -1820,7 +1821,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 2250050</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 2250050 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -2280,7 +2281,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 2250051</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 2250051 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -2509,7 +2510,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 2250048</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 2250048 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -2800,7 +2801,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 2250049</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 2250049 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -3236,7 +3237,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 2250055</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 2250055 shape id.</description>
         <visibility>1</visibility>
         <LineString>

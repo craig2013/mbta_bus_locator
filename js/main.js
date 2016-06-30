@@ -15,15 +15,12 @@ require.config( {
             "https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.1/backbone",
             "libs/backbone/backbone"
         ],
-        backboneRouterFiler: [
-            "https://cdnjs.cloudflare.com/ajax/libs/backbone.routefilter/0.2.0/backbone.routefilter.js",
-            "libs/backbone/plugins/backbone.routefilter.js"
-        ],
         chosen: [
             "https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery",
             "libs/jquery/plugins/chosen/chosen"
         ],
         templates: "templates"
+
     },
     shim: {
         jquery: {
@@ -38,10 +35,6 @@ require.config( {
         backbone: {
             deps: [ "jquery", "underscore" ],
             exports: "Backbone"
-        },
-        backboneRouterFiler: {
-            deps: [ "backbone" ],
-            exports: "backboneRouterFiler"
         }
     },
     urlArgs: "bust=" + Date.now()
@@ -62,15 +55,14 @@ require( [
             mode: null,
             route: null,
             direction: null,
-            stop: null,
+            map: null,
             mapLoaded: false,
+            showMap: false,
+            stop: null,
+            stopName: null,
+            stopValidated: false,
+            timers: [],
             vehicles: []
-        };
-
-        Backbone.app.defaultSettings = {
-            mapTimer: null,
-            predictionsTimer: null,
-            refreshPredictionsTime: 20000
         };
 
         app.initialize();

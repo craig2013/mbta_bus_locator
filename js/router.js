@@ -5,23 +5,14 @@ define( [
     "backbone",
     "utility/general/utility",
     "utility/router/router",
-    "models/routes/routes",
-    "models/stops/stops",
-    "models/predictions/predictions",
-    "models/vehicles/vehicles",
-    "collections/routes/routes",
-    "collections/stops/stops",
-    "collections/predictions/predictions",
-    "collections/vehicles/vehicles",
+    "utility/models/models",
     "views/mode/mode",
     "views/routes/route",
     "views/direction/direction",
     "views/stops/stops",
     "views/predictions/predictions",
     "views/map/map"
-], function ( $, _, Backbone, generalUtility, routerUtility,
-    routesModel, stopsModel, predictionsModel, vehiclesModel,
-    routesCollection, stopsCollection, predictionsCollection, vehiclesCollection,
+], function ( $, _, Backbone, generalUtility, routerUtility, modelsUtility,
     modesView, routesView, directionsView, stopsView, predictionsView, mapsView ) {
 
     "use strict";
@@ -36,154 +27,205 @@ define( [
 
     var router = Backbone.Router.extend( {
         routes: {
-            "": "homeRoute",
-            "mode/:mode(/)": "modeTypeSelected",
-            "mode/:mode/route/:route(/)": "routeSelected",
-            "mode/:mode/route/:route/direction/:direction(/)": "directionSelected",
-            "mode/:mode/route/:route/direction/:direction/stop/:stop(/)": "stopSelected",
-            "mode/:mode/route/:route/direction/:direction/stop/:stop/map(/)": "showMap"
+            "(!/)": "showRoute", // Home route
+            "!/:mode(/)": "showRoute", // Mode selected
+            "!/:mode/:route(/)": "showRoute", // Route selected
+            "!/:mode/:route/:direction(/)": "showRoute", // Direction selected
+            "!/:mode/:route/:direction/:stop(/)": "showRoute", // Stop selected
+            "!/:mode/:route/:direction/:stop/:map(/)": "showRoute" // Show map for route selected
         },
-        homeRoute: function () {
-            routerUtility.closeViews.apply( this, [ "mapView", "predictionView", "stopView", "directionView", "routeView", "modeView" ] );
+        /**
+         * Method will show the views needed for a route.
+         *
+         * @param  {String} mode     The mode of transportation.  (bus, commuter rail, subway)
+         * @param  {String} route     The route for the mode of transportation.
+         * @param  {String} direction The direction being traveled on the route.
+         * @param  {String} stop      The id/name of the stop predictions are being requested for. Commuter rail uses the stop name.
+         * @return {Object} The views needed for a route.
+         */
+        showRoute: function ( mode, route, direction, stop, map ) {
+                var self = this;
 
-            this.modeView = new modesView( {
-                model: routesCollection
-            } );
-            this.modeView.render();
-        },
-        modeTypeSelected: function ( mode ) {
-            routerUtility.closeViews.apply( this, [ "mapView", "predictionView", "stopView", "directionView", "routeView" ] );
+                // TODO: Add validation to mode, route, direction, stop before setting.
+                // routerUtility.validateStop(route, direction, stop);
 
-            routerUtility.openViews.apply( this, [ {
-                property: mode,
-                propertyName: "mode",
-                routeMethodName: "homeRoute",
-                view: "modeView"
-            } ] );
+                // Set global parameters in Backbone.app.defaults object.
+                if ( typeof mode === "string" ) {
+                    Backbone.app.defaults.mode = mode;
+                }
 
-            this.routeView = new routesView( {
-                model: routesCollection
-            } );
+                if ( typeof route === "string" ) {
+                    Backbone.app.defaults.route = route;
+                }
 
-            this.routeView.render();
-        },
-        routeSelected: function ( mode, route ) {
-            routerUtility.closeViews.apply( this, [ "mapView", "predictionView", "stopView", "directionView" ] );
+                if ( typeof direction === "string" ) {
+                    Backbone.app.defaults.direction = direction;
+                }
 
-            routerUtility.openViews.apply( this, [ {
-                property: mode,
-                propertyName: "mode",
-                routeMethodName: "homeRoute",
-                view: "modeView"
-            }, {
-                property: route,
-                propertyName: "route",
-                routeMethodName: "modeTypeSelected",
-                view: "routeView"
-            } ] );
+                if ( typeof stop === "string" ) {
+                    Backbone.app.defaults.stop = stop;
+                }
 
-            this.directionView = new directionsView( {
-                model: stopsCollection
-            } );
+                if ( typeof map === "string" ) {
+                    if ( map === "show-map" ) {
+                        Backbone.app.defaults.map = map;
+                        Backbone.app.defaults.showMap = true;
+                    }
+                } else {
+                    Backbone.app.defaults.map = null;
+                    Backbone.app.defaults.showMap = false;
+                }
 
-            this.directionView.render();
-        },
-        directionSelected: function ( mode, route, direction ) {
-            routerUtility.closeViews.apply( this, [ "mapView", "predictionView", "stopView" ] );
+                // Close any open views.  Home view never gets closed.
+                routerUtility.closeViews( this, [ {
+                    property: route,
+                    view: "routeView"
+                }, {
+                    property: direction,
+                    view: "directionView"
+                }, {
+                    property: stop,
+                    view: "stopView"
+                }, {
+                    property: stop,
+                    view: "predictionView"
+                }, {
+                    property: map,
+                    view: "mapView"
+                } ] );
 
-            routerUtility.openViews.apply( this, [ {
-                property: mode,
-                propertyName: "mode",
-                routeMethodName: "homeRoute",
-                view: "modeView"
-            }, {
-                property: route,
-                propertyName: "route",
-                routeMethodName: "modeTypeSelected",
-                view: "routeView"
-            }, {
-                property: direction,
-                propertyName: "direction",
-                routeMethodName: "routeSelected",
-                view: "directionView"
-            } ] );
+                // Load home view.
+                this.modeView = new modesView();
+                this.modeView.render();
 
-            this.stopView = new stopsView( {
-                model: stopsCollection
-            } );
+                // If the mode is set then show the route dropdown,
+                if ( mode ) {
+                    modelsUtility.routesCollection.fetch( {
+                        traditional: true,
+                        data: {
+                            "queryType": "routes"
+                        },
+                        success: function ( r ) {
 
-            this.stopView.render();
-        },
-        stopSelected: function ( mode, route, direction, stop ) {
-            routerUtility.closeViews.apply( this, [ "mapView" ] );
+                                // Load route view.
+                                self.routeView = new routesView( {
+                                    model: modelsUtility.routesCollection
+                                } );
 
-            routerUtility.openViews.apply( this, [ {
-                property: mode,
-                propertyName: "mode",
-                routeMethodName: "homeRoute",
-                view: "modeView"
-            }, {
-                property: route,
-                propertyName: "route",
-                routeMethodName: "modeTypeSelected",
-                view: "routeView"
-            }, {
-                property: direction,
-                propertyName: "direction",
-                routeMethodName: "routeSelected",
-                view: "directionView"
-            }, {
-                property: stop,
-                propertyName: "stop",
-                routeMethodName: "directionSelected",
-                view: "stopView"
-            }, {
-                property: stop,
-                propertyName: "stop",
-                routeMethodName: "stopSelected",
-                view: "predictionView"
-            } ] );
+                                self.routeView.render();
 
-            this.predictionView = new predictionsView( {
-                model: predictionsCollection
-            } );
+                                if ( route ) {
+                                    modelsUtility.directionCollection.fetch( {
+                                        traditional: true,
+                                        data: {
+                                            "queryType": "stopsbyroute",
+                                            "queryString": "route",
+                                            "queryValue": route
+                                        },
+                                        success: function ( d ) {
 
-            this.predictionView.render();
-        },
-        showMap: function ( mode, route, direction, stop ) {
-            routerUtility.openViews.apply( this, [ {
-                property: mode,
-                propertyName: "mode",
-                routeMethodName: "homeRoute",
-                view: "modeView"
-            }, {
-                property: route,
-                propertyName: "route",
-                routeMethodName: "modeTypeSelected",
-                view: "routeView"
-            }, {
-                property: direction,
-                propertyName: "direction",
-                routeMethodName: "routeSelected",
-                view: "directionView"
-            }, {
-                property: stop,
-                propertyName: "stop",
-                routeMethodName: "directionSelected",
-                view: "stopView"
-            }, {
-                property: stop,
-                propertyName: "stop",
-                routeMethodName: "stopSelected",
-                view: "predictionView"
-            } ] );
+                                                // Load direction view. 
+                                                self.directionView = new directionsView( {
+                                                    model: modelsUtility.directionCollection
+                                                } );
 
-            this.mapView = new mapsView( {
-                model: predictionsCollection
-            } );
+                                                self.directionView.render();
 
-            this.mapView.render();
-        }
+                                                if ( route && direction ) {
+                                                    modelsUtility.stopsCollection.fetch( {
+                                                        traditional: true,
+                                                        data: {
+                                                            "queryType": "stopsbyroute",
+                                                            "queryString": "route",
+                                                            "queryValue": route
+                                                        },
+                                                        success: function ( s ) {
+
+                                                                // Load stop view.
+                                                                self.stopView = new stopsView( {
+                                                                    model: modelsUtility.stopsCollection
+                                                                } );
+
+                                                                self.stopView.render();
+
+                                                                if ( route && direction && stop ) {
+                                                                    var predictionOptions = {};
+                                                                    var queryValue = "";
+                                                                    var stopName = $( "#stop-select" ).find( "option:selected" ).attr( "data-stop-name" );
+
+                                                                    Backbone.app.defaults.stopName = stopName;
+
+                                                                    if ( mode === "commuter+rail" ) {
+                                                                        queryValue = stopName;
+                                                                    } else {
+                                                                        queryValue = stop;
+                                                                    }
+
+                                                                    predictionOptions = {
+                                                                        data: {
+                                                                            "queryType": "predictionsbystop",
+                                                                            "queryString": "stop",
+                                                                            "queryValue": queryValue
+                                                                        }
+                                                                    };
+
+                                                                    modelsUtility.predictionsCollection.fetch( {
+                                                                        traditional: true,
+                                                                        data: predictionOptions.data,
+                                                                        success: function ( p ) {
+
+                                                                            //Load  predictions view.
+                                                                            self.predictionView = new predictionsView( {
+                                                                                model: modelsUtility.predictionsCollection,
+                                                                                map: map,
+                                                                                predictionOptions: predictionOptions
+                                                                            } );
+
+                                                                            self.predictionView.render();
+
+
+                                                                            if ( route && direction && stop && map === "show-map" ) {
+                                                                                var vehicleOptions = {};
+                                                                                var mapRoute = $( "#route-select option:selected" ).attr( "data-route-name" );
+
+                                                                                vehicleOptions = {
+                                                                                    data: {
+                                                                                        "queryType": "vehiclesbyroute",
+                                                                                        "queryString": "route",
+                                                                                        "queryValue": mapRoute
+                                                                                    }
+                                                                                }
+                                                                                modelsUtility.vehiclesCollection.fetch( {
+                                                                                    traditional: true,
+                                                                                    data: vehicleOptions.data,
+                                                                                    success: function ( v ) {
+
+                                                                                        self.mapView = new mapsView( {
+                                                                                            model: modelsUtility.vehiclesCollection,
+                                                                                            predictionOptions: predictionOptions,
+                                                                                            vehicleOptions: vehicleOptions
+                                                                                        } );
+
+                                                                                        self.mapView.render();
+                                                                                    }
+                                                                                } );
+                                                                            }
+                                                                        }
+                                                                    } );
+                                                                } // if stop
+                                                            } // stopsCollections success
+                                                    } ); // stopsCollection.fetch    
+
+                                                } // if direction
+                                            } // stopsCollection success
+                                    } ); // stopsCollection.fetch
+
+                                } // if route
+                            } // routesCollection success
+                    } ); // routesCollection.fetch
+                } // if mode
+
+            } // showRoute
     } );
 
     return {

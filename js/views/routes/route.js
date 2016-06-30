@@ -5,10 +5,9 @@ define( [
     "underscore",
     "backbone",
     "utility/general/utility",
-    "models/routes/routes",
-    "collections/routes/routes",
+    "utility/models/models",
     "text!templates/route/route.html"
-], function ( $, chosen, _, Backbone, generalUtility, routesModel, routesCollection, routesTemplate ) {
+], function ( $, chosen, _, Backbone, generalUtility, modelsUtility, routesTemplate ) {
 
     "use strict";
 
@@ -16,27 +15,23 @@ define( [
         el: ".routes-available",
 
         initialize: function () {
-            routesCollection.fetch( {
-                reset: true,
-                data: {
-                    "queryType": "routes",
-                }
-            } );
-
-            this.listenTo( routesCollection, "sync", this.render );
+            this.listenTo( modelsUtility.routesCollection, "add", this.render );
         },
 
         render: function () {
-            var routeModel = routesCollection.models[ 0 ];
-
+            var route = Backbone.app.defaults.route;
+            var routeModel = modelsUtility.routesCollection.models[ 0 ];
             var self = this;
 
             this.$routeSelect = $( "#route-select" );
-
             this.$routeSelect.trigger( "chosen:updated" );
 
+            if ( this.$routeSelect.find( "option" ).length > 1 ) {
+                this.$routeSelect.find( 'option:gt(0)' ).remove();
+            }
+
             if ( typeof routeModel === "object" ) {
-                if ( this.$routeSelect.find( "option" ).length <= 1 ) {
+                if ( ( this.$routeSelect.find( "option" ).length <= 1 ) || ( this.$routeSelect.find( "option" ).length === 1 ) ) {
                     var data = {
                         route: routeModel.attributes.mode
                     }
@@ -62,9 +57,7 @@ define( [
 
                 if ( Backbone.app.defaults.route !== null ) {
                     this.$routeSelect.val(
-                        generalUtility.urlDecode(
-                            Backbone.app.defaults.route
-                        )
+                        generalUtility.urlDecode( route )
                     ).trigger( "chosen:updated" );
                 } else {
                     this.$routeSelect.val( "0" ).trigger( "chosen:updated" );
@@ -83,24 +76,33 @@ define( [
             "change #route-select": "showDirection"
         },
 
+        /**
+         * This will show the direction view when a route has been selected.
+         * @param  {Object} e The event object of the route select box.
+         */
         showDirection: function ( e ) {
-            var route = $( "#route-select" ).chosen().val();
+            var mode = Backbone.app.defaults.mode;
+            var route = this.$routeSelect.chosen().val();
 
-            route = generalUtility.urlEncode( route );
+            route = ( mode === "bus" ) ? route : generalUtility.urlEncode( route );
 
             Backbone.app.defaults.route = route;
 
-            Backbone.app.router.navigate( "mode/" + Backbone.app.defaults.mode + "/route/" + route, {
+            Backbone.app.router.navigate( "!/" + mode + "/" + route, {
                 trigger: true
             } );
         },
 
+        /**
+         * Method will close the route view.
+         */
         close: function () {
             if ( this.$routeSelect.length ) {
                 this.$routeSelect.find( 'option:gt(0)' ).remove();
             }
 
-            this.stopListening( routesCollection );
+            modelsUtility.routesCollection.reset();
+            this.stopListening( modelsUtility.routesCollection );
 
             this.$el.unbind();
             this.$el.hide();

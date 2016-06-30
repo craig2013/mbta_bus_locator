@@ -4,6 +4,20 @@ define( function () {
 
     return {
 
+        clearTimer: function ( timer ) {
+            try {
+                clearTimeout( timer );
+                timer = null;
+            } catch ( e ) {
+                console.log( "Error clearing timer." );
+                console.log( e );
+
+                return timer;
+            }
+
+            return timer;
+        },
+
         /**
          * This will concat 2 arrays based on a property passed in.
          *
@@ -12,17 +26,22 @@ define( function () {
          * @return {Array} (newArr) The new combined array.
          */
         concatArray: function ( array, property ) {
-            if ( array[ property ].length >= 1 ) {
-                var newArr = [];
+            try {
+                if ( array[ property ].length >= 1 ) {
+                    var newArr = [];
 
-                for ( var i = 0; i < array[ property ].length; i++ ) {
-                    newArr = newArr.concat( array[ property ][ i ][ property ] );
+                    for ( var i = 0; i < array[ property ].length; i++ ) {
+                        newArr = newArr.concat( array[ property ][ i ][ property ] );
+                    }
+
+                    return newArr;
                 }
 
-                return newArr;
+                return array[ property ];
+            } catch ( e ) {
+                return 0;
             }
 
-            return array[ property ];
         },
 
         /**
@@ -52,15 +71,19 @@ define( function () {
         },
 
         /**
-         * Capitalize ther first letters of all words in a string passed in.
+         * Capitalize ther first letters of all words in a string passed in. Also includes a fix for commutter rail routes that begin with CR-.
          *
          * @param {String} [str] The string to format.
          * @return {String} The formatted string.
          **/
         titleCase: function ( str ) {
-            return str.replace( /((cr)+)|(^([a-zA-Z\p{M}]))|([ -][a-zA-Z\p{M}])/g, function ( letter ) {
-                return letter.toUpperCase();
-            } );
+            try {
+                return str.replace( /((cr)+)|(^([a-zA-Z\p{M}]))|([ -][a-zA-Z\p{M}])/g, function ( letter ) {
+                    return letter.toUpperCase();
+                } );
+            } catch ( e ) {
+                return str;
+            }
         },
 
         /**

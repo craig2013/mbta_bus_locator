@@ -5,10 +5,9 @@ define( [
     "underscore",
     "backbone",
     "utility/general/utility",
-    "models/stops/stops",
-    "collections/stops/stops",
+    "utility/models/models",
     "text!templates/direction/direction.html"
-], function ( $, chosen, _, Backbone, generalUtility, stopsModel, stopsCollection, directionsTemplate ) {
+], function ( $, chosen, _, Backbone, generalUtility, modelsUtility, directionsTemplate ) {
 
     "use strict";
 
@@ -16,25 +15,22 @@ define( [
         el: ".route-direction",
 
         initialize: function () {
-            stopsCollection.fetch( {
-                reset: true,
-                data: {
-                    "queryType": "stopsbyroute",
-                    "queryString": "route",
-                    "queryValue": Backbone.app.defaults.route
-                }
-            } );
 
-            this.listenTo( stopsCollection, "sync", this.render );
+            this.listenTo( modelsUtility.directionCollection, "sync", this.render );
         },
 
         render: function () {
-            var stopModel = stopsCollection.models[ 0 ];
+            var direction = Backbone.app.defaults.direction;
+            var stopModel = modelsUtility.directionCollection.models[ 0 ];
             var self = this;
 
             this.$directionSelect = $( "#direction-select" );
 
             this.$directionSelect.trigger( "chosen:updated" );
+
+            if ( this.$directionSelect.find( "option" ).length > 1 ) {
+                this.$directionSelect.find( 'option:gt(0)' ).remove();
+            }
 
             if ( typeof stopModel === "object" ) {
                 if ( this.$directionSelect.find( "option" ).length <= 1 ) {
@@ -68,9 +64,7 @@ define( [
 
                 if ( Backbone.app.defaults.direction !== null ) {
                     this.$directionSelect.val(
-                        generalUtility.urlDecode(
-                            Backbone.app.defaults.direction
-                        )
+                        generalUtility.urlDecode( direction )
                     ).trigger( "chosen:updated" );
                 } else {
                     this.$directionSelect.val( "0" ).trigger( "chosen:updated" );
@@ -91,12 +85,14 @@ define( [
 
         showStops: function ( e ) {
             var direction = $( "#direction-select" ).chosen().val();
+            var mode = Backbone.app.defaults.mode;
+            var route = Backbone.app.defaults.route;
 
             direction = generalUtility.urlEncode( direction );
 
             Backbone.app.defaults.direction = direction;
 
-            Backbone.app.router.navigate( "mode/" + Backbone.app.defaults.mode + "/route/" + Backbone.app.defaults.route + "/direction/" + direction, {
+            Backbone.app.router.navigate( "!/" + Backbone.app.defaults.mode + "/" + Backbone.app.defaults.route + "/" + direction, {
                 trigger: true
             } );
         },
@@ -106,8 +102,8 @@ define( [
                 this.$directionSelect.find( 'option:gt(0)' ).remove();
             }
 
-            stopsCollection.reset();
-            this.stopListening( stopsCollection );
+            modelsUtility.directionCollection.reset();
+            this.stopListening( modelsUtility.directionCollection );
 
             this.$el.unbind();
             this.$el.hide();

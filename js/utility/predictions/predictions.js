@@ -5,19 +5,57 @@ define( [ "underscore", "utility/general/utility" ], function ( _, generalUtilit
     return {
 
         /**
+         * This will fetch updated predictions or vehicle locations and update them.
+         *
+         * @param  {Object} collections  The collections utility.
+         * @param  {Object} fetchOptions THe fetch options for each collection being fetched.
+         * @return {Object}              The updated collections.
+         */
+        fetchNewPredictions: function ( collections, fetchOptions ) {
+            var showMap = Backbone.app.defaults.showMap;
+            if ( Backbone.app.defaults.timer ) {
+                clearTimeout( Backbone.app.defaults.timer );
+                Backbone.app.defaults.timer = null;
+            }
+
+            if ( showMap === true ) {
+                Backbone.app.defaults.timer =
+                    setTimeout( function () {
+                        collections.predictionsCollection.fetch( {
+                            traditional: true,
+                            data: fetchOptions.predictionOptions.data,
+                            success: function () {
+                                collections.vehiclesCollection.fetch( {
+                                    traditional: true,
+                                    data: fetchOptions.vehicleOptions.data
+                                } );
+                            }
+                        } );
+                    }, 20000 );
+            } else {
+                Backbone.app.defaults.timer =
+                    setTimeout( function () {
+                        collections.predictionsCollection.fetch( {
+                            traditional: true,
+                            data: fetchOptions.predictionOptions.data
+                        } );
+                    }, 20000 );
+            }
+        },
+        /**
          * Get's the predictions based on the prediction model passed into the function.
          *
-         * @param  {Array} (array) The predictions model array.
+         * @param  {Array} array The predictions model array.
          * @return {Array} An array of array's that contains the predictions objects.
          */
-        getPredictions: function ( array ) {
+        getPredictionsByStop: function ( array ) {
             var direction = generalUtility.urlDecode( Backbone.app.defaults.direction );
             var otherRouteArr = [];
             var result = [];
             var route = generalUtility.urlDecode( Backbone.app.defaults.route );
             var selectedRouteArr = [];
 
-            if ( Array.isArray( array ) ) {
+            if ( Array.isArray( array ) ) { // Sort the predictions for the current route in ascending order.
                 for ( var i = 0; i < array.length; i++ ) {
                     var currentRoute = array[ i ].route_id.toLowerCase();
                     if ( route === currentRoute ) {
@@ -33,7 +71,7 @@ define( [ "underscore", "utility/general/utility" ], function ( _, generalUtilit
                             }
                         }
                         selectedRouteArr = _.flatten( selectedRouteArr );
-                    } else if ( route !== currentRoute ) {
+                    } else if ( route !== currentRoute ) { // Sort the predictions for other routes at the current stop in ascending order.
                         for ( var j = 0; j < array[ i ].direction.length; j++ ) {
                             var currentDirection = array[ i ].direction[ j ].direction_name.toLowerCase();
                             if ( direction === currentDirection ) {
@@ -59,10 +97,14 @@ define( [ "underscore", "utility/general/utility" ], function ( _, generalUtilit
             }
         },
 
+        getPredictionsByRoute: function ( array ) {
+
+        },
+
         /**
          * Sorts the predictions in ascending order.
          *
-         * @param  {Array} (array) The predictions model array.
+         * @param  {Array} array The predictions model array.
          * @return {Array}  The sorted predictions array.
          */
         sortPredictionOrderAsc: function ( array ) {
@@ -78,7 +120,7 @@ define( [ "underscore", "utility/general/utility" ], function ( _, generalUtilit
         /**
          * Sorts the predictions in descending order.
          *
-         * @param  {Array} (array) The predictions model array.
+         * @param  {Array} array The predictions model array.
          * @return {Array}  The sorted predictions array.
          */
         sortPredictionOrderDsc: function ( array ) {
@@ -94,7 +136,6 @@ define( [ "underscore", "utility/general/utility" ], function ( _, generalUtilit
 
             return array;
         }
-
     }
 
 } );

@@ -1,12 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <Style id="transBluePoly">
+    <Style id="routeColor">
       <LineStyle>
+        <color>FFFF7Cff</color>
         <width>1.5</width>
       </LineStyle>
       <PolyStyle>
-        <color>7dff0000</color>
+        <color>FFFF7Cff</color>
       </PolyStyle>
     </Style>
     <Folder>
@@ -14,7 +15,7 @@
       <description>Coordinates for route 110</description>
       <Placemark>
         <name>Current shape id: 1100055</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 1100055 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -370,7 +371,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 1100056</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 1100056 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -740,7 +741,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 1100057</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 1100057 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -972,7 +973,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 1100054</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 1100054 shape id.</description>
         <visibility>1</visibility>
         <LineString>
@@ -1235,7 +1236,7 @@
       </Placemark>
       <Placemark>
         <name>Current shape id: 1100053</name>
-        <styleUrl>#transBluePoly</styleUrl>
+        <styleUrl>#routeColor</styleUrl>
         <description>Coordinates for 1100053 shape id.</description>
         <visibility>1</visibility>
         <LineString>

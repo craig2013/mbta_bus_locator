@@ -25,7 +25,7 @@ class Curl
 					$queryString = $queryString."&";
 				}					
 
-				$queryString = $queryString.$key."=".$value;
+				$queryString = $queryString.$key."=".urlencode($value);
 
 				$i++;
 			}
@@ -49,7 +49,7 @@ class Curl
 		$this->setURL($url, $queryType, $properties);
 		$responseURL = $this->getURL();
 
-		//echo $responseURL."<br/>";
+		//echo '<a href="'.$responseURL.'">'.$responseURL."</a><br/>";
 		
 		curl_setopt($ch, CURLOPT_URL, $responseURL);
 		curl_exec($ch);

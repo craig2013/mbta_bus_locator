@@ -29,14 +29,6 @@ module.exports = function(grunt) {
 			}
 		},
 
-		uglify: {
-			my_target: {
-				files: {
-					'maps.min.js': ['underscore-1.7.0.js','maps.js']
-				}
-			}
-		},
-
 		sass: {
 			dist: {
 				options: {
@@ -57,11 +49,9 @@ module.exports = function(grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-jsbeautifier');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');	
 
-	grunt.registerTask('js-beautifier', ['jsbeautifier']);	
-	grunt.registerTask('js-uglify', ['uglify']);
+	grunt.registerTask('clean-js', ['jsbeautifier']);	
 	grunt.registerTask('watch-css',['watch']);
 };

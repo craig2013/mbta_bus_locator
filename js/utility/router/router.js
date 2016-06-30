@@ -3,45 +3,72 @@ define( [
     "jquery",
     "underscore",
     "backbone",
-], function ( $, _, Backbone ) {
+    "utility/general/utility",
+    "utility/models/models"
+], function ( $, _, Backbone, generalUtility, modelsUtility ) {
 
     "use strict";
 
     return {
-        /**
-         * This function is used to close open views.
-         *
-         * @param closeViews {Array} A list of views to close if open.
-         *
-         **/
-        closeViews: function ( closeViews ) {
-            for ( var i = 0; i < arguments.length; i++ ) {
-                var viewToClose = arguments[ i ];
-                if ( this.hasOwnProperty( viewToClose ) ) {
-                    if ( ( typeof this[ viewToClose ] === "object" ) && ( typeof this[ viewToClose ].close === "function" ) ) {
-                        this[ viewToClose ].close();
-                        delete this[ viewToClose ];
+        validateStop: function ( route, direction, stop ) {
+            var result = false;
+            direction = generalUtility.urlDecode( direction );
+            stop = generalUtility.urlDecode( stop );
+
+            $.ajax( {
+                url: "/app/",
+                dataType: "json",
+                data: {
+                    "queryType": "stopsbyroute",
+                    "queryString": "route",
+                    "queryValue": route
+                },
+                success: function ( response ) {
+                    console.log( "validate stop: " );
+                    // console.log("direction: " + direction);
+                    // console.log("stop: " + stop);
+                    // console.log("response:");
+                    // console.log(response);
+
+                    var stops = [];
+                    for ( var i = 0; i < response.length; i++ ) {
+                        if ( response[ i ].direction_name.toLowerCase() === direction ) {
+                            stops = response[ i ].stop;
+                            break;
+                        }
+                    }
+
+                    for ( var i = 0; i < stops.length; i++ ) {
+                        if ( stops[ i ].stop_id.toLowerCase() === stop ) {
+                            Backbone.app.defaults.stopName = stops[ i ].stop_id;
+                            result = true;
+                            break;
+                        }
                     }
                 }
-            }
+            } );
 
+            return result;
         },
-        /**
-         * This functon will open views passed into it from the router if a view is bookmarked and a user arives via the bookmark.
-         *
-         * @param  {Array} (openViews) An array of objects that lists the property of the view, property name, router method to be called, and the view.
-         *
-         */
-        openViews: function ( openViews ) {
-            for ( var i = 0; i < arguments.length; i++ ) {
-                var property = arguments[ i ].property;
-                var propertyName = arguments[ i ].propertyName;
-                var routeMethodName = arguments[ i ].routeMethodName;
-                var view = arguments[ i ].view;
-                if ( ( typeof property !== "undefined" ) && ( !this[ view ] ) ) {
-                    Backbone.app.defaults[ propertyName ] = property;
-                    if ( typeof this[ routeMethodName ] === "function" ) {
-                        this[ routeMethodName ]();
+
+        fetchCollections: function ( obj, properties ) {
+            var direction = properties.direction;
+            var result = false;
+            var route = properties.route;
+            var stop = properties.stop;
+
+
+
+            result = true;
+
+            return result;
+        },
+
+        closeViews: function ( obj, properties ) {
+            for ( var i = 0; i < properties.length; i++ ) {
+                if ( !( properties[ i ].property ) ) {
+                    if ( obj[ properties[ i ].view ] ) {
+                        obj[ properties[ i ].view ].close();
                     }
                 }
             }

@@ -4,6 +4,11 @@
 
 ##Version History
 
+######Version 4.2.1
+- Changed the way the router works and setup nested fetching of collections.
+- Changed the routing.
+- Changed the way the timeout works  for predictions and/or the map and vehicle locations.
+
 ######Version 4.1.1
 - Added map overlay of routes using the MBTA GTFS files and a Python script I created to read the files and get all the coordinates for a route and create the KML file for a route.
 

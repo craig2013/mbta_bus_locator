@@ -1,31 +1,32 @@
 <div class="predictions-header">
 	<h1>Commuter Rail Predictions</h1>
 </div>
-<div class="commuter-rail-predictions">
-	<a href="#" class="show-map-link">Show Map</a>
-	<a href="#" class="hide-map-link">Hide Map</a>
+<div class="commuter-rail-predictions"> 
 	<% if ( predictions !== null ) { %>
 		<% if ( Array.isArray(predictions) ) { %>
+			<a href="#" class="show-map-link">Show Map</a>
+			<a href="#" class="hide-map-link">Hide Map</a>	
 			<% _.each(predictions, function(pre, i) { %>
 				<% if ( (i === 0) ) { %>
-					<% if ( Array.isArray(pre[i]) || (typeof pre === "object") ) { %>
-					<% _.each(pre, function(p, j) { %>				
-						<% if ( j === 0 ) { %>
-							<div class="predictions-sub-header">Predictions for <%= p.route_name %>:</div>
-							<div class="next-vehicle">
-						<% } else { %>
-							<div class="later-vehicle">
+					<% if ( Array.isArray(pre) ) { %>
+						<% if ( pre.length >= 1 ) { %>
+							<% _.each(pre, function(p, j) { %>				
+								<% if ( j === 0 ) { %>
+									<div class="predictions-sub-header">Predictions for <%= p.route_name %>:</div>
+									<div class="next-vehicle">
+								<% } else { %>
+									<div class="later-vehicle">
+								<% } %>
+					                                <%  if ( convertTime(p.pre_away) >= 1 ) { %>
+					                                    <%= convertTime(p.pre_away) %> min
+					                                <% } else if ( ( convertTime(p.pre_away) < 1 ) ) { %>
+					                                    Your train is arriving.
+					                                 <% } %>	
+					                                </div>					
+							<% }); %>
+						<% } else { %>	
+							<div class="predictions-sub-header">Currently no predictions for your selected route.</div>
 						<% } %>
-
-			                                <%  if ( convertTime(p.pre_away) >= 1 ) { %>
-			                                    <%= convertTime(p.pre_away) %> min
-			                                <% } else if ( ( convertTime(p.pre_away) < 1 ) ) { %>
-			                                    Your train is arriving.
-			                                 <% } %>	
-			                                </div>					
-					<% }); %>
-					<% } else { %>	
-						<div class="predictions-sub-header">Currently no predictions for your selected route.</div>
 					<% } %>				
 				<% } else if ( i === 1 ) { %>
 					<% if ( pre.length ) { %>
