@@ -21,7 +21,7 @@ define( [
 
         render: function () {
             var direction = Backbone.app.defaults.direction;
-            var stopModel = modelsUtility.directionCollection.models[ 0 ];
+            var directionModel = modelsUtility.directionCollection.models;
             var self = this;
 
             this.$directionSelect = $( "#direction-select" );
@@ -32,29 +32,17 @@ define( [
                 this.$directionSelect.find( 'option:gt(0)' ).remove();
             }
 
-            if ( typeof stopModel === "object" ) {
+            if ( typeof directionModel === "object" ) {
                 if ( this.$directionSelect.find( "option" ).length <= 1 ) {
 
                     var data = {
                         direction: []
                     };
-                    var directionModel = stopModel.attributes.direction;
 
-                    if ( typeof directionModel !== "undefined" ) {
-                        for ( var i = 0; i < directionModel.length; i++ ) {
-                            if ( Backbone.app.defaults.modeType === "bus" ) {
-                                data.direction.push( {
-                                    text: directionModel[ i ].direction_name + " - " + directionModel[ i ].stop.pop().stop_name,
-                                    value: directionModel[ i ].direction_name
-                                } );
-                            } else {
-                                data.direction.push( {
-                                    text: null,
-                                    value: directionModel[ i ].direction_name
-                                } );
-                            }
-
-                        }
+                    for ( var i = 0; i < directionModel.length; i++ ) {
+                        data.direction.push({
+                                    text: directionModel[ i ].attributes.direction_name
+                        });
                     }
 
                     var directionTemplate = _.template( directionsTemplate );

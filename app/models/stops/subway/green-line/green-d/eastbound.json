@@ -1,0 +1,50 @@
+[
+  {
+    "stop_id": "70186",
+    "stop_name": "Fenway - Inbound"
+  },
+  {
+    "stop_id": "70182",
+    "stop_name": "Longwood - Inbound"
+  },  
+  {
+    "stop_id": "70180",
+    "stop_name": "Brookline Village - Inbound"
+  },    
+  {
+    "stop_id": "70178",
+    "stop_name": "Brookline Hills - Inbound"
+  },    
+  {
+    "stop_id": "70176",
+    "stop_name": "Beaconsfield - Inbound"
+  }, 
+  {
+    "stop_id": "70174",
+    "stop_name": "Reservoir - Inbound"
+  },      
+  {
+    "stop_id": "70172",
+    "stop_name": "Chestnut Hill - Inbound"
+  },     
+  {
+    "stop_id": "70170",
+    "stop_name": "Newton Centre - Inbound"
+  },     
+  {
+    "stop_id": "70168",
+    "stop_name": "Newton Highlands - Inbound"
+  },               
+  {
+    "stop_id": "70166",
+    "stop_name": "Eliot - Inbound"
+  },    
+  {
+    "stop_id": "70164",
+    "stop_name": "Waban - Inbound"
+  },     
+  {
+    "stop_id": "70162",
+    "stop_name": "Woodland - Inbound"
+  }
+]

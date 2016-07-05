@@ -1,0 +1,42 @@
+[
+  {
+    "stop_id": "70239",
+    "stop_name": "Prudential - Outbound"
+  },
+  {
+    "stop_id": "70241",
+    "stop_name": "Symphony - Outbound"
+  },
+    {
+    "stop_id": "70243",
+    "stop_name": "Northeastern - Outbound"
+  },
+  {
+    "stop_id": "70245",
+    "stop_name": "Museum of Fine Arts - Outbound"
+  },
+  {
+    "stop_id": "70247",
+    "stop_name": "Longwood Medical Area - Outbound"
+  },
+  {
+    "stop_id": "Brigham Circle - Outbound",
+    "stop_name": "70249"
+  },
+  {
+    "stop_id": "70251",
+    "stop_name": "Fenwood Road - Outbound"
+  },
+  {
+    "stop_id": "70253",
+    "stop_name": "Mission Park - Outbound"
+  },
+  {
+    "stop_id": "70255",
+    "stop_name": "Riverway - Outbound"
+  },
+  {
+    "stop_id": "70257",
+    "stop_name": "Back of the Hill - Outbound"
+  }                
+]

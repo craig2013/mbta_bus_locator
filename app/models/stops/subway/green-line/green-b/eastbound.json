@@ -1,0 +1,74 @@
+[
+  {
+    "stop_id": "70148",
+    "stop_name": "Blandford Street - Inbound"
+  },
+  {
+    "stop_id": "70146",
+    "stop_name": "Boston Univ East - Inbound"
+  },
+  {
+    "stop_id": "70144",
+    "stop_name": "Boston Univ Central - Inbound"
+  },
+  {
+    "stop_id": "70142",
+    "stop_name": "Boston Univ West - Inbound"
+  },
+  {
+    "stop_id": "70140",
+    "stop_name": "Saint Paul Street - Inbound"
+  },
+  {
+    "stop_id": "70138",
+    "stop_name": "Pleasant Street - Inbound"
+  },
+  {
+    "stop_id": "70136",
+    "stop_name": "Babcock Street - Inbound"
+  },
+  {
+    "stop_id": "70134",
+    "stop_name": "Packards Corner - Inbound"
+  },
+  {
+    "stop_id": "70130",
+    "stop_name": "Harvard Avenue - Inbound"
+  },
+  {
+    "stop_id": "70128",
+    "stop_name": "Griggs Street - Inbound"
+  },
+  {
+    "stop_id": "70126",
+    "stop_name": "Allston Street - Inbound"
+  },
+  {
+    "stop_id": "70124",
+    "stop_name": "Warren Street - Inbound"
+  },
+  {
+    "stop_id": "70120",
+    "stop_name": "Washington Street - Inbound"
+  },
+  {
+    "stop_id": "70116",
+    "stop_name": "Sutherland Road - Inbound"
+  },
+  {
+    "stop_id": "70116",
+    "stop_name": "Sutherland Road - Inbound"
+  },
+  {
+    "stop_id": "70114",
+    "stop_name": "Chiswick Road - Inbound"
+  },           
+  {
+    "stop_id": "70112",
+    "stop_name": "Chestnut Hill Avenue - Inbound"
+  },                  
+  {
+    "stop_id": "70110",
+    "stop_name": "South Street - Inbound"
+  }   
+]

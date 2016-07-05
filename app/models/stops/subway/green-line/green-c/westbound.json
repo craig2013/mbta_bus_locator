@@ -1,0 +1,50 @@
+[
+  {
+    "stop_id": "70211",
+    "stop_name": "Saint Mary Street - Outbound"
+  },
+  {
+    "stop_id": "70213",
+    "stop_name": "Hawes Street - Outbound"
+  },
+  {
+    "stop_id": "70215",
+    "stop_name": "Kent Street - Outbound"
+  },
+  {
+    "stop_id": "70217",
+    "stop_name": "Saint Paul Street - Outbound"
+  },
+  {
+    "stop_id": "70219",
+    "stop_name": "Coolidge Corner - Outbound"
+  },
+  {
+    "stop_id": "70223",
+    "stop_name": "Summit Avenue - Outbound"
+  },  
+  {
+    "stop_id": "70225",
+    "stop_name": "Brandon Hall - Outbound"
+  },    
+  {
+    "stop_id": "70227",
+    "stop_name": "Fairbanks Street - Outbound"
+  },   
+  {
+    "stop_id": "70229",
+    "stop_name": "Washington Square - Outbound"
+  },     
+  {
+    "stop_id": "70231",
+    "stop_name": "Tappan Street - Outbound"
+  },      
+  {
+    "stop_id": "70233",
+    "stop_name": "Dean Road - Outbound"
+  },      
+  {
+    "stop_id": "70235",
+    "stop_name": "Englewood Avenue - Outbound"
+  }
+]

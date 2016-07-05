@@ -6,10 +6,12 @@ ini_set('display_errors', 1);
 class Curl
 {
 	protected $url;
+	protected $response;
 
 	public function __construct()
 	{
 		$this->url = "";
+		$this->response = "";
 	}
 
 	public function buildURL( $queryType, $properties = array() )
@@ -43,16 +45,23 @@ class Curl
 		return $this->url;
 	}
 
-	public function getResponse( $url, $queryType, $properties = array() )
+	public function setResponse( $url, $queryType, $properties = array() )
 	{
 		$ch = curl_init();
 		$this->setURL($url, $queryType, $properties);
 		$responseURL = $this->getURL();
-
-		//echo '<a href="'.$responseURL.'">'.$responseURL."</a><br/>";
 		
 		curl_setopt($ch, CURLOPT_URL, $responseURL);
-		curl_exec($ch);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		
+		$this->response = curl_exec($ch);
+
+		curl_close($ch);
+	}
+
+	public function getResponse()
+	{
+		return $this->response;
 	}
 }
 ?>

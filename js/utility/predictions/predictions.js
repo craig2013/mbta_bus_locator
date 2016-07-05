@@ -97,8 +97,50 @@ define( [ "underscore", "utility/general/utility" ], function ( _, generalUtilit
             }
         },
 
-        getPredictionsByRoute: function ( array ) {
+        getPredictionsByRoute: function ( array, direction, stop ) {
+            //console.log("getPredictionsByRoute: ");
+            //console.log(array);
+            var directionArr = array.direction;
+            var predictions = [];
+            var result = {};
+            //console.log("stop: " + stop);
 
+            for ( var i = 0; i < directionArr.length; i++ ) {
+                if ( directionArr[i].direction_name.toLowerCase() === direction ) {
+                    var tripArr = directionArr[i].trip;
+                    for ( var j = 0; j < tripArr.length; j++ ) {
+                        var predictionItem = {};
+                        var stopsArr = tripArr[j].stop;
+                        //console.log("stopsArr:");
+                        //console.log(stopsArr);
+
+                        _.findIndex(stopsArr, function(item) {
+                            //console.log("item:");
+                            //console.log(item);
+                            //console.log(item.stop_id === stop);
+                        });
+
+                        /*predictionItem = _.findIndex(stopsArr, function(item) {
+                            //console.log("findIndex:");
+                            //console.log("item: ");
+                            //console.log(item);
+                            if ( item.stop_id === stop ) {
+                                return item;
+                            }
+                        });
+
+                        //console.log("predictionItem: ");
+                        //console.log(predictionItem);
+
+                        predictions.push(predictionItem);*/
+                    }
+                }
+            }
+
+            //console.log("predictions:");
+           // console.log(predictions);
+
+            return result;
         },
 
         /**

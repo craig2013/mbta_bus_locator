@@ -118,7 +118,7 @@ define( [
                                     modelsUtility.directionCollection.fetch( {
                                         traditional: true,
                                         data: {
-                                            "queryType": "stopsbyroute",
+                                            "queryType": "direction",
                                             "queryString": "route",
                                             "queryValue": route
                                         },
@@ -132,13 +132,29 @@ define( [
                                                 self.directionView.render();
 
                                                 if ( route && direction ) {
+                                                    var data = {};
+                                                    var queryType = "stopsbyroute";
+                                                    var queryString = "route";
+                                                    var queryValue = route;
+
+                                                    if ( route === "green-b" || route === "green-c" || route === "green-d" || route === "green-e" ) {
+                                                        data =  {
+                                                                    "queryType": queryType,
+                                                                    "queryString": queryString,
+                                                                    "queryValue": queryValue,
+                                                                    "directionValue": direction
+                                                                };                                                         
+                                                    } else {
+                                                        data =  {
+                                                                    "queryType": queryType,
+                                                                    "queryString": queryString,
+                                                                    "queryValue": queryValue
+                                                                };                                                        
+                                                    }
+
                                                     modelsUtility.stopsCollection.fetch( {
                                                         traditional: true,
-                                                        data: {
-                                                            "queryType": "stopsbyroute",
-                                                            "queryString": "route",
-                                                            "queryValue": route
-                                                        },
+                                                        data: data,
                                                         success: function ( s ) {
 
                                                                 // Load stop view.
@@ -150,10 +166,16 @@ define( [
 
                                                                 if ( route && direction && stop ) {
                                                                     var predictionOptions = {};
+                                                                    var queryString = "";
+                                                                    var queryType = "";
                                                                     var queryValue = "";
+                                                                    var routeName = $("#route-select").find("option:selected").attr("data-route-name");
                                                                     var stopName = $( "#stop-select" ).find( "option:selected" ).attr( "data-stop-name" );
 
                                                                     Backbone.app.defaults.stopName = stopName;
+
+                                                                    queryString = "stop";
+                                                                    queryType = "predictionsbystop";
 
                                                                     if ( mode === "commuter+rail" ) {
                                                                         queryValue = stopName;
@@ -163,8 +185,8 @@ define( [
 
                                                                     predictionOptions = {
                                                                         data: {
-                                                                            "queryType": "predictionsbystop",
-                                                                            "queryString": "stop",
+                                                                            "queryType": queryType,
+                                                                            "queryString": queryString,
                                                                             "queryValue": queryValue
                                                                         }
                                                                     };

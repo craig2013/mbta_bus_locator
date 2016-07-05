@@ -19,10 +19,16 @@ define( [
         },
 
         render: function () {
-            //console.log("stops render: ");
+            var data = {
+                stops: []
+            };            
             var direction = Backbone.app.defaults.direction;
+            var mode = Backbone.app.defaults.mode;
+            var route =Backbone.app.defaults.route;
             var stop = Backbone.app.defaults.stop;
-            var stopsModel = modelsUtility.stopsCollection.models[ 0 ];
+            var stopModel = {};
+            var stopsModel = modelsUtility.stopsCollection.models;
+            var stopTemplate = {};
             var self = this;
 
             this.$stopsSelect = $( "#stop-select" );
@@ -35,20 +41,29 @@ define( [
 
             if ( typeof stopsModel === "object" ) {
                 if ( ( this.$stopsSelect.find( "option" ).length <= 1 ) || ( this.$stopsSelect.find( "option" ).length === 1 ) ) {
-                    var data = {
-                        stops: []
-                    };
-                    var stopModel = stopsModel.attributes.direction;
 
-                    if ( typeof stopModel !== "undefined" ) {
-                        for ( var i = 0; i < stopModel.length; i++ ) {
-                            if ( stopModel[ i ].direction_name.toLowerCase() === direction.toLowerCase() ) {
-                                data.stops = stopModel[ i ].stop;
+                    if ( mode === "subway" && route === "green-b" || route === "green-c" || route === "green-d" || route === "green-e" ) {
+                        stopsModel = modelsUtility.stopsCollection.models;
+
+                        for ( var i = 0; i < stopsModel.length; i++ ) {
+                            data.stops.push(stopsModel[i].attributes);
+                        }
+
+                    } else {
+                        stopsModel = stopsModel[ 0 ];
+                        stopModel = stopsModel.attributes.direction;
+
+                        if ( typeof stopModel !== "undefined" ) {
+                            for ( var i = 0; i < stopModel.length; i++ ) {
+                                if ( stopModel[ i ].direction_name.toLowerCase() === direction.toLowerCase() ) {
+                                    data.stops = stopModel[ i ].stop;
+                                }
                             }
                         }
-                    }
 
-                    var stopTemplate = _.template( stopsTemplate );
+                    }                 
+
+                    stopTemplate = _.template( stopsTemplate );
 
                     this.$stopsSelect.append( stopTemplate( data ) );
                 }

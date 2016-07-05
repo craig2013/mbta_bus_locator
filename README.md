@@ -4,6 +4,10 @@
 
 ##Version History
 
+######Version 4.2.2
+- Fixed the predictions for the Green Line branches.  Not all stations are available for predictions yet so had to create a custom solution since the API doesn't list which stations are available.
+- Fixed the direction model so it only returns a route's directions.
+
 ######Version 4.2.1
 - Changed the way the router works and setup nested fetching of collections.
 - Changed the routing.

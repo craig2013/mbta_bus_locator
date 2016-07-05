@@ -20,31 +20,30 @@ define( [
         el: ".predictions-container",
 
         initialize: function ( options ) {
-            var self = this;
             this.options = options;
 
             this.listenTo( modelUtility.predictionsCollection, "sync", this.render );
         },
 
         render: function () {
+            var data = {
+                predictions: null,
+                alert: null
+            };            
             var predictionsModel = modelUtility.predictionsCollection.models[ 0 ];
             var self = this;
 
-            if ( typeof predictionsModel === "object" ) {
-                if ( typeof predictionsModel.attributes.mode !== "undefined" ) {
+            this.direction = Backbone.app.defaults.direction;
+            this.mode = Backbone.app.defaults.mode;
+            this.route = Backbone.app.defaults.route;
+            this.stop = Backbone.app.defaults.stop;
 
-                    var data = {
-                        predictions: null,
-                        alert: null
-                    };
+
+            if ( typeof predictionsModel === "object" ) {
+                if ( (typeof predictionsModel.attributes.mode !== "undefined") || (typeof predictionsModel.attributes.mode_name !== "undefined") ) {
                     var predictionModel = {};
                     var routeText = $( "#route_select_chosen .chosen-single" ).text();
                     var template = null;
-
-                    this.direction = Backbone.app.defaults.direction;
-                    this.mode = Backbone.app.defaults.mode;
-                    this.route = Backbone.app.defaults.route;
-                    this.stop = Backbone.app.defaults.stop;
 
                     predictionModel = predictionsUtility.getPredictionsByStop( predictionsModel.attributes.mode[ 0 ].route );
 
@@ -105,8 +104,8 @@ define( [
 
             // Fetch new predictions if map is not being shown.
             if ( !( Backbone.app.defaults.showMap ) ) {
-                predictionsUtility.fetchNewPredictions( modelUtility, this.options );
-            }
+                    predictionsUtility.fetchNewPredictions( modelUtility, this.options );
+             }
 
 
             return this;
