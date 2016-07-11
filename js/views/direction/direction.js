@@ -40,9 +40,9 @@ define( [
                     };
 
                     for ( var i = 0; i < directionModel.length; i++ ) {
-                        data.direction.push({
-                                    text: directionModel[ i ].attributes.direction_name
-                        });
+                        data.direction.push( {
+                            text: directionModel[ i ].attributes.direction_name
+                        } );
                     }
 
                     var directionTemplate = _.template( directionsTemplate );

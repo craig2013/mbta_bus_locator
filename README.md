@@ -4,6 +4,10 @@
 
 ##Version History
 
+######Version 4.2.3
+- Cleaned up router with JavaScript promises and using the Q library.
+- Made the navbar a fixed navbar at the top of the screen.
+
 ######Version 4.2.2
 - Fixed the predictions for the Green Line branches.  Not all stations are available for predictions yet so had to create a custom solution since the API doesn't list which stations are available.
 - Fixed the direction model so it only returns a route's directions.

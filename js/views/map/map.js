@@ -134,6 +134,8 @@ define( [
             Backbone.app.defaults.map = null;
             Backbone.app.defaults.mapLoaded = false;
 
+            Backbone.app.defaults.predictionOptions = {};
+
             modelUtility.vehiclesCollection.reset();
             this.stopListening( modelUtility.vehiclesCollection );
 

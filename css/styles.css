@@ -494,94 +494,115 @@ body {
   font-size: 0.85em; }
   body .container {
     margin: 0; }
-    body .container header .header {
-      border-bottom-color: #e7e7e7;
-      border-bottom-style: solid;
-      border-bottom-width: 1px;
-      height: 60px;
-      vertical-align: middle;
-      width: 100%;
-      /* Small devices (tablets, >= 768px and <= 991px) */
-      /* Medium devices (desktops, >= 992px and <= 1100px) */
-      /* Large devices (large desktops, 1200px and up) */ }
-      @media (min-width: 768px) and (max-width: 991px) {
-        body .container header .header {
-          height: 40px;
-          line-height: 40px;
-          width: 100%; } }
-      @media (min-width: 992px) and (max-width: 1199px) {
-        body .container header .header {
-          height: 40px;
-          line-height: 40px;
-          width: 100%; } }
-      @media (min-width: 1200px) {
-        body .container header .header {
-          height: 40px;
-          line-height: 40px;
-          width: 100%; } }
-      body .container header .header .header-title {
-        display: block;
-        margin: 0 0 10px 0;
-        text-align: left;
+    body .container header {
+      *zoom: 1; }
+      body .container header .header {
+        background: #fff;
+        border-bottom-color: #e7e7e7;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        height: 60px;
+        left: 0;
+        margin: 0 0 60px 0;
+        padding: 5px 0 0 0;
+        position: fixed;
+        top: -5px;
+        vertical-align: middle;
         width: 100%;
+        z-index: 1030;
         /* Small devices (tablets, >= 768px and <= 991px) */
         /* Medium devices (desktops, >= 992px and <= 1100px) */
         /* Large devices (large desktops, 1200px and up) */ }
         @media (min-width: 768px) and (max-width: 991px) {
-          body .container header .header .header-title {
-            display: inline-block;
-            margin: 0;
-            width: 25%; } }
+          body .container header .header {
+            height: 40px;
+            line-height: 40px;
+            margin: 0 0 40px 0;
+            width: 100%; } }
         @media (min-width: 992px) and (max-width: 1199px) {
-          body .container header .header .header-title {
-            display: inline-block;
-            margin: 0;
-            width: 20%; } }
+          body .container header .header {
+            height: 40px;
+            line-height: 40px;
+            margin: 0 0 40px 0;
+            width: 100%; } }
         @media (min-width: 1200px) {
-          body .container header .header .header-title {
-            display: inline-block;
-            margin: 0;
-            width: 20%; } }
-        body .container header .header .header-title h1 {
-          margin: 0; }
-      body .container header .header nav {
-        display: block;
-        width: 100%;
-        /* Small devices (tablets, >= 768px and <= 991px) */
-        /* Medium devices (desktops, >= 992px and <= 1100px) */
-        /* Large devices (large desktops, 1200px and up) */ }
-        @media (min-width: 768px) and (max-width: 991px) {
-          body .container header .header nav {
-            display: inline-block;
-            width: 65%; } }
-        @media (min-width: 992px) and (max-width: 1199px) {
-          body .container header .header nav {
-            display: inline-block;
-            width: 65%; } }
-        @media (min-width: 1200px) {
-          body .container header .header nav {
-            display: inline-block;
-            width: 75%; } }
-        body .container header .header nav .main-nav {
+          body .container header .header {
+            height: 40px;
+            line-height: 40px;
+            margin: 0 0 40px 0;
+            width: 100%; } }
+        body .container header .header .header-title {
           display: block;
+          margin: 0 0 10px 0;
+          text-align: left;
+          width: 100%;
           /* Small devices (tablets, >= 768px and <= 991px) */
           /* Medium devices (desktops, >= 992px and <= 1100px) */
           /* Large devices (large desktops, 1200px and up) */ }
           @media (min-width: 768px) and (max-width: 991px) {
-            body .container header .header nav .main-nav {
-              display: inline-block; } }
+            body .container header .header .header-title {
+              display: inline-block;
+              margin: 0;
+              width: 25%; } }
           @media (min-width: 992px) and (max-width: 1199px) {
-            body .container header .header nav .main-nav {
-              display: inline-block; } }
+            body .container header .header .header-title {
+              display: inline-block;
+              margin: 0;
+              width: 20%; } }
           @media (min-width: 1200px) {
-            body .container header .header nav .main-nav {
-              display: inline-block; } }
-          body .container header .header nav .main-nav li {
-            display: inline-block;
-            list-style: none;
-            padding: 0 0 0 15px; }
-            body .container header .header nav .main-nav li:first-child {
-              padding: 0; }
+            body .container header .header .header-title {
+              display: inline-block;
+              margin: 0;
+              width: 20%; } }
+          body .container header .header .header-title h1 {
+            margin: 0; }
+        body .container header .header nav {
+          display: block;
+          width: 100%;
+          /* Small devices (tablets, >= 768px and <= 991px) */
+          /* Medium devices (desktops, >= 992px and <= 1100px) */
+          /* Large devices (large desktops, 1200px and up) */ }
+          @media (min-width: 768px) and (max-width: 991px) {
+            body .container header .header nav {
+              display: inline-block;
+              width: 65%; } }
+          @media (min-width: 992px) and (max-width: 1199px) {
+            body .container header .header nav {
+              display: inline-block;
+              width: 65%; } }
+          @media (min-width: 1200px) {
+            body .container header .header nav {
+              display: inline-block;
+              width: 75%; } }
+          body .container header .header nav .main-nav {
+            display: block;
+            /* Small devices (tablets, >= 768px and <= 991px) */
+            /* Medium devices (desktops, >= 992px and <= 1100px) */
+            /* Large devices (large desktops, 1200px and up) */ }
+            @media (min-width: 768px) and (max-width: 991px) {
+              body .container header .header nav .main-nav {
+                display: inline-block; } }
+            @media (min-width: 992px) and (max-width: 1199px) {
+              body .container header .header nav .main-nav {
+                display: inline-block; } }
+            @media (min-width: 1200px) {
+              body .container header .header nav .main-nav {
+                display: inline-block; } }
+            body .container header .header nav .main-nav li {
+              display: inline-block;
+              list-style: none;
+              padding: 0 0 0 15px; }
+              body .container header .header nav .main-nav li:first-child {
+                padding: 0; }
+      body .container header:before, body .container header:after {
+        content: " ";
+        display: table; }
+      body .container header:after {
+        clear: both;
+        display: block;
+        font-size: 0;
+        height: 0;
+        visibility: hidden; }
     body .container .browser-message {
       display: none; }
       body .container .browser-message.ie9 {
@@ -589,7 +610,7 @@ body {
         margin: 0 auto;
         text-align: center; }
     body .container .content {
-      margin: 0 auto;
+      margin: 65px auto 0 auto;
       text-align: center;
       width: 100%;
       /* Small devices (tablets, >= 768px and <= 991px) */
@@ -597,12 +618,15 @@ body {
       /* Large devices (large desktops, 1200px and up) */ }
       @media (min-width: 768px) and (max-width: 991px) {
         body .container .content {
+          margin: 45px auto 0 auto;
           width: 100%; } }
       @media (min-width: 992px) and (max-width: 1199px) {
         body .container .content {
+          margin: 45px auto 0 auto;
           width: 100%; } }
       @media (min-width: 1200px) {
         body .container .content {
+          margin: 45px auto 0 auto;
           width: 100%; } }
       body .container .content .instructions {
         line-height: 1.5em;

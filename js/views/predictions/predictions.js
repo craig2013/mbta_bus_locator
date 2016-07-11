@@ -29,7 +29,7 @@ define( [
             var data = {
                 predictions: null,
                 alert: null
-            };            
+            };
             var predictionsModel = modelUtility.predictionsCollection.models[ 0 ];
             var self = this;
 
@@ -40,7 +40,7 @@ define( [
 
 
             if ( typeof predictionsModel === "object" ) {
-                if ( (typeof predictionsModel.attributes.mode !== "undefined") || (typeof predictionsModel.attributes.mode_name !== "undefined") ) {
+                if ( ( typeof predictionsModel.attributes.mode !== "undefined" ) || ( typeof predictionsModel.attributes.mode_name !== "undefined" ) ) {
                     var predictionModel = {};
                     var routeText = $( "#route_select_chosen .chosen-single" ).text();
                     var template = null;
@@ -50,7 +50,7 @@ define( [
 
                     data.predictions = predictionModel;
 
-                    _.extend( data, generalUtility, Backbone.app.defaults );
+                    _.extend( data, generalUtility, this.options.stopName );
 
                     if ( predictionsModel.attributes.alert_headers.length >= 1 ) {
                         data.alert = predictionsModel.attributes.alert_headers[ 0 ].header_text;
@@ -104,8 +104,8 @@ define( [
 
             // Fetch new predictions if map is not being shown.
             if ( !( Backbone.app.defaults.showMap ) ) {
-                    predictionsUtility.fetchNewPredictions( modelUtility, this.options );
-             }
+                predictionsUtility.fetchNewPredictions( modelUtility, this.options );
+            }
 
 
             return this;

@@ -1,5 +1,5 @@
 //Predictions utility functions to be shared.
-define( [ "underscore", "utility/general/utility" ], function ( _, generalUtility ) {
+define( [ "jquery", "underscore", "backbone", "utility/general/utility" ], function ( $, _, Backbone, generalUtility ) {
     "use strict";
 
     return {
@@ -8,11 +8,13 @@ define( [ "underscore", "utility/general/utility" ], function ( _, generalUtilit
          * This will fetch updated predictions or vehicle locations and update them.
          *
          * @param  {Object} collections  The collections utility.
-         * @param  {Object} fetchOptions THe fetch options for each collection being fetched.
+         * @param  {Object} fetchOptions The fetch options for each collection being fetched.
          * @return {Object}              The updated collections.
          */
         fetchNewPredictions: function ( collections, fetchOptions ) {
+            var predictionOptions = ( typeof fetchOptions.predictionOptions !== "undefined" ) ? fetchOptions.predictionOptions : Backbone.app.defaults.predictionOptions;
             var showMap = Backbone.app.defaults.showMap;
+
             if ( Backbone.app.defaults.timer ) {
                 clearTimeout( Backbone.app.defaults.timer );
                 Backbone.app.defaults.timer = null;
@@ -23,7 +25,7 @@ define( [ "underscore", "utility/general/utility" ], function ( _, generalUtilit
                     setTimeout( function () {
                         collections.predictionsCollection.fetch( {
                             traditional: true,
-                            data: fetchOptions.predictionOptions.data,
+                            data: predictionOptions.data,
                             success: function () {
                                 collections.vehiclesCollection.fetch( {
                                     traditional: true,
@@ -37,7 +39,7 @@ define( [ "underscore", "utility/general/utility" ], function ( _, generalUtilit
                     setTimeout( function () {
                         collections.predictionsCollection.fetch( {
                             traditional: true,
-                            data: fetchOptions.predictionOptions.data
+                            data: fetchOptions.predictionOptions
                         } );
                     }, 20000 );
             }
@@ -95,52 +97,6 @@ define( [ "underscore", "utility/general/utility" ], function ( _, generalUtilit
 
                 return result;
             }
-        },
-
-        getPredictionsByRoute: function ( array, direction, stop ) {
-            //console.log("getPredictionsByRoute: ");
-            //console.log(array);
-            var directionArr = array.direction;
-            var predictions = [];
-            var result = {};
-            //console.log("stop: " + stop);
-
-            for ( var i = 0; i < directionArr.length; i++ ) {
-                if ( directionArr[i].direction_name.toLowerCase() === direction ) {
-                    var tripArr = directionArr[i].trip;
-                    for ( var j = 0; j < tripArr.length; j++ ) {
-                        var predictionItem = {};
-                        var stopsArr = tripArr[j].stop;
-                        //console.log("stopsArr:");
-                        //console.log(stopsArr);
-
-                        _.findIndex(stopsArr, function(item) {
-                            //console.log("item:");
-                            //console.log(item);
-                            //console.log(item.stop_id === stop);
-                        });
-
-                        /*predictionItem = _.findIndex(stopsArr, function(item) {
-                            //console.log("findIndex:");
-                            //console.log("item: ");
-                            //console.log(item);
-                            if ( item.stop_id === stop ) {
-                                return item;
-                            }
-                        });
-
-                        //console.log("predictionItem: ");
-                        //console.log(predictionItem);
-
-                        predictions.push(predictionItem);*/
-                    }
-                }
-            }
-
-            //console.log("predictions:");
-           // console.log(predictions);
-
-            return result;
         },
 
         /**

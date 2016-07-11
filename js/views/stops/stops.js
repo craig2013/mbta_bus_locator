@@ -21,10 +21,10 @@ define( [
         render: function () {
             var data = {
                 stops: []
-            };            
+            };
             var direction = Backbone.app.defaults.direction;
             var mode = Backbone.app.defaults.mode;
-            var route =Backbone.app.defaults.route;
+            var route = Backbone.app.defaults.route;
             var stop = Backbone.app.defaults.stop;
             var stopModel = {};
             var stopsModel = modelsUtility.stopsCollection.models;
@@ -46,7 +46,7 @@ define( [
                         stopsModel = modelsUtility.stopsCollection.models;
 
                         for ( var i = 0; i < stopsModel.length; i++ ) {
-                            data.stops.push(stopsModel[i].attributes);
+                            data.stops.push( stopsModel[ i ].attributes );
                         }
 
                     } else {
@@ -61,7 +61,7 @@ define( [
                             }
                         }
 
-                    }                 
+                    }
 
                     stopTemplate = _.template( stopsTemplate );
 

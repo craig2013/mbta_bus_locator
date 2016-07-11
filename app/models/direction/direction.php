@@ -39,7 +39,7 @@ class Direction
 
 		$json = json_decode($json, true);
 
-		$result = [];
+		$result = array();
 
 		foreach ($json as $key => $value) {
 			foreach ($value as $k => $v) {

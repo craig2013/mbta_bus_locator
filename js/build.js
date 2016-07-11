@@ -15,6 +15,7 @@
         underscore: "libs/underscore/underscore",
         backbone: "libs/backbone/backbone",
         chosen: "libs/jquery/plugins/chosen/chosen",
+        Q: "libs/q/q",
         text: "text",
         templates: "templates/"
     },
@@ -24,6 +25,9 @@
         },
         chosen: {
             deps: [ "jquery" ]
+        },
+        Q: {
+            exports: "Q"
         },
         underscore: {
             exports: "_"

@@ -7,6 +7,10 @@ require.config( {
             "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery",
             "libs/jquery/jquery"
         ],
+        Q: [
+            "https://cdnjs.cloudflare.com/ajax/libs/q.js/1.4.1/q",
+            "libs/q/q"
+        ],
         underscore: [
             "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore",
             "libs/underscore/underscore"
@@ -19,12 +23,14 @@ require.config( {
             "https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery",
             "libs/jquery/plugins/chosen/chosen"
         ],
-        templates: "templates"
-
+        templates: "templates",
     },
     shim: {
         jquery: {
             exports: "$"
+        },
+        Q: {
+            exports: "Q"
         },
         chosen: {
             deps: [ "jquery" ]
@@ -56,6 +62,7 @@ require( [
             direction: null,
             map: null,
             mapLoaded: false,
+            predictionOptions: {},
             showMap: false,
             stop: null,
             stopName: null,
