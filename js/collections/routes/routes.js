@@ -10,7 +10,7 @@ define( [
 
     var routes = Backbone.Collection.extend( {
         model: routesModel,
-        url: "../../../app/"
+        url: "../../../app/routes/"
     } );
 
     return new routes();

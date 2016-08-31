@@ -35,11 +35,10 @@ define( [
             var self = this;
             return new Q.promise( function ( resolve, reject ) {
                 if ( mode ) {
+                    modelsUtility.routesCollection.url = "../../../app/routes/" + mode;
+
                     modelsUtility.routesCollection.fetch( {
                         traditional: true,
-                        data: {
-                            "queryType": "routes"
-                        },
                         success: function ( model, response, options ) {
                             self.routeView = new routesView( {
                                 model: model
@@ -68,13 +67,10 @@ define( [
             var self = this;
             return new Q.promise( function ( resolve, reject ) {
                 if ( mode && route ) {
+                    modelsUtility.directionCollection.url = "../../../app/routes/" + mode + "/" + route + "/direction";
+
                     modelsUtility.directionCollection.fetch( {
                         traditional: true,
-                        data: {
-                            "queryType": "direction",
-                            "queryString": "route",
-                            "queryValue": route
-                        },
                         success: function ( model, response, options ) {
                             self.directionView = new directionsView( {
                                 model: model
@@ -109,24 +105,10 @@ define( [
                     var queryString = "route";
                     var queryValue = route;
 
-                    if ( route === "green-b" || route === "green-c" || route === "green-d" || route === "green-e" ) {
-                        data = {
-                            "queryType": queryType,
-                            "queryString": queryString,
-                            "queryValue": queryValue,
-                            "directionValue": direction
-                        };
-                    } else {
-                        data = {
-                            "queryType": queryType,
-                            "queryString": queryString,
-                            "queryValue": queryValue
-                        };
-                    }
+                    modelsUtility.stopsByDirectionCollection.url = "../../../app/routes/" + mode + "/" + route + "/" + direction;
 
-                    modelsUtility.stopsCollection.fetch( {
+                    modelsUtility.stopsByDirectionCollection.fetch( {
                         traditional: true,
-                        data: data,
                         success: function ( model, response, options ) {
                             self.stopView = new stopsView( {
                                 model: model
@@ -155,35 +137,24 @@ define( [
                     var queryValue = "";
                     var routeName = $( "#route-select" ).find( "option:selected" ).attr( "data-route-name" );
                     var stopName = $( "#stop-select" ).find( "option:selected" ).attr( "data-stop-name" );
-
-                    queryString = "stop";
-                    queryType = "predictionsbystop";
+                    var url = "";
 
                     if ( mode === "commuter+rail" ) {
-                        queryValue = stopName;
+                        url = "../../../app/routes/" + mode + "/" + route + "/" + direction + "/" + encodeURIComponent( stopName );
                     } else {
-                        queryValue = stop;
+                        url = "../../../app/routes/" + mode + "/" + route + "/" + direction + "/" + stop;
                     }
 
-                    predictionOptions = {
-                        data: {
-                            "queryType": queryType,
-                            "queryString": queryString,
-                            "queryValue": queryValue
-                        }
-                    };
-
-                    Backbone.app.defaults.predictionOptions = predictionOptions;
+                    modelsUtility.predictionsCollection.url = url;
 
                     modelsUtility.predictionsCollection.fetch( {
                         traditionnal: true,
-                        data: predictionOptions.data,
                         success: function ( model, response, options ) {
                             self.predictionView = new predictionsView( {
                                 model: model,
                                 map: map,
-                                predictionOptions: options.data,
-                                stopName: stopName
+                                stopName: stopName,
+                                predictionURL: url
                             } );
 
                             self.predictionView.render();
@@ -204,34 +175,48 @@ define( [
             return new Q.promise( function ( resolve, reject ) {
                 if ( mode && route && direction && stop && map ) {
                     var vehicleOptions = {};
-                    var mapRoute = $( "#route-select option:selected" ).attr( "data-route-name" );
 
                     Backbone.app.defaults.showMap = true;
 
-                    vehicleOptions = {
-                        data: {
-                            "queryType": "vehiclesbyroute",
-                            "queryString": "route",
-                            "queryValue": mapRoute
-                        }
-                    };
+                    modelsUtility.stopsByRouteCollection.url = "../../../app/routes/" + mode + "/" + route + "/";
 
-                    modelsUtility.vehiclesCollection.fetch( {
+                    modelsUtility.stopsByRouteCollection.fetch( {
                         traditional: true,
-                        data: vehicleOptions.data,
                         success: function ( model, response, options ) {
-                            self.mapView = new mapsView( {
-                                model: model,
-                                vehicleOptions: vehicleOptions
-                            } );
+                            var routeName = $( "#route-select option:selected" ).attr( "data-route-name" );
+                            var stopName = $( "#stop-select option:selected" ).attr( "data-route-name" );
+                            var url = "";
 
-                            self.mapView.render();
-                            resolve( "getMap success." );
+                            if ( mode === "commuter+rail" ) {
+                                url = "../../../app/routes/" + mode + "/" + routeName + "/" + direction + "/" + stopName + "/vehicles";
+                            } else {
+                                url = "../../../app/routes/" + mode + "/" + routeName + "/" + direction + "/" + stop + "/vehicles";
+                            }
+
+                            modelsUtility.vehiclesCollection.url = url;
+
+                            modelsUtility.vehiclesCollection.fetch( {
+                                traditional: true,
+                                success: function ( m, r, o ) {
+                                    self.mapView = new mapsView( {
+                                        model: m,
+                                        vehicleOptions: vehicleOptions
+                                    } );
+
+                                    self.mapView.render();
+                                    resolve( "getMap success." );
+                                },
+                                error: function ( model, xhr, options ) {
+                                    console.log( 'There was an error loading the vehicle locations for the map.' );
+                                    console.log( xhr.responseText );
+                                    reject( "There was an error loading the vehicle locations for the map." );
+                                }
+                            } );
                         },
                         error: function ( model, xhr, options ) {
-                            console.log( 'Error fetching stops for the selected route.' );
+                            console.log( 'There was an error loading the stops for the map.' );
                             console.log( xhr.responseText );
-                            reject( "There was an error loading the route predictions." );
+                            reject( "There was an error loading the stops for the map." );
                         }
                     } );
                 }

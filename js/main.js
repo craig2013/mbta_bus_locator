@@ -23,7 +23,7 @@ require.config( {
             "https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery",
             "libs/jquery/plugins/chosen/chosen"
         ],
-        templates: "templates",
+        templates: "templates"
     },
     shim: {
         jquery: {
@@ -42,7 +42,8 @@ require.config( {
             deps: [ "jquery", "underscore" ],
             exports: "Backbone"
         }
-    }
+    },
+    urlArgs: 'bust=' + Date.now()
 } );
 
 require( [
@@ -65,7 +66,6 @@ require( [
             predictionOptions: {},
             showMap: false,
             stop: null,
-            stopName: null,
             stopValidated: false,
             timers: [],
             vehicles: []

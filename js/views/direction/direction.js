@@ -32,7 +32,7 @@ define( [
                 this.$directionSelect.find( 'option:gt(0)' ).remove();
             }
 
-            if ( typeof directionModel === "object" ) {
+            if ( Array.isArray( directionModel ) ) {
                 if ( this.$directionSelect.find( "option" ).length <= 1 ) {
 
                     var data = {

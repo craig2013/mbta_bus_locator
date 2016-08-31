@@ -104,7 +104,7 @@ define( [
 
             // Fetch new predictions if map is not being shown.
             if ( !( Backbone.app.defaults.showMap ) ) {
-                predictionsUtility.fetchNewPredictions( modelUtility, this.options );
+                predictionsUtility.fetchNewPredictions( modelUtility /*, this.options */ );
             }
 
 

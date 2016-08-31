@@ -26,7 +26,7 @@ define( [
 
         render: function () {
             var self = this;
-            var stopsModel = modelUtility.stopsCollection.models[ 0 ];
+            var stopsModel = modelUtility.stopsByRouteCollection.models[ 0 ];
             var vehicleLocationModel = modelUtility.vehiclesCollection.models[ 0 ];
 
             if ( ( typeof stopsModel === "object" ) && ( typeof vehicleLocationModel === "object" ) ) {
@@ -45,7 +45,7 @@ define( [
                     var refreshTimer = Backbone.app.defaults.refreshTimer;
                     var routeId = Backbone.app.defaults.route;
                     var routeLayer = null;
-                    var stops = modelUtility.stopsCollection.models[ 0 ].attributes.direction[ 0 ].stop;
+                    var stops = modelUtility.stopsByRouteCollection.models[ 0 ].attributes.direction[ 0 ].stop;
                     var template = _.template( mapsTemplate );
 
                     this.$el.html( template() );

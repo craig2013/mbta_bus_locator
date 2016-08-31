@@ -19,6 +19,8 @@ define( [
         },
 
         render: function () {
+            var mode = Backbone.app.defaults.mode;
+            var modelsLength = modelsUtility.routesCollection.models.length;
             var route = Backbone.app.defaults.route;
             var routeModel = modelsUtility.routesCollection.models[ 0 ];
             var self = this;
@@ -33,14 +35,8 @@ define( [
             if ( typeof routeModel === "object" ) {
                 if ( ( this.$routeSelect.find( "option" ).length <= 1 ) || ( this.$routeSelect.find( "option" ).length === 1 ) ) {
                     var data = {
-                        route: routeModel.attributes.mode
+                        route: routeModel.attributes.route
                     }
-
-                    data.route = _.filter( data.route, function ( item, key ) {
-                        return item.mode_name.toLowerCase() === generalUtility.urlDecode( Backbone.app.defaults.mode );
-                    } );
-
-                    data.route = generalUtility.concatArray( data, "route" );
 
                     data.route = _.sortBy( data.route, function ( item, key ) {
                         if ( isNaN( item.route_name.substring( 0, 2 ) ) ) { //Sort by route name if route name is a word.

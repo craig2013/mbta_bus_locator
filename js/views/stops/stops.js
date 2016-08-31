@@ -15,7 +15,7 @@ define( [
         el: ".route-stops",
 
         initialize: function () {
-            this.listenTo( modelsUtility.stopsCollection, "add", this.render );
+            this.listenTo( modelsUtility.stopsByDirectionCollection, "add", this.render );
         },
 
         render: function () {
@@ -27,7 +27,7 @@ define( [
             var route = Backbone.app.defaults.route;
             var stop = Backbone.app.defaults.stop;
             var stopModel = {};
-            var stopsModel = modelsUtility.stopsCollection.models;
+            var stopsModel = modelsUtility.stopsByDirectionCollection.models;
             var stopTemplate = {};
             var self = this;
 
@@ -39,28 +39,12 @@ define( [
                 this.$stopsSelect.find( 'option:gt(0)' ).remove();
             }
 
-            if ( typeof stopsModel === "object" ) {
+            if ( Array.isArray( stopsModel ) ) {
                 if ( ( this.$stopsSelect.find( "option" ).length <= 1 ) || ( this.$stopsSelect.find( "option" ).length === 1 ) ) {
+                    var stopModelLength = stopsModel.length;
 
-                    if ( mode === "subway" && route === "green-b" || route === "green-c" || route === "green-d" || route === "green-e" ) {
-                        stopsModel = modelsUtility.stopsCollection.models;
-
-                        for ( var i = 0; i < stopsModel.length; i++ ) {
-                            data.stops.push( stopsModel[ i ].attributes );
-                        }
-
-                    } else {
-                        stopsModel = stopsModel[ 0 ];
-                        stopModel = stopsModel.attributes.direction;
-
-                        if ( typeof stopModel !== "undefined" ) {
-                            for ( var i = 0; i < stopModel.length; i++ ) {
-                                if ( stopModel[ i ].direction_name.toLowerCase() === direction.toLowerCase() ) {
-                                    data.stops = stopModel[ i ].stop;
-                                }
-                            }
-                        }
-
+                    for ( var i = 0; i < stopModelLength; i++ ) {
+                        data.stops.push( stopsModel[ i ].attributes );
                     }
 
                     stopTemplate = _.template( stopsTemplate );
@@ -112,8 +96,8 @@ define( [
                 this.$stopsSelect.find( 'option:gt(0)' ).remove();
             }
 
-            modelsUtility.stopsCollection.reset();
-            this.stopListening( modelsUtility.stopsCollection );
+            modelsUtility.stopsByDirectionCollection.reset();
+            this.stopListening( modelsUtility.stopsByDirectionCollection );
 
             this.$el.unbind();
             this.$el.hide();

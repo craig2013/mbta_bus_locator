@@ -77,6 +77,35 @@ define( function () {
                             } );
                         }
                     }
+                } else {
+                    var route = vehicles.attributes.route_name;
+                    var vehiclesModel = vehicles.attributes.trip;
+                    var vehiclesModelLength = vehiclesModel.length;
+
+                    for ( var i = 0; i < vehiclesModelLength; i++ ) { //For trip array
+                        var myLatLon = {};
+                        var vehicle = {};
+                        var vehicleID = vehiclesModel[ i ].vehicle.vehicle_id;
+                        var vehicleLabel = "<b>Route " + route + "</b>: " + vehiclesModel[ i ].trip_name;
+                        var vehicleLat = vehiclesModel[ i ].vehicle.vehicle_lat;
+                        var vehicleLon = vehiclesModel[ i ].vehicle.vehicle_lon;
+
+                        myLatLon = new google.maps.LatLng( vehicleLat, vehicleLon );
+
+                        vehicle = new markerLabel( {
+                            position: myLatLon,
+                            map: map,
+                            vehicleID: vehicleID,
+                            labelContent: vehicleLabel,
+                            labelAnchor: new google.maps.Point( 90, 75 ),
+                            labelClass: "map-marker-label"
+                        } );
+
+                        Backbone.app.defaults.vehicles.push( {
+                            vehicleID: vehicleID,
+                            marker: vehicle
+                        } );
+                    }
                 }
             }
         },

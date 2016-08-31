@@ -11,8 +11,8 @@ define( [ "jquery", "underscore", "backbone", "utility/general/utility" ], funct
          * @param  {Object} fetchOptions The fetch options for each collection being fetched.
          * @return {Object}              The updated collections.
          */
-        fetchNewPredictions: function ( collections, fetchOptions ) {
-            var predictionOptions = ( typeof fetchOptions.predictionOptions !== "undefined" ) ? fetchOptions.predictionOptions : Backbone.app.defaults.predictionOptions;
+        fetchNewPredictions: function ( collections /*, fetchOptions */ ) {
+            // var predictionOptions = ( typeof fetchOptions.predictionOptions !== "undefined" ) ? fetchOptions.predictionOptions : Backbone.app.defaults.predictionOptions;
             var showMap = Backbone.app.defaults.showMap;
 
             if ( Backbone.app.defaults.timer ) {
@@ -25,11 +25,9 @@ define( [ "jquery", "underscore", "backbone", "utility/general/utility" ], funct
                     setTimeout( function () {
                         collections.predictionsCollection.fetch( {
                             traditional: true,
-                            data: predictionOptions.data,
                             success: function () {
                                 collections.vehiclesCollection.fetch( {
-                                    traditional: true,
-                                    data: fetchOptions.vehicleOptions.data
+                                    traditional: true
                                 } );
                             }
                         } );
@@ -39,7 +37,6 @@ define( [ "jquery", "underscore", "backbone", "utility/general/utility" ], funct
                     setTimeout( function () {
                         collections.predictionsCollection.fetch( {
                             traditional: true,
-                            data: fetchOptions.predictionOptions
                         } );
                     }, 20000 );
             }

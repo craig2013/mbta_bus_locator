@@ -8,7 +8,7 @@ define( [
     "use strict";
 
     var routes = Backbone.Model.extend( {
-        urlRoot: "../../../app/"
+        urlRoot: "../../../app/routes/"
     } );
 
     return routes;

@@ -4,6 +4,10 @@
 
 ##Version History
 
+######Version 4.3.3
+- Reqorganized my PHP by using the Slim PHP Framework.
+- Moved more functions to the server side to make the app faster.
+
 ######Version 4.2.3
 - Cleaned up router with JavaScript promises and using the Q library.
 - Made the navbar a fixed navbar at the top of the screen.

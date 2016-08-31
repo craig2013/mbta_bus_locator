@@ -2,28 +2,32 @@
 define( [
     "models/routes/routes",
     "models/direction/direction",
-    "models/stops/stops",
+    "models/stops/stopsByDirection",
+    "models/stops/stopsByRoute",
     "models/predictions/predictions",
     "models/vehicles/vehicles",
     "collections/routes/routes",
     "collections/direction/direction",
-    "collections/stops/stops",
+    "collections/stops/stopsByDirection",
+    "collections/stops/stopsByRoute",
     "collections/predictions/predictions",
     "collections/vehicles/vehicles"
-], function ( routesModel, directionModel, stopsModel, predictionsModel, vehiclesModel,
-    routesCollection, directionCollection, stopsCollection, predictionsCollection, vehiclesCollection ) {
+], function ( routesModel, directionModel, stopsByDirectionModel, stopsByRouteModel, predictionsModel, vehiclesModel,
+    routesCollection, directionCollection, stopsByDirectionCollection, stopsByRouteCollection, predictionsCollection, vehiclesCollection ) {
 
     "use strict";
 
     return {
         routesModel: routesModel,
         directionModel: directionModel,
-        stopsModel: stopsModel,
+        stopsByDirectionModel: stopsByDirectionModel,
+        stopsByRouteModel: stopsByRouteModel,
         predictionsModel: predictionsModel,
         vehiclesModel: vehiclesModel,
         routesCollection: routesCollection,
         directionCollection: directionCollection,
-        stopsCollection: stopsCollection,
+        stopsByDirectionCollection: stopsByDirectionCollection,
+        stopsByRouteCollection: stopsByRouteCollection,
         predictionsCollection: predictionsCollection,
         vehiclesCollection: vehiclesCollection
     }
