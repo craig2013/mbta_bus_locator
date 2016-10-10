@@ -4,8 +4,12 @@
 
 ##Version History
 
+######Version 4.4.3
+- Switched to Gulp for task automation.
+- Changed directory structure.
+
 ######Version 4.3.3
-- Reqorganized my PHP by using the Slim PHP Framework.
+- Reorganized my PHP by using the Slim PHP Framework.
 - Moved more functions to the server side to make the app faster.
 
 ######Version 4.2.3

@@ -1,0 +1,4 @@
+src/js/libs/**/*.js
+src/js/templates/**/*.js
+src/js/build.js
+src/js/text.js

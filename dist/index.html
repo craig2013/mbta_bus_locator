@@ -9,13 +9,8 @@
 	<title>MBTA Tracker</title>
 	<meta name="description" content="Get MBTA times for your stop."/>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-	<!-- build:js-modernizr -->
-	<script src="/src/js/libs/modernizr/modernizr.js"></script>
-	<!-- endbuild -->
-	<!-- build:css -->
-	<link rel="stylesheet" href="/src/css/styles.css"/>
-	<!-- endbuild -->
-
+	<script src="/dist/js/libs/modernizr/modernizr.js"></script>
+	<link rel="stylesheet" href="/dist/css/styles.min.css">
     </head>
     <body>
 	<div class="container">
@@ -91,11 +86,6 @@
 			</div>   
 		</footer>
 	</div><!-- /.container -->
-	<!-- build:js-app-index -->
-	<script src="/src/js/libs/require-js/require.js"></script>
-	<script>
-		require(['/src/js/main.js?bust='+Date.now()]);
-	</script>
-	<!-- endbuild -->
+	<script data-main="/dist/js/main.min.js" src="/dist/js/libs/require/require.js"></script>
     </body>
 </html> 

@@ -1,4 +1,6 @@
-# IndexIgnore *
+IndexIgnore *
+
+#AddHandler application/x-httpd-php56 .php
 
 php_flag display_startup_errors on
 php_flag display_errors on
