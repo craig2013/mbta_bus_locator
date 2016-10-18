@@ -30,6 +30,7 @@ module.exports = {
         "google": true,
         "window": true,
         "document": true,
+        "module": true,
         "e": true,
         "setTimeout": true,
         "clearTimeout": true,

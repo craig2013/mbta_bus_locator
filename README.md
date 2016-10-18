@@ -4,6 +4,10 @@
 
 ##Version History
 
+######Version 4.5.3
+- Split tasks into individual files within the tasks folder.
+- Moved all *.html files to the src directory.
+
 ######Version 4.4.3
 - Switched to Gulp for task automation.
 - Changed directory structure.
