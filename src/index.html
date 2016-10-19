@@ -9,11 +9,11 @@
 	<title>MBTA Tracker</title>
 	<meta name="description" content="Get MBTA times for your stop."/>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-	<!-- build:js-modernizr -->
-	<script src="/src/js/libs/modernizr/modernizr.js"></script>
-	<!-- endbuild -->
 	<!-- build:css -->
 	<link rel="stylesheet" href="/src/css/styles.css"/>
+	<!-- endbuild -->
+	<!-- build:js-modernizr -->
+	<script src="/src/js/libs/modernizr/modernizr.js"></script>
 	<!-- endbuild -->
 	
     </head>
@@ -52,7 +52,7 @@
 						<p>Select a transportation mode: </p>
 						<label  for="mode-select chosen-select">Mode:</label>
 						<select class="form"  id="mode-select" name="mode-select" tabindex="0">
-							<option value="0" selected="selected">Select a mode.</option>
+							<option value="0" selected="selected">Select a mode.</option>					
 						</select>								
 					</div><!-- /.mode-type -->
 					<div class="routes-available">
@@ -92,10 +92,7 @@
 		</footer>
 	</div><!-- /.container -->
 	<!-- build:js-app-index -->
-	<script src="/src/js/libs/require-js/require.js"></script>
-	<script>
-		require(['/src/js/main.js?bust='+Date.now()]);
-	</script>
+	<script src="/src/js/bundle.js"></script>
 	<!-- endbuild -->
     </body>
 </html> 

@@ -1,15 +1,11 @@
 //Routes model
-define( [
-    "jquery",
-    "underscore",
-    "backbone"
-], function ( $, _, Backbone ) {
+"use strict";
 
-    "use strict";
+var Backbone = require("backbone");
+var Defaults = require("../../defaults");
 
-    var routes = Backbone.Model.extend( {
-        urlRoot: "/app/routes/"
-    } );
-
-    return routes;
+var routes = Backbone.Model.extend( {
+    urlRoot: Defaults.config.api + "routes/"
 } );
+
+module.exports = routes;

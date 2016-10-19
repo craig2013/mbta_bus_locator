@@ -1,17 +1,13 @@
 //Stops collection
-define( [
-    "jquery",
-    "underscore",
-    "backbone",
-    "models/stops/stops"
-], function ( $, backbone, _, stopsModel ) {
+"use strict";
 
-    "use strict";
+var Backbone = require("backbone");
+var Defaults = require("../../defaults");
+var stopsModel = require("../../models/stops/stopsModel");
 
-    var stops = Backbone.Collection.extend( {
-        model: stopsModel,
-        url: "/app/"
-    } );
-
-    return new stops();
+var stops = Backbone.Collection.extend( {
+    model: stopsModel,
+    url: Defaults.config.api
 } );
+
+module.exports = new stops();

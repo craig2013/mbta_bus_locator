@@ -1,15 +1,10 @@
 //Stops model
-define( [
-    "jquery",
-    "underscore",
-    "backbone"
-], function ( $, _, Backbone ) {
+"use strict";
+var Backbone = require("backbone");
+var Defaults = require("../../defaults");
 
-    "use strict";
-
-    var stops = Backbone.Model.extend( {
-        urlRoot: "/app/"
-    } );
-
-    return stops;
+var stops = Backbone.Model.extend( {
+    urlRoot: Defaults.config.api
 } );
+
+module.exports = stops;

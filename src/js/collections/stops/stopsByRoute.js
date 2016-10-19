@@ -1,19 +1,15 @@
 /**
- * Stops by route collection.
- */
-define( [
-    "jquery",
-    "underscore",
-    "backbone",
-    "models/stops/stopsByRoute"
-], function ( $, backbone, _, stopsByRouteModel ) {
+* Stops by route collection.
+*/
+"use strict";
 
-    "use strict";
+var Backbone = require("backbone");
+var Defaults = require("../../defaults");
+var stopsByRouteModel = require("../../models/stops/stopsByRoute");
 
-    var stopsBuyRoute = Backbone.Collection.extend( {
-        model: stopsByRouteModel,
-        url: "/app/"
-    } );
-
-    return new stopsBuyRoute;
+var stopsBuyRoute = Backbone.Collection.extend( {
+    model: stopsByRouteModel,
+    url: Defaults.config.api
 } );
+
+module.exports = new stopsBuyRoute();

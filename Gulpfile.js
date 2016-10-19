@@ -2,7 +2,21 @@
 
 var gulp = require("gulp");
 var gutil  = require("gulp-util");
+var plumber = require("gulp-plumber");
 var requireDir = require('require-dir');
+
+// Handle Gulp errors.
+var gulp_src  = gulp.src;
+gulp.src = function() {
+    return gulp_src.apply(gulp, arguments)
+        .pipe(plumber(function(error) {
+          // Output an error message
+          gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
+          // emit the end event, to properly end the task
+          this.emit('end');
+        })
+    );
+};
 
 // Pulling in all tasks from the tasks folder
 requireDir('./tasks', { recurse: true });
@@ -11,13 +25,4 @@ requireDir('./tasks', { recurse: true });
 gulp.task("default", ["watch"]);
 
 // Define the build task.
-gulp.task("build", ["build-requirejs", "copy-js-files", "minify-css", "update-html", "copy-html-files"]);
-
-
-// Catch errors so gulp doesn't crash.
-function swallowError(error) {
-	// If you want details of the error in the console
-	console.log(error.toString());
-
-	this.emit('end');
-}
+gulp.task("build", ["minify-js", "minify-css", "update-html", "copy-files"]);

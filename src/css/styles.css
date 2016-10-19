@@ -139,7 +139,8 @@ h6 {
   width: 100px; }
 
 /* @group Base */
-.chosen-container {
+.chosen-container,
+.chzn-container {
   position: relative;
   display: inline-block;
   vertical-align: middle;
@@ -150,9 +151,11 @@ h6 {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
-  .chosen-container * {
+  .chosen-container *,
+  .chzn-container * {
     box-sizing: border-box; }
-  .chosen-container .chosen-drop {
+  .chosen-container .chosen-drop,
+  .chzn-container .chosen-drop {
     position: absolute;
     top: 100%;
     left: -9999px;
@@ -162,18 +165,24 @@ h6 {
     border-top: 0;
     background: #fff;
     box-shadow: 0 4px 5px rgba(0, 0, 0, 0.15); }
-  .chosen-container.chosen-with-drop .chosen-drop {
+  .chosen-container.chosen-with-drop .chosen-drop,
+  .chzn-container.chosen-with-drop .chosen-drop {
     left: 0; }
-  .chosen-container a {
+  .chosen-container a,
+  .chzn-container a {
     cursor: pointer; }
-  .chosen-container .search-choice .group-name, .chosen-container .chosen-single .group-name {
+  .chosen-container .search-choice .group-name, .chosen-container .chosen-single .group-name,
+  .chzn-container .search-choice .group-name,
+  .chzn-container .chosen-single .group-name {
     margin-right: 4px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     font-weight: normal;
     color: #999999; }
-    .chosen-container .search-choice .group-name:after, .chosen-container .chosen-single .group-name:after {
+    .chosen-container .search-choice .group-name:after, .chosen-container .chosen-single .group-name:after,
+    .chzn-container .search-choice .group-name:after,
+    .chzn-container .chosen-single .group-name:after {
       content: ":";
       padding-left: 2px;
       vertical-align: top; }
@@ -915,45 +924,99 @@ body {
           body .container .content.predictions .predictions-container .subway-predictions {
             border: 2px solid #e7e7e7;
             border-radius: 3px;
-            min-height: 125px; }
-            body .container .content.predictions .predictions-container .boat-predictions .show-map-link,
-            body .container .content.predictions .predictions-container .bus-predictions .show-map-link,
-            body .container .content.predictions .predictions-container .commuter-rail-predictions .show-map-link,
-            body .container .content.predictions .predictions-container .subway-predictions .show-map-link {
+            min-height: 125px;
+            *zoom: 1; }
+            body .container .content.predictions .predictions-container .boat-predictions .btn-map-container,
+            body .container .content.predictions .predictions-container .bus-predictions .btn-map-container,
+            body .container .content.predictions .predictions-container .commuter-rail-predictions .btn-map-container,
+            body .container .content.predictions .predictions-container .subway-predictions .btn-map-container {
               display: block;
-              margin: 10px 5px 0 0;
-              text-align: right; }
-            body .container .content.predictions .predictions-container .boat-predictions .hide-map-link,
-            body .container .content.predictions .predictions-container .bus-predictions .hide-map-link,
-            body .container .content.predictions .predictions-container .commuter-rail-predictions .hide-map-link,
-            body .container .content.predictions .predictions-container .subway-predictions .hide-map-link {
-              display: none;
-              margin: 10px 5px 0 0;
-              text-align: right; }
+              width: 100%;
+              *zoom: 1; }
+              body .container .content.predictions .predictions-container .boat-predictions .btn-map-container .btn-map-show,
+              body .container .content.predictions .predictions-container .boat-predictions .btn-map-container .btn-map-hide,
+              body .container .content.predictions .predictions-container .bus-predictions .btn-map-container .btn-map-show,
+              body .container .content.predictions .predictions-container .bus-predictions .btn-map-container .btn-map-hide,
+              body .container .content.predictions .predictions-container .commuter-rail-predictions .btn-map-container .btn-map-show,
+              body .container .content.predictions .predictions-container .commuter-rail-predictions .btn-map-container .btn-map-hide,
+              body .container .content.predictions .predictions-container .subway-predictions .btn-map-container .btn-map-show,
+              body .container .content.predictions .predictions-container .subway-predictions .btn-map-container .btn-map-hide {
+                float: right;
+                margin: 10px 5px 0 0; }
+              body .container .content.predictions .predictions-container .boat-predictions .btn-map-container .btn-map-show,
+              body .container .content.predictions .predictions-container .bus-predictions .btn-map-container .btn-map-show,
+              body .container .content.predictions .predictions-container .commuter-rail-predictions .btn-map-container .btn-map-show,
+              body .container .content.predictions .predictions-container .subway-predictions .btn-map-container .btn-map-show {
+                display: block; }
+              body .container .content.predictions .predictions-container .boat-predictions .btn-map-container .btn-map-hide,
+              body .container .content.predictions .predictions-container .bus-predictions .btn-map-container .btn-map-hide,
+              body .container .content.predictions .predictions-container .commuter-rail-predictions .btn-map-container .btn-map-hide,
+              body .container .content.predictions .predictions-container .subway-predictions .btn-map-container .btn-map-hide {
+                display: none; }
+              body .container .content.predictions .predictions-container .boat-predictions .btn-map-container:before, body .container .content.predictions .predictions-container .boat-predictions .btn-map-container:after,
+              body .container .content.predictions .predictions-container .bus-predictions .btn-map-container:before,
+              body .container .content.predictions .predictions-container .bus-predictions .btn-map-container:after,
+              body .container .content.predictions .predictions-container .commuter-rail-predictions .btn-map-container:before,
+              body .container .content.predictions .predictions-container .commuter-rail-predictions .btn-map-container:after,
+              body .container .content.predictions .predictions-container .subway-predictions .btn-map-container:before,
+              body .container .content.predictions .predictions-container .subway-predictions .btn-map-container:after {
+                content: " ";
+                display: table; }
+              body .container .content.predictions .predictions-container .boat-predictions .btn-map-container:after,
+              body .container .content.predictions .predictions-container .bus-predictions .btn-map-container:after,
+              body .container .content.predictions .predictions-container .commuter-rail-predictions .btn-map-container:after,
+              body .container .content.predictions .predictions-container .subway-predictions .btn-map-container:after {
+                clear: both;
+                display: block;
+                font-size: 0;
+                height: 0;
+                visibility: hidden; }
             body .container .content.predictions .predictions-container .boat-predictions .predictions-sub-header,
             body .container .content.predictions .predictions-container .bus-predictions .predictions-sub-header,
             body .container .content.predictions .predictions-container .commuter-rail-predictions .predictions-sub-header,
             body .container .content.predictions .predictions-container .subway-predictions .predictions-sub-header {
               font-size: 1em;
-              font-weight: bold; }
+              font-weight: bold;
+              margin: 10px 5px 0 0; }
             body .container .content.predictions .predictions-container .boat-predictions hr,
             body .container .content.predictions .predictions-container .bus-predictions hr,
             body .container .content.predictions .predictions-container .commuter-rail-predictions hr,
             body .container .content.predictions .predictions-container .subway-predictions hr {
               width: 85%; }
-            body .container .content.predictions .predictions-container .boat-predictions .next-vehicle,
-            body .container .content.predictions .predictions-container .bus-predictions .next-vehicle,
-            body .container .content.predictions .predictions-container .commuter-rail-predictions .next-vehicle,
-            body .container .content.predictions .predictions-container .subway-predictions .next-vehicle {
-              font-size: 2.5em;
-              font-weight: bold;
-              margin: 5px 0; }
-            body .container .content.predictions .predictions-container .boat-predictions .later-vehicle,
-            body .container .content.predictions .predictions-container .bus-predictions .later-vehicle,
-            body .container .content.predictions .predictions-container .commuter-rail-predictions .later-vehicle,
-            body .container .content.predictions .predictions-container .subway-predictions .later-vehicle {
+            body .container .content.predictions .predictions-container .boat-predictions .selected-route .vehicle,
+            body .container .content.predictions .predictions-container .boat-predictions .other-route .vehicle,
+            body .container .content.predictions .predictions-container .bus-predictions .selected-route .vehicle,
+            body .container .content.predictions .predictions-container .bus-predictions .other-route .vehicle,
+            body .container .content.predictions .predictions-container .commuter-rail-predictions .selected-route .vehicle,
+            body .container .content.predictions .predictions-container .commuter-rail-predictions .other-route .vehicle,
+            body .container .content.predictions .predictions-container .subway-predictions .selected-route .vehicle,
+            body .container .content.predictions .predictions-container .subway-predictions .other-route .vehicle {
               font-size: 1.5em;
               margin: 5px 0; }
+            body .container .content.predictions .predictions-container .boat-predictions .selected-route .vehicle:first-child,
+            body .container .content.predictions .predictions-container .bus-predictions .selected-route .vehicle:first-child,
+            body .container .content.predictions .predictions-container .commuter-rail-predictions .selected-route .vehicle:first-child,
+            body .container .content.predictions .predictions-container .subway-predictions .selected-route .vehicle:first-child {
+              font-size: 2.5em;
+              font-weight: bold; }
+            body .container .content.predictions .predictions-container .boat-predictions:before, body .container .content.predictions .predictions-container .boat-predictions:after,
+            body .container .content.predictions .predictions-container .bus-predictions:before,
+            body .container .content.predictions .predictions-container .bus-predictions:after,
+            body .container .content.predictions .predictions-container .commuter-rail-predictions:before,
+            body .container .content.predictions .predictions-container .commuter-rail-predictions:after,
+            body .container .content.predictions .predictions-container .subway-predictions:before,
+            body .container .content.predictions .predictions-container .subway-predictions:after {
+              content: " ";
+              display: table; }
+            body .container .content.predictions .predictions-container .boat-predictions:after,
+            body .container .content.predictions .predictions-container .bus-predictions:after,
+            body .container .content.predictions .predictions-container .commuter-rail-predictions:after,
+            body .container .content.predictions .predictions-container .subway-predictions:after {
+              clear: both;
+              display: block;
+              font-size: 0;
+              height: 0;
+              visibility: hidden; }
         body .container .content.predictions .map-container {
           display: none;
           margin: 10px auto 0 auto;

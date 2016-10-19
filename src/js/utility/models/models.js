@@ -1,34 +1,31 @@
 //Load models and collections.
-define( [
-    "models/routes/routes",
-    "models/direction/direction",
-    "models/stops/stopsByDirection",
-    "models/stops/stopsByRoute",
-    "models/predictions/predictions",
-    "models/vehicles/vehicles",
-    "collections/routes/routes",
-    "collections/direction/direction",
-    "collections/stops/stopsByDirection",
-    "collections/stops/stopsByRoute",
-    "collections/predictions/predictions",
-    "collections/vehicles/vehicles"
-], function ( routesModel, directionModel, stopsByDirectionModel, stopsByRouteModel, predictionsModel, vehiclesModel,
-    routesCollection, directionCollection, stopsByDirectionCollection, stopsByRouteCollection, predictionsCollection, vehiclesCollection ) {
+"use strict";
+var routesModel = require("../../models/routes/routes");
+var directionModel = require("../../models/routes/routes");
+var stopsByDirectionModel = require("../../models/stops/stopsByDirection");
+var stopsByRouteModel = require("../../models/stops/stopsByRoute");
+var predictionsModel = require("../../models/predictions/predictions");
+var vehiclesModel = require("../../models/vehicles/vehicles");
+var routesCollection = require("../../collections/routes/routes");
+var directionCollection = require("../../collections/direction/direction");
+var stopsByDirectionCollection = require("../../collections/stops/stopsByDirection");
+var stopsByRouteCollection = require("../../collections/stops/stopsByRoute");
+var predictionsCollection = require("../../collections/predictions/predictions");
+var vehiclesCollection = require("../../collections/vehicles/vehicles");
 
-    "use strict";
+var modelsUtility = {
+    routesModel: routesModel,
+    directionModel: directionModel,
+    stopsByDirectionModel: stopsByDirectionModel,
+    stopsByRouteModel: stopsByRouteModel,
+    predictionsModel: predictionsModel,
+    vehiclesModel: vehiclesModel,
+    routesCollection: routesCollection,
+    directionCollection: directionCollection,
+    stopsByDirectionCollection: stopsByDirectionCollection,
+    stopsByRouteCollection: stopsByRouteCollection,
+    predictionsCollection: predictionsCollection,
+    vehiclesCollection: vehiclesCollection    
+};
 
-    return {
-        routesModel: routesModel,
-        directionModel: directionModel,
-        stopsByDirectionModel: stopsByDirectionModel,
-        stopsByRouteModel: stopsByRouteModel,
-        predictionsModel: predictionsModel,
-        vehiclesModel: vehiclesModel,
-        routesCollection: routesCollection,
-        directionCollection: directionCollection,
-        stopsByDirectionCollection: stopsByDirectionCollection,
-        stopsByRouteCollection: stopsByRouteCollection,
-        predictionsCollection: predictionsCollection,
-        vehiclesCollection: vehiclesCollection
-    };
-} );
+module.exports = modelsUtility;

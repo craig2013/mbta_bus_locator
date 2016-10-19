@@ -1,78 +1,79 @@
 //Mode view
-define( [
-    "jquery",
-    "chosen",
-    "underscore",
-    "backbone",
-    "utility/general/utility",
-    "models/routes/routes",
-    "collections/routes/routes",
-    "text!templates/mode/mode.html"
-], function ( $, chosen, _, Backbone, generalUtility, routesModel, routesCollection, modesTemplate ) {
+"use strict";
 
-    "use strict";
+var $ = require("jquery");
+var chosen = require("jquery-chosen");
+var _ = require("underscore");
+var Backbone = require("backbone");
+var Handlebars = require("handlebars");
+var Defaults = require("../../defaults");
+var generalUtility = require("../../utility/general/utility");
+var modelsUtility = require("../../utility/models/models");
+var modesTemplate = require("../../templates/mode/mode.hbs");
 
-    var routesView = Backbone.View.extend( {
-        el: ".mode-type",
+Backbone.$ = $;
 
-        initialize: function () {
-            this.render();
-        },
+var modesView = Backbone.View.extend( {
+    el: ".mode-type",
 
-        render: function () {
-            var mode = Backbone.app.defaults.mode;
+    initialize: function () {
+        this.render();
+    },
 
-            this.$modeSelect = $( "#mode-select" );
+    render: function () {
 
-            this.$modeSelect.trigger( "chosen:updated" );
+        var mode = Defaults.mode;
 
-            var modeTemplate = _.template( modesTemplate );
+        this.$modeSelect = $( "#mode-select" );
 
-            this.$modeSelect.html( modeTemplate() );
+        this.$modeSelect.trigger( "chosen:updated" );
 
-            if ( typeof mode === "string" ) {
-                this.$modeSelect.val(
-                    generalUtility.urlDecode( mode )
-                ).trigger( "chosen:updated" );
-            } else {
-                this.$modeSelect.val( "0" ).trigger( "chosen:updated" );
-            }
+        this.$modeSelect.html( modesTemplate() );
 
-            this.$modeSelect.chosen( {
-                no_results_text: "Nothing found.",
-                width: "25%"
-            } );
-
-            $( ".container main .loading" ).hide();
-            $( ".container main .content, .container main .content .route-info .mode-type" ).show();
-        },
-
-        events: {
-            "change #mode-select": "showRoutes"
-        },
-
-        showRoutes: function () {
-            var mode = $( "#mode-select" ).chosen().val();
-
-            mode = generalUtility.urlEncode( mode );
-
-            if ( ( mode !== "0" ) && ( mode === "bus" || mode === "commuter+rail" || mode === "subway" ) ) {
-                Backbone.app.defaults.mode = mode;
-
-                Backbone.app.router.navigate( "!/" + mode, {
-                    trigger: true
-                } );
-            }
-        },
-
-        close: function () {
+        if ( typeof mode === "string" ) {
+            this.$modeSelect.val(
+                generalUtility.urlDecode( mode )
+            ).trigger( "chosen:updated" );
+        } else {
             this.$modeSelect.val( "0" ).trigger( "chosen:updated" );
-
-            this.$el.unbind();
-
-            Backbone.app.defaults.modeType = null;
         }
-    } );
 
-    return routesView;
+        this.$modeSelect.chosen( {
+            no_results_text: "Nothing found.",
+            width: "25%"
+        } );
+
+        $( ".container main .loading" ).hide();
+        $( ".container main .content, .container main .content .route-info .mode-type" ).show();
+
+        return this;
+    },
+
+    events: {
+        "change #mode-select": "showRoutes"
+    },
+
+    showRoutes: function () {
+        var mode = $( "#mode-select" ).chosen().val();
+
+        mode = generalUtility.urlEncode( mode );
+
+        if ( ( mode !== "0" ) && ( mode === "bus" || mode === "commuter+rail" || mode === "subway" ) ) {
+            Defaults.mode = mode;
+
+            Defaults.router.navigate( "!/" + mode, {
+                trigger: true
+            } );
+        }
+    },
+
+    close: function () {
+        this.$modeSelect.val( "0" ).trigger( "chosen:updated" );
+
+        this.$el.unbind();
+
+        Defaults.mode = null;
+    }
 } );
+
+module.exports = modesView;

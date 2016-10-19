@@ -2,7 +2,6 @@
 
 var cleanCSS = require('gulp-clean-css');
 var gulp = require("gulp");
-var gutil  = require("gulp-util");
 var rename = require("gulp-rename");
 
 gulp.task("minify-css", function() {

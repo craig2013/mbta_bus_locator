@@ -1,9 +1,8 @@
 "use strict";
 
 var gulp = require("gulp");
-var gutil  = require("gulp-util");
 
 gulp.task("watch", function() {
 	gulp.watch( "./src/css/scss/**/*.scss", ["build-css"]);
-	gulp.watch( "./src/js/**/*.js", ["lint-js"] );
+	gulp.watch(["./src/js/**/*.js", "./src/js/templates/**/*.hbs", "!./src/js/bundle.js", "!./src/js/libs/**/*.js"], ["lint-js", "pretify", "browserify"]);
 });

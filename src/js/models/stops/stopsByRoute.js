@@ -1,17 +1,13 @@
 /**
  * Stops by route model.
  */
-define( [
-    "jquery",
-    "underscore",
-    "backbone"
-], function ( $, _, Backbone ) {
+"use strict";
 
-    "use strict";
+var Backbone = require("backbone");
+var Defaults = require("../../defaults");
 
-    var stopsByRoute = Backbone.Model.extend( {
-        urlRoot: "/app/"
-    } );
-
-    return stopsByRoute;
+var stopsByRoute = Backbone.Model.extend( {
+    urlRoot: Defaults.config.api
 } );
+
+module.exports = stopsByRoute;

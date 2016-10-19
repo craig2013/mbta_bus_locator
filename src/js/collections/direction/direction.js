@@ -1,17 +1,13 @@
 //Direction collection
-define( [
-    "jquery",
-    "underscore",
-    "backbone",
-    "models/direction/direction"
-], function ( $, _, backbone, directionModel ) {
+"use strict";
 
-    "use strict";
+var Backbone = require("backbone");
+var Defaults = require("../../defaults");
+var directionModel = require("../../models/direction/direction");
 
-    var direction = Backbone.Collection.extend( {
-        model: directionModel,
-        url: "/app/"
-    } );
-
-    return new direction();
+var direction = Backbone.Collection.extend( {
+    model: directionModel,
+    url: Defaults.config.api
 } );
+
+module.exports = new direction();

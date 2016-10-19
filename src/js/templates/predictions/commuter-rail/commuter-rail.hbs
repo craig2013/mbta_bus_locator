@@ -1,0 +1,37 @@
+<div class="predictions-header">
+	<h1>Commuter Rail Predictions</h1>
+</div>
+<div class="commuter-rail-predictions">
+    {{#if predictions.showMapBtn}}
+    <div class="btn-map-container">
+        <button type="button" class="btn-map-show">Show Map</button>        
+        <button type="button" class="btn-map-hide">Hide Map</button>   
+    </div>
+    {{/if}}
+    {{#if predictions.selectedRoute}}
+        <div class="predictions-sub-header">Predictions for route {{predictions.selectedRoute.0.route_name}}</div>
+        <div class="selected-route">
+            {{#each predictions.selectedRoute}}
+            <div class="vehicle">
+                {{convertTime this.pre_away}}
+            </div>
+            {{/each}}            
+        </div>
+    {{else}}
+        <div class="predictions-sub-header">Currently no predictions for your selected route.</div>
+    {{/if}}
+    {{#if predictions.otherRoute}}
+    <hr/>
+    <div class="predictions-sub-header">Predictions for other routes at this stop:</div>
+    <div class="other-routes">
+        {{#each predictions.otherRoute}}
+        <div class="vehicle">
+             {{convertTime this.pre_away}} (Route {{this.route_name}}, {{this.trip_headsign}})
+        </div>
+        {{/each}}    
+    </div>
+    {{/if}}
+    {{#if alert}}
+        <h2>{{alert}}</h2>
+    {{/if}}    
+</div>

@@ -1,15 +1,10 @@
 //Direction model
-define( [
-    "jquery",
-    "underscore",
-    "backbone"
-], function ( $, _, Backbone ) {
+"use strict";
+var Backbone = require("backbone");
+var Defaults = require("../../defaults");
 
-    "use strict";
-
-    var direction = Backbone.Model.extend( {
-        urlRoot: "/app/"
-    } );
-
-    return direction;
+var direction = Backbone.Model.extend( {
+    urlRoot: Defaults.config.api
 } );
+
+module.exports = direction;

@@ -1,17 +1,13 @@
 //Vehicles collection
-define( [
-    "jquery",
-    "underscore",
-    "backbone",
-    "models/vehicles/vehicles"
-], function ( $, backbone, _, vehiclesModel ) {
+"use strict";
 
-    "use strict";
+var Backbone = require("backbone");
+var Defaults = require("../../defaults");
+var vehiclesModel = require("../../models/vehicles/vehicles");
 
-    var vehicles = Backbone.Collection.extend( {
-        model: vehiclesModel,
-        url: "/app/"
-    } );
-
-    return new vehicles();
+var vehicles = Backbone.Collection.extend( {
+    model: vehiclesModel,
+    url: Defaults.config.api
 } );
+
+module.exports = new vehicles();

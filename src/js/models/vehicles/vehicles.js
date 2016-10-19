@@ -1,15 +1,10 @@
 //Vehicles model
-define( [
-    "jquery",
-    "underscore",
-    "backbone"
-], function ( $, _, Backbone ) {
+"use strict";
+var Backbone = require("backbone");
+var Defaults = require("../../defaults");
 
-    "use strict";
+var vehicles = Backbone.Model.extend({
+    urlRout: Defaults.config.api
+});
 
-    var vehicles = Backbone.Model.extend( {
-        urlRoot: "/app/"
-    } );
-
-    return vehicles;
-} );
+module.exports = vehicles;

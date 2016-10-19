@@ -1,17 +1,13 @@
 //Routes collection
-define( [
-    "jquery",
-    "underscore",
-    "backbone",
-    "models/routes/routes"
-], function ( $, backbone, _, routesModel ) {
+"use strict";
 
-    "use strict";
+var Backbone = require("backbone");
+var Defaults = require("../../defaults");
+var routesModel = require("../../models/routes/routes");
 
-    var routes = Backbone.Collection.extend( {
-        model: routesModel,
-        url: "/app/routes/"
-    } );
-
-    return new routes();
+var routes = Backbone.Collection.extend( {
+    model: routesModel,
+    url: Defaults.config.api + "routes/"
 } );
+
+module.exports =  new routes();

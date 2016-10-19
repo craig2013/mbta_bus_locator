@@ -4,6 +4,11 @@
 
 ##Version History
 
+######Version 4.6.3
+- Switched from using RequireJS to Browserify.
+- Switched to using Handlebars templates instead of Underscore.js templates.
+
+
 ######Version 4.5.3
 - Split tasks into individual files within the tasks folder.
 - Moved all *.html files to the src directory.

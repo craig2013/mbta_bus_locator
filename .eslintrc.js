@@ -26,6 +26,7 @@ module.exports = {
         "Backbone": true,
         "Q": true,
         "$": true,
+        "global": true,
         "console": true,
         "google": true,
         "window": true,

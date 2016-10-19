@@ -1,21 +1,20 @@
-define( [
-    "router"
-], function ( router ) {
+"use strict"; 
 
-    "use strict";
+var $ = require("jquery");
+var _ = require("underscore");
+var Backbone = require("backbone");
+var Defaults = require("./defaults");
+var Router = require("./router");
+var App = {};
 
-    var initialize = function () {
-        router.initialize();
-    };
+var mbta_router = new Router();
 
-    return {
-        initialize: initialize
-    };
-} );
+Defaults["router"] = mbta_router;
+
+Backbone.history.start();
 
 /**
  * Function is pollyfil for isArray for testing if a object is an array.
- *
  *
  * @return true if object is an array or false if it isn't.
  **/
@@ -24,3 +23,5 @@ if ( !Array.isArray ) {
         return Object.prototype.toString.call( arg ) === "[object Array]";
     };
 }
+
+
