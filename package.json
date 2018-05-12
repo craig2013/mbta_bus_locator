@@ -28,7 +28,7 @@
     "handlebars": "^4.0.5",
     "handlebars-helpers": "^0.7.5",
     "hbsfy": "^2.7.0",
-    "jquery": "2.1.4",
+    "jquery": "^3.0.0",
     "markerwithlabel": "^2.0.0",
     "q": "^1.4.1",
     "underscore": "^1.8.3",
