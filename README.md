@@ -1,4 +1,7 @@
 # MBTA Tracker
+ - Deprecated - Please check out [Transit Tracker](https://github.com/craigstroman/transit_tracker)
+
+ 
  - Uses the feeds from the <a href="http://realtime.mbta.com/Portal/" target="_blank">MBTA Realtime API</a> for predictions.
 
 ## Version History
